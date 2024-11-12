@@ -1,0 +1,13 @@
+﻿AppDock {
+    width: 92%;
+    height: 94px;
+    //background-color: hsla(240, 50%, 85%, .075);
+    border-radius: 40px;
+    justify-content: center;
+    align-items: center;
+    padding: 0 18px;
+    gap: 30px;
+    //bottom: 42px;
+    position: absolute;
+    backdrop-filter: blur(8px) brightness(2);
+}

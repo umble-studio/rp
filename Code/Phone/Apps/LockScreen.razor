@@ -1,0 +1,17 @@
+﻿@namespace Rp.Phone.Apps
+@using Sandbox.UI
+@using Rp.Phone.UI.Components
+@inherits Rp.Phone.PhoneApp
+
+<root>
+	<div class="header">
+		<span class="date">@( _date.ToString( "D" ) )</span>
+		<span class="time">@( _date.TimeOfDay.ToString( @"hh\:mm" ) )</span>
+	</div>
+	<div class="content">
+		<NotificationCenter></NotificationCenter>
+	</div>
+	<div class="footer">
+		
+	</div>
+</root>

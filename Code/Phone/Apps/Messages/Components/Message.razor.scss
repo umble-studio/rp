@@ -1,0 +1,78 @@
+﻿Message {
+    > .container {
+        width: 100%;
+        align-items: center;
+        gap: 8px;
+
+        > .user {
+            height: 100%;
+            justify-content: center;
+            align-items: flex-start;
+
+            img {
+                width: 32px;
+                height: 32px;
+                border-radius: 100%;
+                overflow: hidden;
+            }
+        }
+
+        > .content {
+            max-width: 76%;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-end;
+
+            > .msg {
+                padding: 8px 12px;
+                border-radius: 16px;
+                align-items: center;
+
+                span {
+                    color: black;
+                    font-size: 16px;
+                    font-family: "SF Pro Display";
+                    font-weight: 500;
+                }
+            }
+            
+            > .date {
+                font-size: 12px;
+                font-family: "SF Pro Display";
+                font-weight: 500;
+                color: hsl(220, 8%, 52%);
+            }
+        }
+    }
+
+    &.me {
+        > .container {
+            margin: 4px 0;
+            justify-content: flex-end;
+
+            > .content {
+                > .msg {
+                    background-color: hsl(206, 75%, 55%);
+
+                    span {
+                        color: white;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+    }
+
+    &.other {
+        > .container {
+            justify-content: flex-start;
+
+            > .content {
+                > .msg {
+                    //background-color: hsl(220, 15%, 84%);
+                    background-color: hsl(220, 8%, 92%);
+                }
+            }
+        }
+    }
+}

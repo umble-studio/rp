@@ -1,0 +1,52 @@
+﻿NavigationBar {
+    width: 100%;
+    //height: 184px;
+    flex-direction: column;
+    border-bottom: solid 2px hsl(200, 8%, 96%);
+    //border-radius: 58px 58px 0 0;
+    padding-top: 56px;
+    
+    > .nav-bar {
+        flex-direction: column;
+        
+        &.open {
+            opacity: 1;
+            display: flex;
+        }
+        
+        > .header {
+            align-items: center;
+            
+            > .left {
+                width: 30%;
+                padding: 12px;
+            }
+            
+            > .center {
+                width: 40%;
+                height: 100%;
+                justify-content: center;
+                align-items: center;
+                
+                > span {
+                    color: black;
+                    font-size: 18px;
+                    font-weight: 600;
+                    font-family: "SF Pro Display";
+                }
+            }
+            
+            > .right {
+                width: 30%;
+                padding: 12px;
+            }
+        }
+        
+        > .search {
+            width: 100%;
+            height: 48px;
+            padding: 12px;
+            align-items: center;
+        }
+    }
+}

@@ -1,0 +1,63 @@
+﻿KeyboardKey {
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1.5px 0 0 hsla(0, 0%, 0%, .5);
+    //pointer-events: all;
+    transition: all .1s ease-out;
+
+    &.light {
+        background-color: white;
+    }
+
+    &.dark {
+        background-color: hsl(221, 15%, 71%);
+    }
+    
+    &.key {
+        width: 34px;
+        height: 42px;
+        
+        span {
+            margin-bottom: 6px;
+        }
+    }
+    
+    &.word {
+        padding: 9px 10px;
+        justify-content: center;
+        align-items: center;
+        
+        span {
+            font-size: 16px;
+        }
+        
+        &.padding {
+            padding: 9px 24px;
+        }
+    }
+    
+    &.expand {
+        flex-grow: 1;
+    }
+    
+    &.pressed {
+        transform: scale(1.1);
+        z-index: 10;
+        
+        &.light {
+            background-color: hsla(221, 16%, 80%, 1);
+        }
+
+        &.dark {
+            background-color: hsl(221, 15%, 61%);
+        }
+    }
+    
+    > span {
+        color: black;
+        font-size: 26px;
+        font-family: "SF Pro Display";
+        font-weight: 500;
+    }
+}

@@ -1,0 +1,13 @@
+﻿@namespace Rp.Phone.UI.Components
+@using Sandbox.UI
+@inherits Panel
+
+<root class="@BackgroundCss">
+	<div class="left">
+		<span class="phone-time @TextCss">@(Date.ToString( "t" ).Replace("PM", "").Replace("AM", ""))</span>
+	</div>
+	<div class="eye"></div>
+	<div class="right">
+		<span class="phone-time @TextCss">9:41</span>
+	</div>
+</root>

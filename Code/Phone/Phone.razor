@@ -1,0 +1,32 @@
+﻿@namespace Rp.Phone
+@using Rp.UI
+@using Rp.Phone.UI.Components
+@inherits PanelComponent
+
+<root>
+	<div class="@Root">
+		<div @ref="_phoneContent" class="phone-content">
+			<StatusBar @ref="_statusBar"></StatusBar>
+			<div @ref="_appContainer" class="app">
+
+			</div>
+			<Keyboard @ref="_keyboard"></Keyboard>
+			<ControlCenter @ref="_controlCenter"></ControlCenter>
+			<div class="phone-main-menu" @onclick="@OnMainMenu">
+				<div class="bar"></div>
+			</div>
+		</div>
+		<div class="phone-hull">
+
+		</div>
+	</div>
+</root>
+
+@code {
+
+	private string Root => new CssBuilder()
+		.AddClass( "phone" )
+		.AddClass( "open", IsOpen )
+		.Build();
+
+}

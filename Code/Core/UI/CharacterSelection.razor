@@ -1,0 +1,12 @@
+﻿@namespace Rp.Core.UI
+@using Rp.UI
+@inherits PanelComponent
+
+<root class="@Root">
+	@foreach ( var character in CharacterManager.Instance.Characters )
+	{
+		<div class="character" @onclick="@(() => OnSelectCharacter(character))">
+			<span class="name">@character.Firstname @character.Lastname</span>
+		</div>
+	}
+</root>

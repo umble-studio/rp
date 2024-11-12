@@ -1,0 +1,87 @@
+﻿Phone {
+    width: 100vw;
+    height: 100vh;
+
+    > .phone {
+        width: 450px;
+        height: 920px;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        opacity: 0;
+        transition: all .1s ease-out;
+        left: 30px;
+        bottom: -200px;
+        //transform: scale(.8);
+
+        &.open {
+            opacity: 1;
+            //transform: scale(1);
+            bottom: 30px;
+        }
+
+        &.hide {
+            display: none;
+        }
+
+        > .phone-control-center {
+            width: 100%;
+            top: 0;
+            position: absolute;
+        }
+
+        > .phone-content {
+            //width: 90%;
+            //height: 96%;
+            width: 402px;
+            height: 876px;
+            background-image: url("textures/ui/phone/phone_bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            justify-content: center;
+            border-radius: 60px;
+            overflow: hidden;
+            position: absolute;
+
+            > .app {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+            }
+
+            > .phone-main-menu {
+                width: 100%;
+                height: 24px;
+                bottom: 2px;
+                position: absolute;
+                pointer-events: all;
+                transition: background-color .1s ease-out;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+
+                &:hover {
+                    > .bar {
+                        background-color: hsla(0, 0%, 0%, .75);
+                    }
+                }
+
+                > .bar {
+                    width: 36%;
+                    height: 6px;
+                    background-color: hsla(0, 0%, 0%, 1);
+                    border-radius: 3px;
+                }
+            }
+        }
+
+        > .phone-hull {
+            width: 100%;
+            height: 100%;
+            background-image: url("textures/ui/phone/phone_hull.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+        }
+    }
+}

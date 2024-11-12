@@ -1,0 +1,30 @@
+﻿CharacterSelection {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    //background-color: green;
+    
+    &.hidden {
+        display: none;
+    }
+    
+    > .character {
+        flex-grow: 1;
+        background-color: hsla(0, 0%, 0%, .25);
+        backdrop-filter: blur(8px);
+        pointer-events: all;
+        transition: all .1s ease-out;
+        
+        &:hover {
+            background-color: hsla(0, 0%, 0%, .5);
+        }
+        
+        > .name {
+            color: white;
+            font-size: 36px;
+            font-family: "SF Pro Display";
+            font-weight: 600;
+            text-align: center;
+        }
+    }
+}

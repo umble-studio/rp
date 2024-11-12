@@ -1,0 +1,13 @@
+﻿@namespace Rp.Phone.UI.Components
+@using Rp.Phone
+@using Sandbox.UI
+@using Phone = Rp.Phone.Phone
+@inherits Panel
+
+<root>
+	@for ( var i = 0; i < Phone.Current.Notification.PendingNotifications.Count; i++ )
+	{
+		var notification = Phone.Current.Notification.PendingNotifications[i];
+		<Notification Pending="@notification"></Notification>
+	}
+</root>

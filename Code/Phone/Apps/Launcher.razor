@@ -1,0 +1,15 @@
+﻿@namespace Rp.Phone.Apps
+@using Sandbox.UI
+@using Rp.Phone.UI.Components
+@inherits Rp.Phone.PhoneApp
+
+<root>
+	<div class="apps">
+		@for ( var i = 0; i < Apps.Count; i++ )
+		{
+			var app = Apps[i];
+			<AppIcon App="@app"></AppIcon>
+		}
+	</div>
+	<AppDock @ref="_dock"></AppDock>
+</root>

@@ -1,0 +1,8 @@
+﻿@namespace Rp.Phone.Apps.Messages.Components
+@using Sandbox.UI
+@inherits Panel
+
+<root class="@Root">
+	<TextEntry Value:bind="@Value" CaretColor="@(Color.FromRgb(0xb2b6bd))" Placeholder="Message.." KeyPressed="@OnKeyPressed"></TextEntry>
+	<iconify Icon="fluent:mic-16-filled" Color="#96979C" Size="@(22)"></iconify>
+</root>

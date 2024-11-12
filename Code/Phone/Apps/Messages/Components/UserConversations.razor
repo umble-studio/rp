@@ -1,0 +1,58 @@
+﻿@namespace Rp.Phone.Apps.Messages.Components
+@using System
+@using Rp.Phone.Apps.Messages.Services
+@using Rp.Phone.UI.Components
+@inherits Sandbox.UI.Panel
+
+<root class="@Root">
+	<MessageBar @ref="_messageBar">
+		<Content>
+			<div class="header">
+				<div class="left">
+					<Button Text="Back" Icon="fluent:chevron-left-16-filled" @onclick="@BackToLauncher"></Button>
+				</div>
+				<div class="center">
+					<span>Messages</span>
+				</div>
+				<div class="right">
+					<Button Icon="fluent:add-16-filled" @onclick="@CreateConversation"></Button>
+				</div>
+			</div>
+		</Content>
+	</MessageBar>
+	<div class="contacts-container">
+		@foreach ( var contact in Contacts.Take( 6 ) )
+		{
+			<div class="contact" @onclick="@( () => OnSelectContact( contact ) )">
+				<img class="avatar" src="@contact.ContactAvatar" alt="">
+				<span class="name">@contact.ContactName</span>
+			</div>
+		}
+	</div>
+	<div class="messages-container">
+		<div class="messages">
+			@foreach ( var conversation in ConversationService.Instance.Conversations )
+			{
+				var participants = conversation.Participants;
+				if ( participants.Count <= 1 ) continue;
+
+				var otherParticipant = conversation.Participants.FirstOrDefault( x => !x.IsMe() );
+				if ( otherParticipant is null ) continue;
+
+				var latestMessage = conversation.GetLatestMessage();
+				if ( latestMessage is null ) return;
+
+				<div class="message" @onclick="@( () => OnConversationSelected( conversation ) )">
+					<img class="avatar" src="@otherParticipant.Avatar" alt="">
+					<div>
+						<div class="header">
+							<span class="author-name">@otherParticipant.Name</span>
+							<span class="date">@( latestMessage.Date.ToString( "t" ) )</span>
+						</div>
+						<span class="text">@( latestMessage.IsMe() ? "Me:" : string.Empty ) @latestMessage.Content</span>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</root>

@@ -1,0 +1,56 @@
+﻿Launcher {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    //background-color: hsla(0, 0%, 100%, .05);
+    //backdrop-filter: blur(16px) saturate(1.2);
+    opacity: 1;
+    margin-top: 28px;
+    //transform: scale(1);
+    display: flex;
+    transition: all .2s ease-out;
+    justify-content: center;
+    overflow: hidden;
+
+    &:intro {
+        opacity: 0;
+        
+        > .apps {
+            //transform: scale(.8);
+        }
+        
+        > AppDock {
+            bottom: -142px;
+        }
+    }
+
+    &:outro {
+        opacity: 0;
+        
+        > .apps {
+            //transform: scale(.8);
+        }
+
+        > AppDock {
+            bottom: -142px;
+        }
+    }
+
+    > .apps {
+        width: 100%;
+        height: 100%;
+        margin: 64px 0;
+        padding: 0 38px;
+        row-gap: 42px;
+        column-gap: 30px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        transition: all .2s ease-out;
+        //transform: scale(1);
+    }
+
+    > AppDock {
+        bottom: 42px;
+        transition: all .2s ease-out;
+    }
+}

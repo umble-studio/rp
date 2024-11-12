@@ -1,0 +1,56 @@
+﻿@namespace Rp.Phone.UI.Components
+@using Rp.Phone.UI.Components
+@inherits Sandbox.UI.Panel
+
+<root class="@Root">
+	<div class="header">
+		
+	</div>
+	<div class="content">
+		<div class="row first">
+			<KeyboardKey Key="q"></KeyboardKey>
+			<KeyboardKey Key="w"></KeyboardKey>
+			<KeyboardKey Key="e"></KeyboardKey>
+			<KeyboardKey Key="r"></KeyboardKey>
+			<KeyboardKey Key="t"></KeyboardKey>
+			<KeyboardKey Key="y"></KeyboardKey>
+			<KeyboardKey Key="u"></KeyboardKey>
+			<KeyboardKey Key="i"></KeyboardKey>
+			<KeyboardKey Key="o"></KeyboardKey>
+			<KeyboardKey Key="p"></KeyboardKey>
+		</div>
+		<div class="row second">
+			<KeyboardKey Key="a"></KeyboardKey>
+			<KeyboardKey Key="s"></KeyboardKey>
+			<KeyboardKey Key="d"></KeyboardKey>
+			<KeyboardKey Key="f"></KeyboardKey>
+			<KeyboardKey Key="g"></KeyboardKey>
+			<KeyboardKey Key="h"></KeyboardKey>
+			<KeyboardKey Key="j"></KeyboardKey>
+			<KeyboardKey Key="k"></KeyboardKey>
+			<KeyboardKey Key="l"></KeyboardKey>
+		</div>
+		<div class="row third">
+			<KeyboardKey Key="lshift" Icon="fluent:keyboard-shift-24-regular" IconSize="@(24)" Style="@Rp.Phone.UI.Components.KeyboardKey.KeyStyle.Dark"></KeyboardKey>
+			<div class="row">
+				<KeyboardKey Key="z"></KeyboardKey>
+				<KeyboardKey Key="x"></KeyboardKey>
+				<KeyboardKey Key="c"></KeyboardKey>
+				<KeyboardKey Key="v"></KeyboardKey>
+				<KeyboardKey Key="b"></KeyboardKey>
+				<KeyboardKey Key="n"></KeyboardKey>
+				<KeyboardKey Key="m"></KeyboardKey>
+			</div>
+			<KeyboardKey Key="backspace" Icon="fluent:backspace-24-regular" IconSize="@(24)" Style="@Rp.Phone.UI.Components.KeyboardKey.KeyStyle.Dark"></KeyboardKey>
+		</div>
+		<div class="row">
+			<KeyboardKey Key="ABC" Style="@Rp.Phone.UI.Components.KeyboardKey.KeyStyle.Dark"></KeyboardKey>
+			<KeyboardKey Key="space" Expand="@true"></KeyboardKey>
+			<KeyboardKey Key="enter" Style="@Rp.Phone.UI.Components.KeyboardKey.KeyStyle.Dark"></KeyboardKey>
+		</div>
+	</div>
+	<div class="footer">
+		<iconify Icon="fluent:emoji-smile-slight-24-regular" Color="black" Size="@(32)"></iconify>
+		<iconify Icon="fluent:mic-24-regular" Color="black" Size="@(32)"></iconify>
+	</div>
+</root>

@@ -1,0 +1,32 @@
+﻿AppIcon {
+    transition: all .1s ease-out;
+    pointer-events: all;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+
+    &:hover {
+        > .icon {
+            filter: brightness(1.5);
+        }
+    }
+
+    > .icon {
+        width: 58px;
+        height: 58px;
+        background-size: cover;
+        border-radius: 10px;
+        transition: all .1s ease-out;
+    }
+
+    > .title {
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: "SF Pro Display";
+        font-smooth: always;
+        //white-space: nowrap;
+    }
+}

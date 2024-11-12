@@ -1,0 +1,17 @@
+﻿@namespace Rp.Phone.UI.Components
+@using System
+@using Sandbox.UI
+@inherits Panel
+
+<root @onclick="@LaunchApp">
+	<div class="icon">
+		<iconify Icon="@Pending.App.AppNotificationIcon" Color="white" Size="@(24)"></iconify>
+	</div>
+	<div class="content">
+		<div class="header">
+			<span class="title">@Pending.Title</span>
+			<span class="date">@(Pending.Date.ToString("hh\\:mm"))</span>
+		</div>
+		<span class="message">@Pending.Message</span>
+	</div>
+</root>

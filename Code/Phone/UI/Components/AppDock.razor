@@ -1,0 +1,10 @@
+﻿@namespace Rp.Phone.UI.Components
+@using Sandbox.UI
+@inherits Panel
+
+<root>
+	@foreach ( var app in _apps.Where( x => x.ShowAppInLauncher ) )
+	{
+		<AppIcon App="@app" ShowTitle="@false"></AppIcon>
+	}
+</root>

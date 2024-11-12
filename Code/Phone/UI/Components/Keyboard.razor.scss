@@ -1,0 +1,56 @@
+﻿Keyboard {
+    width: 100%;
+    height: 336px;
+    background-color: hsl(220, 15%, 84%);
+    flex-direction: column;
+    opacity: 0;
+    display: none;
+    transform: translateY(336px);
+    transition: all .1s ease-out;
+
+    &.show {
+        opacity: 1;
+        transform: translateY(0);
+        display: flex;
+    }
+
+    &.absolute {
+        bottom: 0;
+        position: absolute;
+    }
+
+    > .header {
+        width: 100%;
+        height: 50px;
+        //background-color: green;
+    }
+
+    > .content {
+        flex-grow: 1;
+        //background-color: blue;
+        flex-direction: column;
+        gap: 12px;
+
+        .row {
+            flex-direction: row;
+            column-gap: 6px;
+            justify-content: center;
+            align-items: center;
+            padding: 0 4px;
+        }
+
+        .third {
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    > .footer {
+        width: 100%;
+        height: 76px;
+        padding: 0 18px;
+        //background-color: yellow;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

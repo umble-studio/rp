@@ -1,0 +1,26 @@
+{
+  "Title": "Iconify",
+  "Type": "library",
+  "Org": "umblestudio",
+  "Ident": "umble_iconify",
+  "Schema": 1,
+  "IncludeSourceFiles": false,
+  "Resources": null,
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "IsWhitelistDisabled": false,
+  "Metadata": {
+    "CsProjName": "",
+    "Compiler": {
+      "RootNamespace": "Iconify",
+      "DefineConstants": "SANDBOX;ADDON;DEBUG",
+      "NoWarn": "1701;1702;1591;",
+      "WarningsAsErrors": "",
+      "Nullables": true,
+      "Whitelist": true,
+      "AssemblyReferences": [],
+      "IgnoreFolders": [],
+      "DistinctAssemblyReferences": []
+    }
+  }
+}

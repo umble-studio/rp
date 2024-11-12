@@ -1,0 +1,27 @@
+﻿@namespace Rp.Phone.Apps.Messages.Components
+@using System
+@using Sandbox.UI
+@inherits Panel
+
+<root class="@Root">
+	<div class="container">
+		<div class="user">
+			@if ( !Data.IsMe() )
+			{
+				<img src="@Participant.Avatar" alt="">
+			}
+		</div>
+		<div class="content">
+			<div class="msg">
+				<span>@Data.Content</span>
+			</div>
+			<span class="date">@( Data.Date.ToString( "t" ) )</span>
+		</div>
+		<div class="user">
+			@if ( Data.IsMe() )
+			{
+				<img src="@Participant.Avatar" alt="">
+			}
+		</div>
+	</div>
+</root>

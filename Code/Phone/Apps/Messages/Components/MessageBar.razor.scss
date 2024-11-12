@@ -1,0 +1,44 @@
+﻿MessageBar {
+    width: 100%;
+    flex-direction: column;
+    background-color: white;
+    border-bottom: solid 2px hsl(200, 8%, 96%);
+    padding-top: 56px;
+
+    > .nav-bar {
+        flex-direction: column;
+
+        //&.open {
+        //    opacity: 1;
+        //    display: flex;
+        //}
+        //
+        //> .header {
+        //    align-items: center;
+        //
+        //    > .left {
+        //        width: 30%;
+        //        padding: 12px;
+        //    }
+        //
+        //    > .center {
+        //        width: 40%;
+        //        height: 100%;
+        //        justify-content: center;
+        //        align-items: center;
+        //
+        //        > span {
+        //            color: black;
+        //            font-size: 18px;
+        //            font-weight: 600;
+        //            font-family: "SF Pro Display";
+        //        }
+        //    }
+        //
+        //    > .right {
+        //        width: 30%;
+        //        padding: 12px;
+        //    }
+        //}
+    }
+}

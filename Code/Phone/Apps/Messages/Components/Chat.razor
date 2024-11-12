@@ -1,0 +1,45 @@
+﻿@namespace Rp.Phone.Apps.Messages.Components
+@using System
+@using Rp.Phone.UI.Components
+@inherits Sandbox.UI.Panel
+
+<root class="@Root">
+	<MessageBar @ref="_messageBar">
+		<Content>
+			<div class="header">
+				<div class="left">
+					<Button Text="Filters" Icon="fluent:chevron-left-24-filled"
+					        @onclick="@BackToConversations"></Button>
+				</div>
+				<div class="center">
+					<span>Messages</span>
+				</div>
+				<div class="right">
+
+				</div>
+			</div>
+		</Content>
+	</MessageBar>
+	<div @ref="_content" class="content">
+		<div class="messages">
+			@if ( _conversation is not null )
+			{
+				for ( var i = 0; i < Messages.Count; i++ )
+				{
+					var index = i;
+					var message = Messages[index];
+					var participant = _conversation.GetParticipant( message.Author );
+					
+					<Message @key="@index" Participant="@participant" Data="@message"></Message>
+				}
+			}
+		</div>
+	</div>
+	<div class="@Footer">
+		<div class="button">
+			<iconify Icon="fluent:add-24-filled" Color="black" Size="@( 20 )"></iconify>
+		</div>
+		<TextInput Value:bind="@Value" @onsubmit="@SendMessage" Focused="@OnInputFocused"
+		           Blurred="@OnInputBlurred"></TextInput>
+	</div>
+</root>

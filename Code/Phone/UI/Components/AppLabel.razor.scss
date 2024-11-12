@@ -1,0 +1,11 @@
+﻿AppLabel {
+    pointer-events: all;
+    
+    > span {
+        color: dodgerblue;
+        font-size: 16px;
+        font-family: "SF Pro Display";
+        font-weight: 500;
+        white-space: nowrap;
+    }
+}

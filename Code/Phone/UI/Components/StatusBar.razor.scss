@@ -1,0 +1,54 @@
+﻿StatusBar {
+    width: 100%;
+    height: 56px;
+    align-items: center;
+    padding-top: 10px;
+    z-index: 1000;
+    transition: all .2s ease-out;
+    
+    &.light {
+        background-color: transparent;
+    }
+    
+    &.dark {
+        background-color: black;
+    }
+    
+    span {
+        transition: all .2s ease-out;
+        
+        &.light {
+            color: white;
+        }
+        
+        &.dark {
+            color: black;
+        }
+    }
+    
+    > .left {
+        width: 40%;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        color: white;
+        font-size: 17px;
+        font-weight: 800;
+        font-family: "SF Pro Display";
+    }
+
+    > .eye {
+        width: 20%;
+    }
+
+    > .right {
+        width: 40%;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        color: white;
+        font-size: 17px;
+        font-weight: 800;
+        font-family: "SF Pro Display";
+    }
+}

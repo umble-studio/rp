@@ -1,0 +1,39 @@
+{
+  "Title": "rp",
+  "Type": "game",
+  "Org": "umblestudio",
+  "Ident": "rp",
+  "Schema": 1,
+  "IncludeSourceFiles": false,
+  "Resources": "/fonts/*\n/textures/*",
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "IsWhitelistDisabled": false,
+  "Metadata": {
+    "MaxPlayers": 64,
+    "MinPlayers": 1,
+    "TickRate": 50,
+    "GameNetworkType": "Multiplayer",
+    "MapSelect": "Unrestricted",
+    "MapList": [
+      "facepunch.flatgrass"
+    ],
+    "RankType": "None",
+    "PerMapRanking": false,
+    "LeaderboardType": "None",
+    "CsProjName": "",
+    "StartupScene": "scenes/minimal.scene",
+    "Compiler": {
+      "RootNamespace": "Rp",
+      "DefineConstants": "SANDBOX;ADDON;DEBUG",
+      "NoWarn": "1701;1702;1591;",
+      "WarningsAsErrors": "",
+      "Nullables": true,
+      "Whitelist": true,
+      "AssemblyReferences": [],
+      "IgnoreFolders": [],
+      "DistinctAssemblyReferences": []
+    },
+    "ControlModes": {}
+  }
+}

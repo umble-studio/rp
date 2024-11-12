@@ -1,0 +1,14 @@
+C:\Program Files (x86)\Steam\steamapps\common\sbox\.vs\output\rp.editor.xml
+C:\Program Files (x86)\Steam\steamapps\common\sbox\.vs\output\rp.editor.deps.json
+C:\Program Files (x86)\Steam\steamapps\common\sbox\.vs\output\rp.editor.dll
+C:\Program Files (x86)\Steam\steamapps\common\sbox\.vs\output\rp.editor.pdb
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.csproj.AssemblyReference.cache
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.AssemblyInfoInputs.cache
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.AssemblyInfo.cs
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.csproj.CoreCompileInputs.cache
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.csproj.Up2Date
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.dll
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\refint\rp.editor.dll
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\rp.editor.pdb
+C:\Users\bubbl\Documents\S&box Projects\rp\Editor\obj\Debug\ref\rp.editor.dll

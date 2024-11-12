@@ -1,0 +1,13 @@
+﻿@namespace Rp.Phone.UI.Components
+@using Sandbox.UI
+@using Rp.Phone.UI.Components
+@inherits Panel
+
+<root>
+	<img class="icon" src="@App.AppIcon" alt="">
+	@if ( ShowTitle )
+	{
+		<span class="title">@App.AppTitle</span>
+	}
+	<AppBadge Count="@Notifications"></AppBadge>
+</root>
