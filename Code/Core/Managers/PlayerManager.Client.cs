@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Rp.Core;
+namespace Rp.Core.Managers;
 
 public partial class PlayerManager
 {

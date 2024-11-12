@@ -1,5 +1,6 @@
 ﻿using System;
 using Rp.Core;
+using Rp.Core.Managers;
 using Rp.Phone.Apps;
 using Rp.Phone.Extensions;
 using Rp.Phone.UI.Components;

@@ -89,7 +89,7 @@ public partial class Phone
 /// Represents a sim card for the phone
 /// </summary>
 [Collection( "phone/sim_cards" )]
-public record SimCardData : ISteamIdOwner
+public record SimCardData
 {
 	[Id, Saved] public Guid Id { get; init; }
 	[Saved] public SteamId Owner { get; init; }

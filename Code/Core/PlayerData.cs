@@ -4,7 +4,7 @@ using RoverDB.Attributes;
 namespace Rp.Core;
 
 [Collection( "players/data" )]
-public record PlayerData : ISteamIdOwner
+public record PlayerData
 {
 	[Id, Saved] public Guid Id { get; init; }
 	[Saved] public SteamId Owner { get; init; }

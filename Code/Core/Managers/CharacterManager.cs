@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
-using Rp.Core.UI;
+﻿using Rp.Core.UI;
 
-namespace Rp.Core;
+namespace Rp.Core.Managers;
 
 public sealed partial class CharacterManager : Bindery.Singleton<CharacterManager>
 {

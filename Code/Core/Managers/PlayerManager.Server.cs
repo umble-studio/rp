@@ -1,6 +1,6 @@
 ﻿using RoverDB;
 
-namespace Rp.Core;
+namespace Rp.Core.Managers;
 
 public partial class PlayerManager
 {

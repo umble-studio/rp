@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Rp.Core.Helpers;
-
-namespace Rp.Core.Serializers;
+﻿namespace Rp.Core.Converters;
 
 // public sealed class CharacterIdJsonConverter : JsonConverter<CharacterId>
 // {

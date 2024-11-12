@@ -1,6 +1,6 @@
 ﻿using Bindery;
 
-namespace Rp.Core;
+namespace Rp.Core.Managers;
 
 public sealed partial class PlayerManager : Singleton<PlayerManager>
 {

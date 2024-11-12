@@ -1,8 +1,10 @@
-﻿namespace Rp.Core;
+﻿using Rp.Core.Components;
 
-public partial class GameManager
+namespace Rp.Core.Managers;
+
+public partial class GameManager : INetworkInitializer.IClient
 {
-	private void InitializeClient()
+	void INetworkInitializer.IClient.InitializeClient( Connection channel )
 	{
 		Task.RunInThreadAsync( async () =>
 		{

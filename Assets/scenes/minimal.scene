@@ -17,30 +17,6 @@
       ]
     },
     {
-      "__guid": "eacc6d9c-f2ab-4dc0-8a1b-4ca7ed7101bb",
-      "Flags": 0,
-      "Name": "Managers",
-      "Position": "110.626,109.6261,-121.0347",
-      "Enabled": true,
-      "NetworkMode": 1,
-      "Components": [
-        {
-          "__type": "Rp.Core.PlayerManager",
-          "__guid": "73d3d2bf-fba9-41fa-ab47-22a71a7e7fe2"
-        },
-        {
-          "__type": "Rp.Core.CharacterManager",
-          "__guid": "f020aac4-9e90-45ad-bba5-4031e2d0932c",
-          "Panel": {
-            "_type": "component",
-            "component_id": "3772cafb-3474-483d-805a-b587cec07c65",
-            "go": "5e2a4748-d549-41b7-8a1c-221cf9cda028",
-            "component_type": "CharacterSelection"
-          }
-        }
-      ]
-    },
-    {
       "__guid": "bfc59c12-1ed2-4f91-8956-a95a315eac3c",
       "Flags": 0,
       "Name": "Sun",
@@ -419,28 +395,6 @@
       "Enabled": true
     },
     {
-      "__guid": "5e2a4748-d549-41b7-8a1c-221cf9cda028",
-      "Flags": 0,
-      "Name": "UI",
-      "Position": "-55.92229,-86.81571,54.85952",
-      "Enabled": true,
-      "Components": [
-        {
-          "__type": "Sandbox.ScreenPanel",
-          "__guid": "c1611aa6-69cb-4d9a-b18d-3b8684836ab9",
-          "AutoScreenScale": true,
-          "Opacity": 1,
-          "Scale": 1,
-          "ScaleStrategy": "ConsistentHeight",
-          "ZIndex": 100
-        },
-        {
-          "__type": "Rp.Core.UI.CharacterSelection",
-          "__guid": "3772cafb-3474-483d-805a-b587cec07c65"
-        }
-      ]
-    },
-    {
       "__guid": "9d9d8e4c-b6bc-4277-a5e7-58a6a3585a39",
       "Flags": 0,
       "Name": "Screen",
@@ -466,8 +420,51 @@
       "Enabled": true,
       "Components": [
         {
-          "__type": "Rp.Core.GameManager",
-          "__guid": "9279c425-d1bd-4717-a7ab-8572d2644835"
+          "__type": "Rp.Core.Managers.GameManager",
+          "__guid": "5dc2dfe7-7563-4270-a38b-f885640cb2c4"
+        }
+      ]
+    },
+    {
+      "__guid": "3e84f5f9-c57e-4f9f-a57f-4f3541f7bcb6",
+      "Flags": 0,
+      "Name": "Character Manager",
+      "Position": "36.77249,108.373,10.93331",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Rp.Core.Managers.CharacterManager",
+          "__guid": "9d5eedfc-bf0a-40a0-8ca2-17c4602ee175",
+          "Panel": {
+            "_type": "component",
+            "component_id": "3772cafb-3474-483d-805a-b587cec07c65",
+            "go": "5e2a4748-d549-41b7-8a1c-221cf9cda028",
+            "component_type": "CharacterSelection"
+          }
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "5e2a4748-d549-41b7-8a1c-221cf9cda028",
+          "Flags": 0,
+          "Name": "UI",
+          "Position": "-92.69478,-195.1887,43.92621",
+          "Enabled": true,
+          "Components": [
+            {
+              "__type": "Sandbox.ScreenPanel",
+              "__guid": "c1611aa6-69cb-4d9a-b18d-3b8684836ab9",
+              "AutoScreenScale": true,
+              "Opacity": 1,
+              "Scale": 1,
+              "ScaleStrategy": "ConsistentHeight",
+              "ZIndex": 100
+            },
+            {
+              "__type": "Rp.Core.UI.CharacterSelection",
+              "__guid": "3772cafb-3474-483d-805a-b587cec07c65"
+            }
+          ]
         }
       ]
     },
@@ -479,21 +476,21 @@
       "Enabled": true,
       "Components": [
         {
-          "__type": "Rp.Core.PlayerManager",
-          "__guid": "f1fc3698-0a0c-45ac-92fa-62ea3133ed34"
+          "__type": "Rp.Core.Managers.PlayerManager",
+          "__guid": "cdaf2e48-a358-47a9-aa04-6d9de24609c2"
         }
       ]
     },
     {
       "__guid": "18df5496-99bf-41ba-a606-77d788e1694f",
       "Flags": 0,
-      "Name": "Component Initializer",
+      "Name": "Network Initializer",
       "Position": "36.77249,108.373,10.93331",
       "Enabled": true,
       "Components": [
         {
-          "__type": "Rp.Core.ComponentInitializer",
-          "__guid": "429e9bee-160f-4f56-b43d-e7b049cf1eb3"
+          "__type": "Rp.Core.Components.NetworkInitializer",
+          "__guid": "b927418c-5ad8-49b9-91f1-65d7221b608e"
         }
       ]
     }
