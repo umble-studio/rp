@@ -9,8 +9,7 @@ public partial class CharacterManager
 	internal void InitializeClient()
 	{
 		LoadCharacters();
-		Log.Info( "Panel character selected: " + Panel.CharacterSelected );
-
+		
 		if ( !Panel.CharacterSelected )
 			Panel.Show();
 	}
