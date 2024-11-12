@@ -20,7 +20,7 @@ public partial class PlayerManager
 	}
 
 	[Broadcast( NetPermission.Anyone )]
-	public void AddPlayerCharacterRpcRequest( ulong steamId, Guid characterId )
+	public void AddPlayerCharacterRpcRequest( ulong steamId, CharacterId characterId )
 	{
 		if ( !Networking.IsHost ) return;
 

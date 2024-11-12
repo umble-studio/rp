@@ -8,12 +8,12 @@ public partial class CharacterManager
 	private void LoadCharactersRpcResponse( List<CharacterData> characters )
 	{
 		Characters = characters;
-		
+
 		var player = PlayerManager.Instance.Current;
-		
+
 		// Don't load the character if the player doesn't have one
-		if ( player.CurrentCharacter == Guid.Empty ) return;
-		
+		if ( player.CurrentCharacter == default ) return;
+
 		Log.Info( "Current player: " + player );
 		var character = characters.FirstOrDefault( x => x.CharacterId == player.CurrentCharacter );
 

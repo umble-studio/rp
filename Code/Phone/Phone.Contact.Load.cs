@@ -13,6 +13,17 @@ public partial class Phone
 			return;
 		}
 
+		var localContact = new PhoneContact
+		{
+			Owner = Current.SimCard.Id,
+			ContactAvatar = null,
+			ContactName = "You",
+			ContactNumber = Current.SimCard.PhoneNumber
+		};
+
+		Contacts.AddContact( localContact );
+
+		Log.Warning( "Load contacts.. " + Current.SimCard.Id );
 		LoadContactsClientRpc( Current.SimCard.Id.ToString() );
 	}
 
@@ -34,7 +45,7 @@ public partial class Phone
 	{
 		if ( !Networking.IsHost ) return;
 
-		var contacts = RoverDatabase.Instance.Select<PhoneContact>( x => x.SimCardId == Guid.Parse( simCardId ) );
+		var contacts = RoverDatabase.Instance.Select<PhoneContact>( x => x.Owner == Guid.Parse( simCardId ) );
 
 		using ( Rpc.FilterInclude( x => x == Rpc.Caller ) )
 		{

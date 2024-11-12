@@ -1,5 +1,4 @@
 ﻿using System;
-using RoverDB;
 
 namespace Rp.Phone.Apps.Messages.Services;
 
@@ -11,7 +10,8 @@ public partial class ConversationService
 
 	public void LoadConversations()
 	{
-		LoadPhoneConversationsClientRpc( Phone.Current.SimCard!.PhoneNumber );
+		Log.Info("LoadConversations: " + string.Join(", ", Phone.Current.SimCard));
+		LoadConversationsRpcRequest( Phone.Current.SimCard!.PhoneNumber );
 	}
 
 	public void AddConversation( ConversationData conversation )
@@ -45,6 +45,7 @@ public partial class ConversationService
 
 	public void CreateConversation( PhoneContact target )
 	{
-		CreateConversationClientRpc( Phone.Current.LocalContact, target );
+		Log.Info("Create conversation with: " + string.Join(", ", Phone.Current.LocalContact, target));
+		CreateConversationRpcRequest( Phone.Current.LocalContact, target );
 	}
 }

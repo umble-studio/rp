@@ -1,7 +1,7 @@
 ﻿using System;
-using Rp.Core;
 using Rp.Core.Managers;
 using Rp.Phone.Apps;
+using Rp.Phone.Apps.Messages.Services;
 using Rp.Phone.Extensions;
 using Rp.Phone.UI.Components;
 using Sandbox.UI;
@@ -10,7 +10,7 @@ using SteamId = Rp.Core.SteamId;
 
 namespace Rp.Phone;
 
-public sealed partial class Phone : PanelComponent, IPhoneEvent
+public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetworkListener
 {
 	private Panel _phoneContent = null!;
 	private Panel _appContainer = null!;
@@ -36,6 +36,14 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent
 	{
 		Notification = new NotificationCenter();
 		Contacts = new PhoneContacts();
+	}
+	
+	public void OnActive( Connection channel )
+	{
+		// We need to register all services when we join the server
+		// Without this, phone services are not synced on other clients, so the service doesn't exist
+		if ( Connection.Host == channel )
+			RegisterAllServices();
 	}
 
 	protected override async void OnUpdate()
@@ -66,7 +74,8 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent
 			while ( _appContainer is null )
 				await GameTask.Delay( 1 );
 
-			RegisterAllServices();
+			// RegisterAllServices();
+			ConversationService.Instance.LoadConversations();
 			SwitchToApp<LockScreen>();
 
 			var notification = new AppNotificationBuilder( _currentApp! )

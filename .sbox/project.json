@@ -15,48 +15,48 @@
     "DeleteAt": 0
   },
   "scene.lastopened": {
-    "Value": "[\u0022scenes/minimal.scene\u0022]",
-    "Timeout": 1734007693,
+    "Value": "[\u0022scenes/minimal.scene\u0022,\u0022prefabs/player controller.prefab\u0022,\u0022prefabs/phone.prefab\u0022]",
+    "Timeout": 1734034048,
     "DeleteAt": 0
   },
   "scenes/minimal.scene.Viewport0": {
-    "Value": "{\u0022CameraPosition\u0022:\u002277.18169,107.4006,26.20911\u0022,\u0022CameraRotation\u0022:\u0022-0.1796692,0.002161433,0.9836535,0.01183342\u0022,\u0022CameraOrthoHeight\u0022:1000}",
-    "Timeout": 1734015428,
+    "Value": "{\u0022CameraPosition\u0022:\u002274.63712,70.36026,16.67895\u0022,\u0022CameraRotation\u0022:\u0022-0.1796692,0.002161433,0.9836535,0.01183342\u0022,\u0022CameraOrthoHeight\u0022:1000}",
+    "Timeout": 1734042668,
     "DeleteAt": 0
   },
   "SceneView.Viewport0.Settings": {
     "Value": "{\u0022CameraPosition\u0022:\u0022-267.452,-379.653,297.7903\u0022,\u0022CameraRotation\u0022:\u0022-0.1448582,0.2860239,0.4279631,0.8450171\u0022,\u0022View\u0022:0,\u0022RenderMode\u0022:0,\u0022WireframeMode\u0022:false,\u0022EnablePostProcessing\u0022:true,\u0022ShowGrid\u0022:true,\u0022GridOpacity\u0022:0.2,\u0022GridAxis\u0022:0,\u0022CameraOrthoHeight\u0022:1000}",
-    "Timeout": 1734015428,
+    "Timeout": 1734042668,
     "DeleteAt": 0
   },
   "AssetBrowser.ViewMode": {
     "Value": "1",
-    "Timeout": 1734007693,
+    "Timeout": 1734034016,
     "DeleteAt": 0
   },
   "AssetBrowser.ShowJunkFiles": {
     "Value": "false",
-    "Timeout": 1734007693,
+    "Timeout": 1734034016,
     "DeleteAt": 0
   },
   "AssetBrowser.HideNonAssets": {
     "Value": "true",
-    "Timeout": 1734007693,
+    "Timeout": 1734034016,
     "DeleteAt": 0
   },
   "AssetBrowser.ShowRecursiveFiles": {
     "Value": "false",
-    "Timeout": 1734007693,
+    "Timeout": 1734034016,
     "DeleteAt": 0
   },
   ".Viewport0": {
     "Value": "{\u0022CameraPosition\u0022:\u0022-267.452,-379.653,297.7903\u0022,\u0022CameraRotation\u0022:\u0022-0.1448582,0.2860239,0.4279631,0.8450171\u0022,\u0022CameraOrthoHeight\u0022:1000}",
-    "Timeout": 1734015428,
+    "Timeout": 1734042668,
     "DeleteAt": 0
   },
   "SceneView.Layout": {
     "Value": "{\u0022Layout\u0022:0,\u0022SplitterState\u0022:[]}",
-    "Timeout": 1734014224,
+    "Timeout": 1734037775,
     "DeleteAt": 0
   },
   "gizmo.settings": {
@@ -101,17 +101,22 @@
   },
   "NewInstance.Args": {
     "Value": "",
-    "Timeout": 1734013799,
+    "Timeout": 1734037780,
     "DeleteAt": 0
   },
   "prefabs/player controller.prefab.Viewport0": {
     "Value": "{\u0022CameraPosition\u0022:\u0022-39.37395,-40.37395,91.0974\u0022,\u0022CameraRotation\u0022:\u0022-0.1464466,0.3535534,0.3535534,0.8535534\u0022,\u0022CameraOrthoHeight\u0022:1000}",
-    "Timeout": 1733867509,
+    "Timeout": 1734042668,
     "DeleteAt": 0
   },
   "expand.18df5496-99bf-41ba-a606-77d788e1694f.MissingComponent": {
     "Value": "false",
     "Timeout": 1734007728,
+    "DeleteAt": 0
+  },
+  "prefabs/phone.prefab.Viewport0": {
+    "Value": "{\u0022CameraPosition\u0022:\u0022-0.6736481,-0.6736482,0.9526824\u0022,\u0022CameraRotation\u0022:\u0022-0.1464466,0.3535534,0.3535534,0.8535534\u0022,\u0022CameraOrthoHeight\u0022:1000}",
+    "Timeout": 1734042668,
     "DeleteAt": 0
   }
 }

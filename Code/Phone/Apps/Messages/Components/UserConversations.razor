@@ -49,7 +49,8 @@
 							<span class="author-name">@otherParticipant.Name</span>
 							<span class="date">@( latestMessage.Date.ToString( "t" ) )</span>
 						</div>
-						<span class="text">@( latestMessage.IsMe() ? "Me:" : string.Empty ) @latestMessage.Content</span>
+						<span
+							class="text">@( latestMessage.IsMe() ? "Me:" : string.Empty ) @latestMessage.Content</span>
 					</div>
 				</div>
 			}

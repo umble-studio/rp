@@ -3,5 +3,5 @@
 public interface IMessageEvent : ISceneEvent<IMessageEvent>
 {
 	void OnMessageSent( MessageData messageData ) { }
-	void OnMessageReceived( PhoneNumber sender, MessageData messageData ) { }
+	void OnMessageReceived( MessageData messageData ) { }
 }

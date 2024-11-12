@@ -5,8 +5,8 @@ namespace Rp.Core;
 
 public readonly struct CharacterId : IEquatable<CharacterId>
 {
-	[JsonPropertyName( "steamId" )] public ulong SteamId { get; }
-	[JsonPropertyName( "id" )] public ushort Id { get; }
+	public ulong SteamId { get; }
+	public ushort Id { get; }
 
 	[JsonConstructor]
 	public CharacterId( ulong steamId, ushort id )

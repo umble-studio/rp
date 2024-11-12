@@ -24,13 +24,10 @@
 		<div class="messages">
 			@if ( _conversation is not null )
 			{
-				for ( var i = 0; i < Messages.Count; i++ )
+				foreach ( var message in Messages )
 				{
-					var index = i;
-					var message = Messages[index];
 					var participant = _conversation.GetParticipant( message.Author );
-					
-					<Message @key="@index" Participant="@participant" Data="@message"></Message>
+					<Message @key="@message" Participant="@participant" Data="@message"></Message>
 				}
 			}
 		</div>

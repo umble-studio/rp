@@ -335,22 +335,9 @@
       "Name": "Phone",
       "Position": "34.31328,71.24145,1.414833",
       "Enabled": true,
-      "Components": [
-        {
-          "__type": "Sandbox.ScreenPanel",
-          "__guid": "aa3d80bf-e180-4d8c-80d0-a26c31453cc6",
-          "AutoScreenScale": true,
-          "Opacity": 1,
-          "Scale": 1,
-          "ScaleStrategy": "ConsistentHeight",
-          "ZIndex": 0
-        },
-        {
-          "__type": "Rp.Phone.Phone",
-          "__guid": "77165561-767d-452a-9eec-fc2613f22131",
-          "IsOpen": false
-        }
-      ]
+      "NetworkMode": 1,
+      "__Prefab": "prefabs/phone.prefab",
+      "__PrefabVariables": {}
     },
     {
       "__guid": "3c0c1713-7b7f-42e9-8bb6-551dad55e07a",
@@ -474,19 +461,6 @@
         {
           "__type": "Rp.Core.Managers.PlayerManager",
           "__guid": "cdaf2e48-a358-47a9-aa04-6d9de24609c2"
-        }
-      ]
-    },
-    {
-      "__guid": "ae1baf91-fc8d-4f27-b9f9-6df8b363da31",
-      "Flags": 0,
-      "Name": "Object",
-      "Position": "-203.3656,114.1516,-79.84558",
-      "Enabled": true,
-      "Components": [
-        {
-          "__type": "Rp.Core.Systems.NetworkInitializer2",
-          "__guid": "72c1667c-dadd-4fdc-abda-b51cc7e6bb7c"
         }
       ]
     }

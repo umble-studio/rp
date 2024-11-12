@@ -8,10 +8,10 @@ namespace Rp.Phone;
 
 public partial class Phone
 {
-	private SimCardData _simCard;
+	private SimCardData? _simCard;
 	private bool _isSimCardLoaded;
-	
-	public SimCardData SimCard
+
+	public SimCardData? SimCard
 	{
 		get => _simCard;
 		set
@@ -26,16 +26,19 @@ public partial class Phone
 	#region Commands
 
 	[ConCmd( "phone_create_simcard" )]
-	private static void CreateSimCardCmd( ulong steamId, string characterId, int phoneNumber )
+	private static void CreateSimCardCmd( ulong steamId, int characterId, int phoneNumber )
 	{
-		var simCard = new SimCardData { Owner = steamId, PhoneNumber = phoneNumber, CharacterId = Guid.Parse( characterId ) };
+		var simCard = new SimCardData
+		{
+			Owner = new CharacterId( steamId, (ushort)characterId ), PhoneNumber = phoneNumber
+		};
 
 		Current.CreateSimCardRpc( simCard );
 	}
 
 	#endregion
 
-	private void LoadSimCard( SteamId steamId, Guid characterId )
+	private void LoadSimCard( SteamId steamId, CharacterId characterId )
 	{
 		_isSimCardLoaded = false;
 		LoadSimCardsClientRpc( steamId, characterId );
@@ -44,7 +47,7 @@ public partial class Phone
 	#region RPC
 
 	[Broadcast( NetPermission.Anyone )]
-	private void LoadSimCardsClientRpc( SteamId steamId, Guid characterId )
+	private void LoadSimCardsClientRpc( SteamId steamId, CharacterId characterId )
 	{
 		if ( !Networking.IsHost ) return;
 
@@ -52,7 +55,7 @@ public partial class Phone
 		{
 			var simCard =
 				RoverDatabase.Instance.SelectOne<SimCardData>( x =>
-					x.Owner == steamId && x.CharacterId == characterId );
+					x.Owner == characterId );
 
 			LoadSimCardsServerRpc( simCard );
 		}
@@ -63,13 +66,13 @@ public partial class Phone
 	{
 		if ( simCard is null )
 		{
-			Log.Warning("No sim card found for phone");
+			Log.Warning( "No sim card found for phone" );
 			return;
 		}
-		
+
 		SimCard = simCard;
 		_isSimCardLoaded = true;
-		
+
 		Log.Info( $"Load sim card: {simCard.PhoneNumber} to phone" );
 	}
 
@@ -92,8 +95,7 @@ public partial class Phone
 public record SimCardData
 {
 	[Id, Saved] public Guid Id { get; init; }
-	[Saved] public SteamId Owner { get; init; }
-	[Saved] public Guid CharacterId { get; init; }
+	[Saved] public CharacterId Owner { get; init; }
 	[Saved] public PhoneNumber PhoneNumber { get; init; }
 
 	public override string ToString() => PhoneNumber.ToString();

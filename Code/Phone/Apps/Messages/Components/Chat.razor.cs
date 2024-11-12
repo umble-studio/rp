@@ -6,7 +6,8 @@ using Sandbox.UI;
 
 namespace Rp.Phone.Apps.Messages.Components;
 
-public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotifiable<MessagesApp>, IKeyboardEvent
+public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotifiable<MessagesApp>, IKeyboardEvent,
+	IMessageEvent
 {
 	private Panel _content = null!;
 	private MessageBar _messageBar = null!;
@@ -16,7 +17,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 	public MessagesApp App { get; set; } = null!;
 
 	private List<MessageData> Messages => _conversation?.Messages ?? new List<MessageData>();
-	
+
 	private string Value { get; set; } = string.Empty;
 
 	private string Root => new CssBuilder()
@@ -27,7 +28,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 		.AddClass( "footer" )
 		.AddClass( "keyboard-open", Phone.Current.Keyboard.IsOpen )
 		.Build();
-
+	
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
 		if ( !firstTime ) return;
@@ -48,26 +49,35 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 				{
 					// Name = "Me",
 					// Avatar = "textures/ui/phone/avatars/avatar_02.jpg",
-					PhoneNumber = Phone.Current.SimCard.PhoneNumber
+					PhoneNumber = Phone.Current.SimCard!.PhoneNumber
 				},
 				Content = Value,
 				Date = DateTime.Now
 			};
 
-		// _conversation!.Messages.Add( message );
 		Value = string.Empty;
-
-		Scene.RunEvent<IMessageEvent>( x => x.OnMessageSent( message ), true );
 		_content.TryScrollToBottom();
 
-		var messageAppService = Phone.Current.GetService<ConversationService>();
-		messageAppService.SendMessage( 555_222, message, _conversation.Id );
+		Scene.RunEvent<IMessageEvent>( x => x.OnMessageSent( message ), true );
+		
+		ConversationService.Instance.SendMessageRpcRequest( Phone.Current.SimCard.PhoneNumber, _conversation!.Id,
+			message );
+	}
+
+	void IMessageEvent.OnMessageReceived( MessageData messageData )
+	{
+		Log.Info( "Scrolling to bottom" );
+		_content.TryScrollToBottom();
 	}
 
 	public void Show( ConversationData conversationData )
 	{
 		_conversation = conversationData;
 		_isOpen = true;
+		_content.TryScrollToBottom();
+
+		// TODO - Remove notification when we are seeing the message associated with the notification
+		Phone.Current.Notification.ClearPendingNotifications<MessagesApp>();
 	}
 
 	public void Hide()
@@ -96,5 +106,6 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 	}
 
 	protected override int BuildHash() =>
-		HashCode.Combine( _isOpen, _conversation, Messages, Phone.Current.Keyboard.IsOpen );
+		HashCode.Combine( _isOpen, _conversation?.Participants.Count, _conversation?.Messages.Count,
+			Phone.Current.Keyboard.IsOpen );
 }

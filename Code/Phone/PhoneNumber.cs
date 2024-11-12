@@ -6,8 +6,9 @@ namespace Rp.Phone;
 
 public readonly partial struct PhoneNumber : IEquatable<PhoneNumber>
 {
-	public int Value { get; init; }
+	public int Value { get; }
 
+	[JsonConstructor]
 	public PhoneNumber( int value )
 	{
 		var valueLength = value.ToString().Length;
@@ -38,6 +39,8 @@ public readonly partial struct PhoneNumber : IEquatable<PhoneNumber>
 		return Value.ToString( "000_0000" );
 	}
 
+	public static PhoneNumber Parse( string value ) => new(int.Parse( value ));
+
 	public static implicit operator PhoneNumber( int number ) => new(number);
 	public static implicit operator int( PhoneNumber number ) => number.Value;
 
@@ -50,6 +53,4 @@ public readonly partial struct PhoneNumber : IEquatable<PhoneNumber>
 	{
 		return !(left == right);
 	}
-
-	public static PhoneNumber Parse( string value ) => new(int.Parse( value ));
 }

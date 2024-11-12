@@ -1,0 +1,33 @@
+{
+  "RootObject": {
+    "__guid": "33095c19-cebd-46f6-91cf-a61a074c2c49",
+    "Flags": 0,
+    "Name": "Phone",
+    "Position": "34.31328,71.24145,1.414833",
+    "Enabled": true,
+    "NetworkMode": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.ScreenPanel",
+        "__guid": "aa3d80bf-e180-4d8c-80d0-a26c31453cc6",
+        "AutoScreenScale": true,
+        "Opacity": 1,
+        "Scale": 1,
+        "ScaleStrategy": "ConsistentHeight",
+        "ZIndex": 0
+      },
+      {
+        "__type": "Rp.Phone.Phone",
+        "__guid": "77165561-767d-452a-9eec-fc2613f22131",
+        "IsOpen": false
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "ResourceVersion": 1,
+  "__references": [],
+  "__version": 1
+}
