@@ -1,10 +1,10 @@
-﻿namespace Rp.Core.Components;
+﻿namespace Rp.Core.Systems;
 
 public interface INetworkInitializer
 {
 	public interface IClient
 	{
-		void InitializeClient( Connection channel );
+		void InitializeClient();
 	}
 
 	public interface IServer
