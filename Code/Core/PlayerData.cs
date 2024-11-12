@@ -8,6 +8,6 @@ public record PlayerData
 {
 	[Id, Saved] public Guid Id { get; init; }
 	[Saved] public SteamId Owner { get; init; }
-	[Saved] public Guid CurrentCharacter { get; init; }
+	[Saved] public Guid CurrentCharacter { get; set; }
 	[Saved] public List<Guid> Characters { get; init; } = new();
 }
