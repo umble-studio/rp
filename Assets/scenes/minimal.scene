@@ -381,10 +381,6 @@
         {
           "__type": "RoverDB.RoverDatabase",
           "__guid": "cd1ce751-99a5-4e11-b0c0-c2be3cd75bfc"
-        },
-        {
-          "__type": "Rp.Core.Components.DatabaseInitializer",
-          "__guid": "85eff846-49d1-48b7-8528-6dadda5150fd"
         }
       ]
     },
@@ -482,15 +478,15 @@
       ]
     },
     {
-      "__guid": "18df5496-99bf-41ba-a606-77d788e1694f",
+      "__guid": "ae1baf91-fc8d-4f27-b9f9-6df8b363da31",
       "Flags": 0,
-      "Name": "Network Initializer",
-      "Position": "36.77249,108.373,10.93331",
+      "Name": "Object",
+      "Position": "-203.3656,114.1516,-79.84558",
       "Enabled": true,
       "Components": [
         {
-          "__type": "Rp.Core.Components.NetworkInitializer",
-          "__guid": "b927418c-5ad8-49b9-91f1-65d7221b608e"
+          "__type": "Rp.Core.Systems.NetworkInitializer2",
+          "__guid": "72c1667c-dadd-4fdc-abda-b51cc7e6bb7c"
         }
       ]
     }
