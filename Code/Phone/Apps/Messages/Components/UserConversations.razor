@@ -23,7 +23,7 @@
 	<div class="contacts-container">
 		@foreach ( var contact in Contacts.Take( 6 ) )
 		{
-			<div class="contact" @onclick="@( () => OnSelectContact( contact ) )">
+			<div @key="@contact" class="contact" @onclick="@( () => OnSelectContact( contact ) )">
 				@if ( !string.IsNullOrEmpty( contact.ContactAvatar ) )
 				{
 					<img class="avatar" src="@contact.ContactAvatar" alt="">
@@ -51,7 +51,7 @@
 				var latestMessage = conversation.GetLatestMessage();
 				if ( latestMessage is null ) return;
 
-				<div class="message" @onclick="@( () => OnConversationSelected( conversation ) )">
+				<div @key="@conversation" class="message" @onclick="@( () => OnConversationSelected( conversation ) )">
 					<img class="avatar" src="@otherParticipant.Avatar" alt="">
 					<div>
 						<div class="header">
