@@ -67,10 +67,10 @@ public partial class ConversationService
 
 			_conversations.Add( conversation );
 			Log.Info( "Add conversation: " + conversation.Id );
-			
+
 			var app = Phone.Current.GetApp<MessagesApp>();
 			if ( app is null ) return;
-			
+
 			app.SwitchToChat( conversation );
 		}
 
@@ -116,7 +116,7 @@ public partial class ConversationService
 			Log.Error( "Failed to find conversation with id: " + conversationId );
 			return;
 		}
-		
+
 		Log.Info( "Add message to conversation: " + conversationId );
 
 		var targets = new List<ulong>();
@@ -137,14 +137,21 @@ public partial class ConversationService
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
-	private void SendMessageRpcResponse( Guid conversationId, MessageData message )
+	private async void SendMessageRpcResponse( Guid conversationId, MessageData message )
 	{
 		var conversation = Conversations.FirstOrDefault( x => x.Id == conversationId );
 
+		// If one of the participant didn't have opened its phone
+		// The conversation will be null because conversation are loaded when the phone is opened
 		if ( conversation is null )
 		{
-			Log.Error( "Failed to find conversation with id: " + conversationId );
-			return;
+			// Log.Error( "Failed to find conversation with id: " + conversationId );
+
+			LoadConversations();
+			await GameTask.Delay( 2000 );
+
+			conversation = Conversations.FirstOrDefault( x => x.Id == conversationId );
+			if ( conversation is null ) return;
 		}
 
 		conversation.Messages.Add( message );

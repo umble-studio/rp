@@ -110,6 +110,12 @@
         "__guid": "7f8718a8-e3fa-434d-9771-d37cd25c3048",
         "ClimbableTags": "ladder",
         "Priority": 5
+      },
+      {
+        "__type": "Sandbox.WorldInput",
+        "__guid": "c6bf31d0-5145-49a7-b6eb-2c377b43647c",
+        "LeftMouseAction": "Attack1",
+        "RightMouseAction": "Attack2"
       }
     ],
     "Children": [
