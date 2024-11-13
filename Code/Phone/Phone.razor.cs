@@ -75,16 +75,16 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 				await GameTask.Delay( 1 );
 
 			// RegisterAllServices();
-			ConversationService.Instance.LoadConversations();
+			// ConversationService.Instance.LoadConversations();
 			SwitchToApp<LockScreen>();
 
-			var notification = new AppNotificationBuilder( _currentApp! )
-				.WithTitle( "Hey" )
-				.WithMessage( "Hello world!" )
-				.Build();
-
-			Notification.CreateNotification<MessagesApp>( notification );
-			Notification.CreateNotification<MessagesApp>( notification );
+			// var notification = new AppNotificationBuilder( _currentApp! )
+			// 	.WithTitle( "Hey" )
+			// 	.WithMessage( "Hello world!" )
+			// 	.Build();
+			//
+			// Notification.CreateNotification<MessagesApp>( notification );
+			// Notification.CreateNotification<MessagesApp>( notification );
 		}
 	}
 
@@ -161,7 +161,7 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 		Apps.Add( _currentApp );
 	}
 
-	public T? GetApp<T>() where T : IPhoneApp => Apps.OfType<T>().FirstOrDefault();
+	public T GetApp<T>() where T : IPhoneApp => Apps.OfType<T>().First();
 
 	protected override int BuildHash() => HashCode.Combine( _isLocked, _isOpen, _currentApp );
 }

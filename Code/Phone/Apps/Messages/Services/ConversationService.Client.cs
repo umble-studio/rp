@@ -2,7 +2,7 @@
 
 namespace Rp.Phone.Apps.Messages.Services;
 
-public partial class ConversationService
+public partial class ConversationService : IMessageEvent
 {
 	private List<ConversationData> _conversations = new();
 
@@ -10,7 +10,7 @@ public partial class ConversationService
 
 	public void LoadConversations()
 	{
-		Log.Info("LoadConversations: " + string.Join(", ", Phone.Current.SimCard));
+		Log.Info( "LoadConversations: " + string.Join( ", ", Phone.Current.SimCard ) );
 		LoadConversationsRpcRequest( Phone.Current.SimCard!.PhoneNumber );
 	}
 
@@ -45,7 +45,23 @@ public partial class ConversationService
 
 	public void CreateConversation( PhoneContact target )
 	{
-		Log.Info("Create conversation with: " + string.Join(", ", Phone.Current.LocalContact, target));
+		Log.Info( "Create conversation with: " + string.Join( ", ", Phone.Current.LocalContact, target ) );
 		CreateConversationRpcRequest( Phone.Current.LocalContact, target );
 	}
+
+	#region Message Events
+
+	void IMessageEvent.OnMessageReceived( MessageData message )
+	{
+		var app = Phone.Current.GetApp<MessagesApp>();
+
+		var notification = new AppNotificationBuilder( app )
+			.WithTitle( "New Message: " + message.Author.PhoneNumber )
+			.WithMessage( message.Content )
+			.Build();
+
+		Phone.Current.Notification.CreateNotification( notification );
+	}
+
+	#endregion
 }
