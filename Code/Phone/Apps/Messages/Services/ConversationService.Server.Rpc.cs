@@ -83,7 +83,7 @@ public partial class ConversationService
 	[Broadcast]
 	private void LoadConversationsRpcRequest( PhoneNumber phoneNumber )
 	{
-		// if ( !Networking.IsHost ) return;
+		if ( !Networking.IsHost ) return;
 
 		Log.Info( "LoadConversationsRpcRequest: " + phoneNumber );
 
@@ -114,25 +114,8 @@ public partial class ConversationService
 
 		Log.Info( "Add message to conversation: " + conversationId );
 
-		// var targets = new List<ulong>();
-		//
-		// foreach ( var participant in conversation.Participants )
-		// {
-		// 	var simcard =
-		// 		RoverDatabase.Instance.SelectOne<SimCardData>( x => x.PhoneNumber == participant.PhoneNumber );
-		// 	if ( simcard is null ) return;
-		//
-		// 	targets.Add( simcard.Owner.SteamId );
-		// }
-		//
-		// foreach ( var target in targets )
-		// {
-		// 	using ( Rpc.FilterInclude( x => x.SteamId == target ) )
-		// 	{
-		// 		SendMessageRpcResponse( conversationId, message );
-		// 	}
-		// }
-
+		// TODO - Currently, we send the message to all connected clients
+		// We should only send the message to the conversation participants
 		SendMessageRpcResponse( conversationId, message );
 	}
 
@@ -158,8 +141,6 @@ public partial class ConversationService
 			.WithTitle( "New Message: " + message.Author.PhoneNumber )
 			.WithMessage( message.Content )
 			.Build();
-
-		Log.Info("ENCULER");
 		
 		Phone.Current.Notification.CreateNotification( notification );
 	}
