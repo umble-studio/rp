@@ -9,7 +9,7 @@ public partial class ConversationService
 	[Broadcast( NetPermission.Anyone )]
 	private void CreateConversationRpcRequest( PhoneContact creator, PhoneContact target )
 	{
-		// if ( !Networking.IsHost ) return;
+		if ( !Networking.IsHost ) return;
 		if ( ServerConversationExists( creator, target ) ) return;
 
 		// var simCards = RoverDatabase.Instance.Select<SimCardData>();
@@ -67,6 +67,11 @@ public partial class ConversationService
 
 			_conversations.Add( conversation );
 			Log.Info( "Add conversation: " + conversation.Id );
+			
+			var app = Phone.Current.GetApp<MessagesApp>();
+			if ( app is null ) return;
+			
+			app.SwitchToChat( conversation );
 		}
 
 		// using ( Rpc.FilterInclude( x => x == Rpc.Caller ) )
@@ -141,7 +146,7 @@ public partial class ConversationService
 			.WithTitle( "New Message: " + message.Author.PhoneNumber )
 			.WithMessage( message.Content )
 			.Build();
-		
+
 		Phone.Current.Notification.CreateNotification( notification );
 	}
 }
