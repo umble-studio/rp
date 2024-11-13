@@ -343,7 +343,7 @@
       "__guid": "3c0c1713-7b7f-42e9-8bb6-551dad55e07a",
       "Flags": 0,
       "Name": "Network Helper",
-      "Position": "40.9512,71.98151,4.108429",
+      "Position": "78.52381,71.98151,13.03577",
       "Enabled": true,
       "Components": [
         {
@@ -455,7 +455,7 @@
       "__guid": "6886bec6-f684-41f3-9aec-bc57a60f2802",
       "Flags": 0,
       "Name": "Player Manager",
-      "Position": "36.77249,108.373,10.93331",
+      "Position": "33.31787,108.373,10.93331",
       "Enabled": true,
       "Components": [
         {

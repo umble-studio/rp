@@ -31,7 +31,7 @@ public partial class CharacterManager
 
 			characters.Add( character );
 		}
-
+		
 		using ( Rpc.FilterInclude( x => x == Rpc.Caller ) )
 		{
 			LoadCharactersRpcResponse( characters );
