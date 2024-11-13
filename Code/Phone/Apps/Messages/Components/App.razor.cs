@@ -19,6 +19,10 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
 		if ( !firstTime ) return;
+		
+		// Keep conversation updated when opening the app
+		ConversationService.Instance.LoadConversations();
+		
 		_conversationsTab.Show();
 	}
 
