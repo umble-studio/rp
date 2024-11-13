@@ -8,7 +8,7 @@ namespace Rp.Phone.Apps.Messages.Components;
 public sealed partial class UserConversations : Panel
 {
 	private MessageBar _messageBar = null!;
-	private PhoneContact _selectedContact;
+	private PhoneContact _selectedContact = null!;
 	private bool _isOpen;
 
 	public App App { get; set; } = null!;
@@ -89,6 +89,10 @@ public sealed partial class UserConversations : Panel
 		}
 	}
 
-	protected override int BuildHash() => HashCode.Combine( _isOpen,
-		ConversationService.Instance.Conversations );
+	protected override int BuildHash() => HashCode.Combine(
+		_isOpen,
+		ConversationService.Instance.Conversations,
+		ConversationService.Instance.Conversations.Where( x => x.Messages.Any() || x.Participants.Any() ),
+		Contacts
+	);
 }
