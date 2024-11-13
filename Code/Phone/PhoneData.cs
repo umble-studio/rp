@@ -7,5 +7,4 @@ namespace Rp.Phone;
 public record PhoneData
 {
 	[Id, Saved] public Guid Id { get; init; }
-	
 }
