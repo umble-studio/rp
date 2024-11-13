@@ -92,7 +92,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 
 	void IKeyboardEvent.OnKeyboardEscape()
 	{
-		Phone.Current.Keyboard.Hide();
+		// Phone.Current.Keyboard.Hide();
 	}
 
 	private void OnInputFocused()

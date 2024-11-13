@@ -8,6 +8,9 @@ namespace Rp.Phone.Apps.Messages.Components;
 
 public sealed partial class TextInput : Panel
 {
+	private TextEntry _textEntry = null!;
+	private bool _prevent;
+
 	public string Value { get; set; } = string.Empty;
 	public Action? Focused { get; set; }
 	public Action? Blurred { get; set; }
@@ -29,7 +32,7 @@ public sealed partial class TextInput : Panel
 	{
 		e.StopPropagation();
 	}
-	
+
 	protected override void OnFocus( PanelEvent e )
 	{
 		Focused?.Invoke();
@@ -37,7 +40,20 @@ public sealed partial class TextInput : Panel
 
 	protected override void OnBlur( PanelEvent e )
 	{
+		if ( _prevent )
+		{
+			_prevent = false;
+			_textEntry.Focus();
+			return;
+		}
+
 		Blurred?.Invoke();
+	}
+
+	private void OnSubmit( PanelEvent e )
+	{
+		_textEntry.AcceptsFocus = true;
+		_prevent = true;
 	}
 
 	protected override int BuildHash() => HashCode.Combine( Value );

@@ -3,6 +3,6 @@
 @inherits Panel
 
 <root class="@Root">
-	<TextEntry Value:bind="@Value" CaretColor="@(Color.FromRgb(0xb2b6bd))" Placeholder="Message.." KeyPressed="@OnKeyPressed"></TextEntry>
+	<TextEntry @ref="_textEntry" Value:bind="@Value" CaretColor="@(Color.FromRgb(0xb2b6bd))" Placeholder="Message.." KeyPressed="@OnKeyPressed" onsubmit="@OnSubmit"></TextEntry>
 	<iconify Icon="fluent:mic-16-filled" Color="#96979C" Size="@(22)"></iconify>
 </root>
