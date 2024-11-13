@@ -9,7 +9,7 @@ public readonly partial struct PhoneNumber : IEquatable<PhoneNumber>
 	public int Value { get; }
 
 	[JsonConstructor]
-	private PhoneNumber( int value )
+	public PhoneNumber( int value )
 	{
 		var valueLength = value.ToString().Length;
 
