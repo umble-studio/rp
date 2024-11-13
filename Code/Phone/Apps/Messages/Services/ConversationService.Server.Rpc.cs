@@ -104,7 +104,7 @@ public partial class ConversationService
 	}
 
 	[Broadcast( NetPermission.Anyone )]
-	public void SendMessageRpcRequest( PhoneNumber sender, Guid conversationId, MessageData message )
+	public void SendMessageRpcRequest( Guid conversationId, MessageData message )
 	{
 		if ( !Networking.IsHost ) return;
 
@@ -116,12 +116,24 @@ public partial class ConversationService
 			Log.Error( "Failed to find conversation with id: " + conversationId );
 			return;
 		}
-
+		
 		Log.Info( "Add message to conversation: " + conversationId );
 
-		// TODO - Currently, we send the message to all connected clients
-		// We should only send the message to the conversation participants
-		SendMessageRpcResponse( conversationId, message );
+		var targets = new List<ulong>();
+
+		foreach ( var participant in conversation.Participants )
+		{
+			var simcard =
+				RoverDatabase.Instance.SelectOne<SimCardData>( x => x.PhoneNumber == participant.PhoneNumber );
+			if ( simcard is null ) continue;
+
+			targets.Add( simcard.Owner.SteamId );
+		}
+
+		using ( Rpc.FilterInclude( x => targets.Contains( x.SteamId ) ) )
+		{
+			SendMessageRpcResponse( conversationId, message );
+		}
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
@@ -136,17 +148,6 @@ public partial class ConversationService
 		}
 
 		conversation.Messages.Add( message );
-
 		Scene.RunEvent<IMessageEvent>( x => x.OnMessageReceived( message ), true );
-
-		var app = Phone.Current.GetApp<MessagesApp>();
-		if ( app is null ) return;
-
-		var notification = new AppNotificationBuilder( app )
-			.WithTitle( "New Message: " + message.Author.PhoneNumber )
-			.WithMessage( message.Content )
-			.Build();
-
-		Phone.Current.Notification.CreateNotification( notification );
 	}
 }

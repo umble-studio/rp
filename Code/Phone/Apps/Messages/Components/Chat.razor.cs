@@ -60,7 +60,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 
 		Scene.RunEvent<IMessageEvent>( x => x.OnMessageSent( message ), true );
 		
-		ConversationService.Instance.SendMessageRpcRequest( Phone.Current.SimCard.PhoneNumber, _conversation!.Id,
+		ConversationService.Instance.SendMessageRpcRequest( _conversation!.Id,
 			message );
 	}
 
