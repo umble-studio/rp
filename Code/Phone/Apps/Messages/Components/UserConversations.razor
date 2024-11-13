@@ -24,7 +24,16 @@
 		@foreach ( var contact in Contacts.Take( 6 ) )
 		{
 			<div class="contact" @onclick="@( () => OnSelectContact( contact ) )">
-				<img class="avatar" src="@contact.ContactAvatar" alt="">
+				@if ( !string.IsNullOrEmpty( contact.ContactAvatar ) )
+				{
+					<img class="avatar" src="@contact.ContactAvatar" alt="">
+				}
+				else
+				{
+					<div class="initials">
+						<span class="text">@contact.ContactName[..1]</span>
+					</div>
+				}
 				<span class="name">@contact.ContactName</span>
 			</div>
 		}
