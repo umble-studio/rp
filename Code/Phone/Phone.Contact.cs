@@ -52,6 +52,11 @@ public partial class Phone
 			contact = target;
 			return true;
 		}
+
+		public void Clear()
+		{
+			_values.Clear();
+		}
 	}
 
 	#region Commands

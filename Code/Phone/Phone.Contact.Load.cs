@@ -7,6 +7,8 @@ public partial class Phone
 {
 	private void LoadContacts()
 	{
+		Contacts.Clear();
+		
 		if ( Current.SimCard is null )
 		{
 			Log.Info( "Unable to load contacts when sim card is null" );
