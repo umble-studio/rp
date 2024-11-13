@@ -114,26 +114,26 @@ public partial class ConversationService
 
 		Log.Info( "Add message to conversation: " + conversationId );
 
-		var targets = new List<ulong>();
+		// var targets = new List<ulong>();
+		//
+		// foreach ( var participant in conversation.Participants )
+		// {
+		// 	var simcard =
+		// 		RoverDatabase.Instance.SelectOne<SimCardData>( x => x.PhoneNumber == participant.PhoneNumber );
+		// 	if ( simcard is null ) return;
+		//
+		// 	targets.Add( simcard.Owner.SteamId );
+		// }
+		//
+		// foreach ( var target in targets )
+		// {
+		// 	using ( Rpc.FilterInclude( x => x.SteamId == target ) )
+		// 	{
+		// 		SendMessageRpcResponse( conversationId, message );
+		// 	}
+		// }
 
-		foreach ( var participant in conversation.Participants )
-		{
-			var simcard =
-				RoverDatabase.Instance.SelectOne<SimCardData>( x => x.PhoneNumber == participant.PhoneNumber );
-			if ( simcard is null ) return;
-
-			targets.Add( simcard.Owner.SteamId );
-		}
-
-		foreach ( var target in targets )
-		{
-			using ( Rpc.FilterInclude( x => x.SteamId == target ) )
-			{
-				SendMessageRpcResponse( conversationId, message );
-			}
-		}
-
-		// SendMessageRpcResponse( conversationId, message );
+		SendMessageRpcResponse( conversationId, message );
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
@@ -159,6 +159,8 @@ public partial class ConversationService
 			.WithMessage( message.Content )
 			.Build();
 
+		Log.Info("ENCULER");
+		
 		Phone.Current.Notification.CreateNotification( notification );
 	}
 }
