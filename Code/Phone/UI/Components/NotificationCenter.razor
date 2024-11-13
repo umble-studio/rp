@@ -5,9 +5,8 @@
 @inherits Panel
 
 <root>
-	@for ( var i = 0; i < Phone.Current.Notification.PendingNotifications.Count; i++ )
+	@foreach ( var notification in Phone.Current.Notification.PendingNotifications )
 	{
-		var notification = Phone.Current.Notification.PendingNotifications[i];
-		<Notification Pending="@notification"></Notification>
+		<Notification @key="@notification" Pending="@notification"></Notification>
 	}
 </root>
