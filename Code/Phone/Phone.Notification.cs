@@ -5,7 +5,7 @@ namespace Rp.Phone;
 
 public partial class Phone
 {
-	public NotificationCenter Notification { get; private set; } = null!;
+	public NotificationCenter Notification { get; private set; } = new();
 
 	public sealed class NotificationCenter
 	{

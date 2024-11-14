@@ -6,11 +6,10 @@ public partial class Phone
 {
 	private bool _isOpen;
 
-	[Property]
 	public bool IsOpen
 	{
 		get => _isOpen;
-		set
+		private set
 		{
 			if ( _isOpen == value ) return;
 			_isOpen = value;

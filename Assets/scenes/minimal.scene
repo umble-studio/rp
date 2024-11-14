@@ -330,42 +330,12 @@
       ]
     },
     {
-      "__guid": "2bfcccdd-4aac-4563-be49-0d7cb6b1afb5",
-      "Flags": 0,
-      "Name": "Phone (1)",
-      "Position": "34.31328,137.4565,34.64994",
-      "Enabled": true,
-      "NetworkMode": 1,
-      "Components": [
-        {
-          "__type": "Rp.Phone.Phone",
-          "__guid": "7ce6fa2d-7fe3-41da-bdda-39d6e3639c05",
-          "IsOpen": false
-        },
-        {
-          "__type": "Sandbox.WorldPanel",
-          "__guid": "63067df3-864b-4468-8e1d-c2e256cfeacc",
-          "HorizontalAlign": "Center",
-          "InteractionRange": 1000,
-          "LookAtCamera": false,
-          "PanelSize": "512,512",
-          "RenderOptions": {
-            "GameLayer": true,
-            "OverlayLayer": false,
-            "BloomLayer": false,
-            "AfterUILayer": false
-          },
-          "RenderScale": 1,
-          "VerticalAlign": "Center"
-        }
-      ]
-    },
-    {
       "__guid": "33095c19-cebd-46f6-91cf-a61a074c2c49",
       "Flags": 0,
       "Name": "Phone",
       "Position": "34.31328,71.24145,1.414833",
-      "NetworkMode": 1,
+      "Enabled": true,
+      "NetworkMode": 0,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -380,6 +350,14 @@
           "__type": "Rp.Phone.Phone",
           "__guid": "589f0c79-c44e-48fa-b7fb-0051cb3571b6",
           "IsOpen": false
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "7d517de1-7e2a-4a2d-a236-58d1dd66dc59",
+          "Flags": 0,
+          "Name": "Object",
+          "Enabled": true
         }
       ]
     },

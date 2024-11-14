@@ -5,6 +5,7 @@ using Rp.Phone.Apps.Messages.Services;
 using Rp.Phone.Extensions;
 using Rp.Phone.UI.Components;
 using Sandbox.UI;
+using Sandbox.Utility;
 using ControlCenter = Rp.Phone.UI.Components.ControlCenter;
 using SteamId = Rp.Core.SteamId;
 
@@ -32,12 +33,6 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 		Current = this;
 	}
 
-	protected override void OnAwake()
-	{
-		Notification = new NotificationCenter();
-		Contacts = new PhoneContacts();
-	}
-	
 	public void OnActive( Connection channel )
 	{
 		// We need to register all services when we join the server

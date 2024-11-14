@@ -8,7 +8,7 @@ public partial class Phone
 {
 	public PhoneContact LocalContact => Contacts.GetContactByNumber( Current.SimCard!.PhoneNumber )!;
 
-	public PhoneContacts Contacts { get; private set; } = null!;
+	public PhoneContacts Contacts { get; private set; } = new();
 
 	public sealed class PhoneContacts
 	{
