@@ -51,6 +51,8 @@
             justify-content: flex-end;
 
             > .content {
+                align-items: flex-end;
+                
                 > .msg {
                     background-color: hsl(206, 75%, 55%);
 
@@ -58,6 +60,10 @@
                         color: white;
                         text-align: left;
                     }
+                }
+                
+                > .date {
+                    text-align: right;
                 }
             }
         }
@@ -68,9 +74,15 @@
             justify-content: flex-start;
 
             > .content {
+                align-items: flex-start;
+                
                 > .msg {
                     //background-color: hsl(220, 15%, 84%);
                     background-color: hsl(220, 8%, 92%);
+                }
+
+                > .date {
+                    text-align: left;
                 }
             }
         }

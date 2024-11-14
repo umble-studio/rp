@@ -335,7 +335,6 @@
       "Name": "Phone",
       "Position": "34.31328,71.24145,1.414833",
       "Enabled": true,
-      "NetworkMode": 0,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -348,8 +347,7 @@
         },
         {
           "__type": "Rp.Phone.Phone",
-          "__guid": "589f0c79-c44e-48fa-b7fb-0051cb3571b6",
-          "IsOpen": false
+          "__guid": "589f0c79-c44e-48fa-b7fb-0051cb3571b6"
         }
       ],
       "Children": [
