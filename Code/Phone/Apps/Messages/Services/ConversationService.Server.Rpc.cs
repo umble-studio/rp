@@ -12,44 +12,30 @@ public partial class ConversationService
 		if ( !Networking.IsHost ) return;
 		if ( ServerConversationExists( creator, target ) ) return;
 
-		// var simCards = RoverDatabase.Instance.Select<SimCardData>();
-		// Connection connectionTarget = null!;
-		//
-		// var connections = Connection.All.Where( x => x.IsActive ).ToList();
-		// Log.Info( "Connections: " + connections.Count );
-		//
-		// var player = RoverDatabase.Instance.Select<PlayerData>( x => x.Owner == caller.SteamId );
-		// if ( player is null ) return;
-		//
-		// foreach ( var connection in connections )
-		// {
-		// 	var simCardExists =
-		// 		simCards.Exists( x => x.Owner == connection.SteamId && x.PhoneNumber == target.ContactNumber );
-		//
-		// 	if ( !simCardExists ) continue;
-		//
-		// 	connectionTarget = connection;
-		// 	break;
-		// }
+		var simCards = RoverDatabase.Instance.Select<SimCardData>();
+		Connection connectionTarget = null!;
 
-		// Log.Info( "Info: " + string.Join( ", ", creator.ContactNumber, target.ContactNumber ) );
-		//
-		// if ( connectionTarget is null )
-		// {
-		// 	Log.Error( "Failed to find connection target" );
-		// 	return;
-		// }
+		var connections = Connection.All.Where( x => x.IsActive ).ToList();
 
-		Log.Info( "Creator: " + creator );
-		Log.Info( "Target: " + target );
+		foreach ( var connection in connections )
+		{
+			var simCardExists =
+				simCards.Exists( x => x.Owner.SteamId == connection.SteamId && x.PhoneNumber == target.ContactNumber );
+			if ( !simCardExists ) continue;
+
+			connectionTarget = connection;
+			break;
+		}
+
+		if ( connectionTarget is null )
+		{
+			Log.Error( "Failed to find connection target" );
+			return;
+		}
 
 		var participants = new List<ConversationParticipant>
 		{
-			new()
-			{
-				Avatar = creator.ContactAvatar, Name = creator.ContactName, PhoneNumber = creator.ContactNumber
-			},
-			new() { Avatar = target.ContactAvatar, Name = target.ContactName, PhoneNumber = target.ContactNumber }
+			creator.ToConversationParticipant(), target.ToConversationParticipant()
 		};
 
 		var conversation = new ConversationData
@@ -60,42 +46,21 @@ public partial class ConversationService
 		RoverDatabase.Instance.Insert( conversation );
 		Log.Info( "Created conversation: " + conversation.Id );
 
-		if ( Phone.Current.LocalContact.ContactNumber == creator.ContactNumber ||
-		     Phone.Current.LocalContact.ContactNumber == target.ContactNumber )
+		var targets = new List<ulong> { Rpc.Caller.SteamId, connectionTarget.SteamId };
+
+		using ( Rpc.FilterInclude( x => targets.Contains( x.SteamId ) ) )
 		{
-			if ( Phone.Current.SimCard is null ) return;
-
-			_conversations.Add( conversation );
-			Log.Info( "Add conversation: " + conversation.Id );
-
-			var app = Phone.Current.GetApp<MessagesApp>();
-			if ( app is null ) return;
-
-			app.SwitchToChat( conversation );
+			CreateConversationRpcResponse( conversation );
 		}
-
-		// using ( Rpc.FilterInclude( x => x == Rpc.Caller ) )
-		// {
-		// 	CreateConversationRpcResponse( conversation );
-		// }
-
-		// using ( Rpc.FilterInclude( x => x == connectionTarget ) )
-		// {
-		// 	CreateConversationRpcResponse( conversation );
-		// }
 	}
 
-	[Broadcast]
+	[Broadcast( NetPermission.Anyone )]
 	private void LoadConversationsRpcRequest( PhoneNumber phoneNumber )
 	{
 		if ( !Networking.IsHost ) return;
 
-		Log.Info( "LoadConversationsRpcRequest: " + phoneNumber );
-
 		var conversations = RoverDatabase.Instance.Select<ConversationData>( x =>
 			x.Participants.Any( p => p.PhoneNumber == phoneNumber ) );
-
-		Log.Info( "Count: " + conversations.Count );
 
 		using ( Rpc.FilterInclude( x => x == Rpc.Caller ) )
 		{
@@ -108,10 +73,7 @@ public partial class ConversationService
 	{
 		if ( !Networking.IsHost ) return;
 
-		var conversation =
-			RoverDatabase.Instance.SelectOne<ConversationData>( x => x.Id == conversationId );
-
-		if ( conversation is null )
+		if ( ServerTryGetConversation( conversationId, out var conversation ) )
 		{
 			Log.Error( "Failed to find conversation with id: " + conversationId );
 			return;
@@ -137,18 +99,18 @@ public partial class ConversationService
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
-	private async void SendMessageRpcResponse( Guid conversationId, MessageData message )
+	private void SendMessageRpcResponse( Guid conversationId, MessageData message )
 	{
 		var conversation = Conversations.FirstOrDefault( x => x.Id == conversationId );
 
-		// If one of the participant didn't have opened its phone
+		// If one of the participant didn't have opened there phone
 		// The conversation will be null because conversation are loaded when the phone is opened
 		if ( conversation is null )
 		{
-			// Log.Error( "Failed to find conversation with id: " + conversationId );
-
+			// We load conversations to be sure that the conversation is loaded
+			// Maybe need to wait a bit before getting the conversation,
+			// Because the conversation might not be inserted in the database yet
 			LoadConversations();
-			await GameTask.Delay( 2000 );
 
 			conversation = Conversations.FirstOrDefault( x => x.Id == conversationId );
 			if ( conversation is null ) return;

@@ -11,9 +11,18 @@ public partial class ConversationService
 			x.Participants.Any( p => p.PhoneNumber == creator.ContactNumber ) &&
 			x.Participants.Any( p => p.PhoneNumber == target.ContactNumber ) );
 	}
-	
-	private bool ServerConversationExists( Guid conversationId )
+
+	private bool ServerTryGetConversation( Guid conversationId, out ConversationData conversation )
 	{
-		return RoverDatabase.Instance.Exists<ConversationData>( x => x.Id == conversationId );
+		var c = RoverDatabase.Instance.SelectOne<ConversationData>( x => x.Id == conversationId );
+
+		if ( c is null )
+		{
+			conversation = default!;
+			return false;
+		}
+
+		conversation = c;
+		return true;
 	}
 }
