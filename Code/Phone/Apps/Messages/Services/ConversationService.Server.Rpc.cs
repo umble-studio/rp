@@ -72,8 +72,8 @@ public partial class ConversationService
 	public void SendMessageRpcRequest( Guid conversationId, MessageData message )
 	{
 		if ( !Networking.IsHost ) return;
-
-		if ( ServerTryGetConversation( conversationId, out var conversation ) )
+		
+		if ( !ServerTryGetConversation( conversationId, out var conversation ) )
 		{
 			Log.Error( "Failed to find conversation with id: " + conversationId );
 			return;
