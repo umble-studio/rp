@@ -4,6 +4,7 @@ namespace Rp.Phone.Apps.Messages.Services;
 
 public partial class ConversationService : IMessageEvent
 {
+	private bool _conversationCreator;
 	private List<ConversationData> _conversations = new();
 
 	public IReadOnlyList<ConversationData> Conversations => _conversations;
@@ -46,10 +47,22 @@ public partial class ConversationService : IMessageEvent
 	public void CreateConversation( PhoneContact target )
 	{
 		Log.Info( "Create conversation with: " + string.Join( ", ", Phone.Current.LocalContact, target ) );
+
+		_conversationCreator = true;
 		CreateConversationRpcRequest( Phone.Current.LocalContact, target );
 	}
 
 	#region Message Events
+
+	void IMessageEvent.OnConversationCreated( ConversationData conversationData )
+	{
+		// Only switch to the conversation if we are the creator
+		if ( !_conversationCreator ) return;
+		_conversationCreator = false;
+
+		var app = Phone.Current.GetApp<MessagesApp>();
+		app.SwitchToChat( conversationData );
+	}
 
 	void IMessageEvent.OnMessageReceived( MessageData message )
 	{
