@@ -24,10 +24,14 @@
 		<div class="messages">
 			@if ( _conversation is not null )
 			{
-				foreach ( var message in Messages )
+				for ( var i = 0; i < Messages.Count; i++ )
 				{
+					var message = Messages[i];
 					var participant = _conversation.GetParticipant( message.Author );
-					<Message @key="@message" Participant="@participant" Data="@message"></Message>
+					var isLastInGroup = (i == Messages.Count - 1) || (Messages[i + 1].Author != message.Author);
+
+					<Message @key="@message" Participant="@participant" Data="@message"
+					         ShowDate="@isLastInGroup"></Message>
 				}
 			}
 		</div>

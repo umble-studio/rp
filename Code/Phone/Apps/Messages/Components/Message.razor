@@ -15,7 +15,10 @@
 			<div class="msg">
 				<span>@Data.Content</span>
 			</div>
-			<span class="date">@( Data.Date.ToString( "t" ) )</span>
+			@if ( ShowDate )
+			{
+				<span class="date">@( Data.Date.ToString( "t" ) )</span>
+			}
 		</div>
 		<div class="user">
 			@if ( Data.IsMe() )

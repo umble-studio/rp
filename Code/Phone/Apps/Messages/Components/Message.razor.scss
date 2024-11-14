@@ -1,4 +1,8 @@
 ﻿Message {
+    &.space {
+        margin-bottom: 10px;
+    }
+    
     > .container {
         width: 100%;
         align-items: center;
@@ -47,7 +51,7 @@
 
     &.me {
         > .container {
-            margin: 4px 0;
+            margin-bottom: 2px;
             justify-content: flex-end;
 
             > .content {

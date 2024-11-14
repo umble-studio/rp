@@ -8,11 +8,13 @@ public sealed partial class Message : Panel
 {
 	public ConversationParticipant Participant { get; set; } = null!;
 	public MessageData Data { get; set; } = null!;
+	public bool ShowDate { get; set; }
 
 	private string Root => new CssBuilder()
 		.AddClass( "me", Data.IsMe() )
 		.AddClass( "other", !Data.IsMe() )
+		.AddClass("space", ShowDate)
 		.Build();
 
-	protected override int BuildHash() => HashCode.Combine( Data, DateTime.Now.Second );
+	protected override int BuildHash() => HashCode.Combine( Data, ShowDate, DateTime.Now.Second );
 }
