@@ -1,20 +1,35 @@
 ﻿Call {
     width: 100%;
     height: 100%;
-    position: absolute;
     background-color: hsla(43, 74%, 49%, 1);
-    //background-color: black;
-    //opacity: 0;
-    display: none;
     border-radius: 32px;
-    transition: all .2s ease-out;
     overflow: hidden;
+    transition: all .2s ease-out;
+    //opacity: 0;
+    //display: none;
     margin-top: 920px;
-    z-index: 10;
+    position: absolute;
 
     &.show {
         margin-top: 0;
         display: flex;
+    }
+
+    > img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        backdrop-filter: blur(32px);
+    }
+
+    > .gradient {
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to top, hsla(43, 74%, 49%, 1) 0%, hsla(43, 74%, 49%, .9) 20%, hsla(43, 74%, 49%, 0) 40%, hsla(43, 74%, 49%, 0) 70%, hsla(43, 74%, 49%, .9) 90%, hsla(43, 74%, 49%, 1) 100%);
+        position: absolute;
     }
 
     > .content {
@@ -22,34 +37,31 @@
         flex-grow: 1;
         pointer-events: all;
         position: relative;
+        flex-direction: column;
+
+        > MessageBar {
+            .header {
+                width: 100%;
+                padding: 8px;
+                justify-content: space-between;
+
+                .left {
+                    width: 30%;
+                }
+
+                .right {
+                    width: 30%;
+                    justify-content: flex-end;
+                }
+            }
+        }
 
         > .contact-info {
             width: 100%;
-            position: absolute;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            top: 90px;
-        }
 
-        > img {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            position: absolute;
-            backdrop-filter: blur(32px);
-        }
-
-        > .gradient {
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(to top, hsla(43, 74%, 49%, 1) 0%, hsla(43, 74%, 49%, .9) 20%, hsla(43, 74%, 49%, 0) 40%, hsla(43, 74%, 49%, 0) 70%, hsla(43, 74%, 49%, .9) 90%, hsla(43, 74%, 49%, 1) 100%);
-            position: absolute;
-        }
-
-        > .contact-info {
             > .time {
                 color: hsla(43, 74%, 89%, 1);
                 font-size: 18px;
