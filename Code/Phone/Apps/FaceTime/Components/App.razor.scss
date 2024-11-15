@@ -20,4 +20,32 @@
         opacity: 0;
         transform: scale(.6);
     }
+
+    > MessageBar {
+        .header {
+            width: 100%;
+            padding: 8px;
+            justify-content: space-between;
+
+            .left {
+            }
+
+            .right {
+                justify-content: flex-end;
+            }
+        }
+
+        .footer {
+            padding: 0 12px;
+            margin-bottom: 4px;
+            align-items: center;
+
+            > span {
+                color: black;
+                font-size: 32px;
+                font-family: "SF Pro Display";
+                font-weight: 600;
+            }
+        }
+    }
 }

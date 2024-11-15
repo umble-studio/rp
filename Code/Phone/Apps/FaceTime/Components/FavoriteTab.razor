@@ -1,0 +1,33 @@
+﻿@namespace Rp.Phone.Apps.FaceTime.Components
+@using Sandbox.UI
+@inherits Rp.UI.NavigationPage
+
+<root>
+	@foreach ( var contact in Phone.Current.Contacts.All )
+	{
+		if ( contact.IsMe() ) continue;
+
+		<div @key="@contact" class="contact" @onclick="@( () => OnSelectContact( contact ) )">
+			<div class="avatar-container">
+				@if ( !string.IsNullOrEmpty( @contact.ContactAvatar ) )
+				{
+					<img src="@contact.ContactAvatar" alt="avatar_02">
+				}
+				else
+				{
+					<span class="initials">@contact.ContactName[..1]</span>
+				}
+			</div>
+			<div class="content-container">
+				<span class="name">@contact.ContactName</span>
+				<div class="info">
+					<iconify icon="fluent:call-16-filled" size="18" color="black"></iconify>
+					<span class="type">FaceTime</span>
+				</div>
+			</div>
+			<div class="icon-container">
+				<iconify icon="fluent:info-24-regular" size="24" color="dodgerblue"></iconify>
+			</div>
+		</div>
+	}
+</root>

@@ -1,0 +1,15 @@
+﻿@namespace Rp.Phone.Apps.FaceTime.Components
+@using Sandbox.UI
+@inherits Rp.UI.NavigationHost
+
+<root>
+	<div class="navigation-bar" style="order: 1">
+		<TabButton Text="Favorite" Icon="fluent:star-28-filled" @onclick="@GoToFavorite"></TabButton>
+		<TabButton Text="Recent" Icon="fluent:clock-16-filled" @onclick="@GoToRecent"></TabButton>
+		<TabButton Text="Contacts" Icon="fluent:people-32-filled" @onclick="@GoToContacts"></TabButton>
+		<TabButton Text="Keypad" Icon="fluent:grid-dots-28-filled" @onclick="@GoToKeypad"></TabButton>
+	</div>
+	<div class="tab" style="order: 0">
+		<div @ref="Container" class="container"></div>
+	</div>
+</root>

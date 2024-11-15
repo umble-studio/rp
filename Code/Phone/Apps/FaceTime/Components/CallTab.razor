@@ -2,15 +2,15 @@
 @using System
 @using Rp.Phone.UI.Components
 @using Rp.Phone.Apps.Messages.Components
-@inherits Sandbox.UI.Panel
+@inherits Rp.UI.NavigationPage
 
 @if ( _phoneContact is null ) return;
 
-<root class="@Root">
+<root>
 	<img src="textures/ui/phone/woman.jpg" alt="">
 	<div class="gradient"></div>
 	<div class="content">
-		<MessageBar @ref="_navigationBar" Theme="@PhoneTheme.Transparent">
+		<MessageBar Theme="@PhoneTheme.Transparent">
 			<Content>
 				<div class="header">
 					<div class="left">

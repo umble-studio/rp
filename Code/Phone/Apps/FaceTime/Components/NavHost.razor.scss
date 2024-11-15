@@ -1,0 +1,17 @@
+﻿NavHost {
+    flex-grow: 1;
+    flex-direction: column;
+    
+    > .tab {
+        flex-grow: 1;
+    }
+    
+    > .navigation-bar {
+        width: 100%;
+        height: 90px;
+        padding: 0 24px;
+        justify-content: space-between;
+        align-items: flex-start;
+        //background-color: red;
+    }
+}

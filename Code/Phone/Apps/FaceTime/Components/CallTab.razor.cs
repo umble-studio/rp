@@ -5,39 +5,21 @@ using Sandbox.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class Call : Panel
+public sealed partial class CallTab : NavigationPage, INavigationEvent
 {
-	private bool _isOpen;
-	private MessageBar _navigationBar = null!;
 	private PhoneContact? _phoneContact;
 	private string _speakerIcon = "fluent:speaker-off-28-filled";
 	private string _muteIcon = "fluent:mic-28-filled";
 	private bool _isMuted;
 	private bool _isSpeaker;
 
+	public override string PageName => "Call";
+	
 	public FaceTimeApp App { get; set; } = null!;
-
+	
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
 		if ( !firstTime ) return;
-	}
-
-	private string Root => new CssBuilder()
-		.AddClass( "show", _isOpen )
-		.Build();
-
-	public void Show( PhoneContact contact )
-	{
-		_isOpen = true;
-		_phoneContact = contact;
-		
-		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Light;
-		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
-	}
-
-	public void Hide()
-	{
-		_isOpen = false;
 	}
 
 	private void OnSpeakerClicked( bool toggle )
@@ -54,13 +36,23 @@ public sealed partial class Call : Panel
 
 	private void OnBack( PanelEvent e )
 	{
-		App.SwitchToContacts();
+		// App.SwitchToContacts();
+		Host.Navigate<FavoriteTab>();
 	}
 
 	private void OnContactInfo( PanelEvent e )
 	{
 	}
+	
+	public void OnNavigationOpen( INavigationPage page, params object[] args )
+	{
+		if ( page is not CallTab ) return;
+		_phoneContact = args[0] as PhoneContact;
+		
+		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+	}
 
 	protected override int BuildHash() =>
-		HashCode.Combine( _isOpen, _phoneContact, _isSpeaker, _isMuted );
+		HashCode.Combine( _phoneContact, _isSpeaker, _isMuted );
 }
