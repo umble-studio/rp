@@ -1,5 +1,6 @@
 ﻿using System;
 using Rp.Phone.Apps.Messages.Services;
+using Rp.Phone.UI.Components;
 using Rp.UI;
 using Sandbox.UI;
 
@@ -11,7 +12,7 @@ public sealed partial class UserConversations : Panel
 	private PhoneContact _selectedContact = null!;
 	private bool _isOpen;
 
-	public App App { get; set; } = null!;
+	public MessagesApp App { get; set; } = null!;
 
 	private List<PhoneContact> Contacts => Phone.Current.Contacts.All;
 

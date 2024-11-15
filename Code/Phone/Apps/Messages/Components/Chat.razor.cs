@@ -1,5 +1,6 @@
 ﻿using System;
 using Rp.Phone.Apps.Messages.Services;
+using Rp.Phone.UI.Components;
 using Rp.UI;
 using Rp.UI.Extensions;
 using Sandbox.UI;
