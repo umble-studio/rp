@@ -20,16 +20,16 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 		SwitchToContacts();
 	}
 
-	public void SwitchToCall()
+	public void SwitchToCall( PhoneContact contact )
 	{
-		_callTab.Show();
 		_contactsTab.Hide();
+		_callTab.Show( contact );
 	}
 
 	public void SwitchToContacts()
 	{
-		_contactsTab.Show();
 		_callTab.Hide();
+		_contactsTab.Show();
 	}
 
 	void IPhoneEvent.OnAppOpened( IPhoneApp app )

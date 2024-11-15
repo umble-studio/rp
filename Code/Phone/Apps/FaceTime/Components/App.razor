@@ -6,6 +6,6 @@
 @inherits Rp.Phone.PhoneApp
 
 <root>
-	<Call @ref="_callTab"></Call>
-	<Contacts @ref="_contactsTab"></Contacts>
+	<Call @ref="_callTab" App="@this"></Call>
+	<Contacts @ref="_contactsTab" App="@this"></Contacts>
 </root>
