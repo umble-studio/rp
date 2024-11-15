@@ -100,8 +100,9 @@ public record PhoneContact
 	/// The sim card id that owns this contact
 	/// </summary>
 	[Id, Saved]
-	public Guid Owner { get; init; }
+	public Guid Id { get; init; }
 
+	[Saved] public Guid Owner { get; init; }
 	[Saved] public string ContactName { get; init; } = null!;
 	[Saved] public string? ContactAvatar { get; init; }
 	[Saved] public PhoneNumber ContactNumber { get; init; }
