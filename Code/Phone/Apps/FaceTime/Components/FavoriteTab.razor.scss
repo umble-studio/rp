@@ -3,92 +3,125 @@
     background-color: hsla(220, 8%, 94%, 1);
     //flex-grow: 1;
     flex-direction: column;
-    transition: all .2s ease-out;
+    transition: all 0s ease-out;
     //margin-left: 0;
     display: flex;
 
     &.hidden {
         //margin-left: 400px;
+        opacity: 0;
         display: none;
     }
 
-    > .contact {
-        width: 100%;
-        height: 60px;
-        background-color: hsl(200, 8%, 100%);
-        border-bottom: 1px solid hsl(200, 8%, 92%);
-        pointer-events: all;
-        transition: all .2s ease-out;
+    > MessageBar {
+        .header {
+            width: 100%;
+            padding: 8px;
+            justify-content: space-between;
 
-        &:hover {
-            background-color: hsl(200, 8%, 96%);
+            .left {
+            }
+
+            .right {
+                justify-content: flex-end;
+            }
         }
 
-        &:active {
-            transform: scale(.98);
-        }
-
-        > .avatar-container {
-            width: 60px;
-            height: 60px;
-            margin-left: 6px;
-            justify-content: center;
+        .footer {
+            padding: 0 12px;
+            margin-bottom: 4px;
             align-items: center;
 
-            > img {
-                width: 40px;
-                height: 40px;
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center;
-                border-radius: 100%;
-            }
-
-            > .initials {
-                width: 40px;
-                height: 40px;
-                align-items: center;
-                justify-content: center;
-                background-color: hsl(200, 8%, 92%);
-                border-radius: 100%;
-                color: hsl(200, 8%, 70%);
-                font-size: 24px;
-                font-weight: 600;
+            > span {
+                color: black;
+                font-size: 32px;
                 font-family: "SF Pro Display";
+                font-weight: 600;
             }
         }
+    }
+    
+    > .contacts {
+        flex-direction: column;
+        
+        > .contact {
+            width: 100%;
+            height: 60px;
+            background-color: hsl(200, 8%, 100%);
+            border-bottom: 1px solid hsl(200, 8%, 92%);
+            pointer-events: all;
+            transition: all .2s ease-out;
 
-        > .content-container {
-            flex-grow: 1;
-            flex-direction: column;
-            justify-content: center;
-            //align-items: center;
-
-            > .name {
-                color: black;
-                font-size: 18px;
-                font-weight: 600;
-                font-family: "SF Pro Display";
+            &:hover {
+                background-color: hsl(200, 8%, 96%);
             }
 
-            > .info {
-                //background-color: red;
+            &:active {
+                transform: scale(.98);
+            }
+
+            > .avatar-container {
+                width: 60px;
+                height: 60px;
+                margin-left: 6px;
+                justify-content: center;
                 align-items: center;
 
-                > .type {
-                    color: black;
-                    font-size: 14px;
-                    font-weight: 500;
+                > img {
+                    width: 40px;
+                    height: 40px;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    border-radius: 100%;
+                }
+
+                > .initials {
+                    width: 40px;
+                    height: 40px;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: hsl(200, 8%, 92%);
+                    border-radius: 100%;
+                    color: hsl(200, 8%, 70%);
+                    font-size: 24px;
+                    font-weight: 600;
                     font-family: "SF Pro Display";
                 }
             }
-        }
 
-        > .icon-container {
-            width: 60px;
-            height: 60px;
-            justify-content: center;
-            align-items: center;
-        }
+            > .content-container {
+                flex-grow: 1;
+                flex-direction: column;
+                justify-content: center;
+                //align-items: center;
+
+                > .name {
+                    color: black;
+                    font-size: 18px;
+                    font-weight: 600;
+                    font-family: "SF Pro Display";
+                }
+
+                > .info {
+                    //background-color: red;
+                    align-items: center;
+
+                    > .type {
+                        color: black;
+                        font-size: 14px;
+                        font-weight: 500;
+                        font-family: "SF Pro Display";
+                    }
+                }
+            }
+
+            > .icon-container {
+                width: 60px;
+                height: 60px;
+                justify-content: center;
+                align-items: center;
+            }
+        }   
     }
 }

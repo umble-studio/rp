@@ -17,6 +17,10 @@
     &:active {
         transform: scale(.96);
     }
+    
+    &.toggled {
+        background-color: hsla(220, 8%, 94%, 1);
+    }
 
     > span {
         color: dodgerblue;

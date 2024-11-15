@@ -8,10 +8,10 @@ public abstract class NavigationHost : Panel
 {
 	private readonly List<Type> _pages = new();
 	private readonly List<NavigationPage> _instances = new();
-	private NavigationPage? _currentPage;
 
 	protected abstract Panel Container { get; set; }
-	protected Type? DefaultPage { get; set; } = null!;
+	protected Type? DefaultPage { get; init; }
+	protected NavigationPage? CurrentPage { get; private set; }
 
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
@@ -47,19 +47,19 @@ public abstract class NavigationHost : Panel
 		var page = GetPage( type );
 		if ( page is null ) return;
 
-		if ( _currentPage is not null )
+		if ( CurrentPage is not null )
 		{
-			Scene.RunEvent<INavigationEvent>( x => x.OnNavigationClose( _currentPage ), true );
-			
-			_currentPage.Style.ZIndex = 0;
-			_currentPage.Hide();
+			Scene.RunEvent<INavigationEvent>( x => x.OnNavigationClose( CurrentPage ), true );
+
+			CurrentPage.Style.ZIndex = 0;
+			CurrentPage.Hide();
 		}
 
-		_currentPage = page;
-		_currentPage.Show();
-		_currentPage.Style.ZIndex = 10;
+		CurrentPage = page;
+		CurrentPage.Show();
+		CurrentPage.Style.ZIndex = 10;
 
-		Scene.RunEvent<INavigationEvent>( x => x.OnNavigationOpen( _currentPage, args ), true );
+		Scene.RunEvent<INavigationEvent>( x => x.OnNavigationOpen( CurrentPage, args ), true );
 	}
 
 	public void Navigate<T>( params object[] args ) where T : INavigationPage, new()
@@ -85,5 +85,5 @@ public abstract class NavigationHost : Panel
 		return IsRegistered( type );
 	}
 
-	protected override int BuildHash() => HashCode.Combine( _currentPage, _pages.Count, _instances.Count, Container );
+	protected override int BuildHash() => HashCode.Combine( CurrentPage, _pages.Count, _instances.Count, Container );
 }

@@ -1,0 +1,47 @@
+﻿ContactsTab {
+    width: 100%;
+    background-color: hsla(220, 8%, 94%, 1);
+    //flex-grow: 1;
+    flex-direction: column;
+    transition: all 0s ease-out;
+    //margin-left: 0;
+    display: flex;
+
+    &.hidden {
+        //margin-left: 400px;
+        opacity: 0;
+        display: none;
+    }
+
+    > MessageBar {
+        .header {
+            width: 100%;
+            padding: 8px;
+            justify-content: space-between;
+
+            .left {
+            }
+
+            .right {
+                justify-content: flex-end;
+            }
+        }
+
+        .footer {
+            padding: 0 12px;
+            margin-bottom: 4px;
+            align-items: center;
+
+            > span {
+                color: black;
+                font-size: 32px;
+                font-family: "SF Pro Display";
+                font-weight: 600;
+            }
+        }
+    }
+
+    > .content {
+        flex-direction: column;
+    }
+}

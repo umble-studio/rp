@@ -4,10 +4,10 @@
 
 <root>
 	<div class="navigation-bar" style="order: 1">
-		<TabButton Text="Favorite" Icon="fluent:star-28-filled" @onclick="@GoToFavorite"></TabButton>
-		<TabButton Text="Recent" Icon="fluent:clock-16-filled" @onclick="@GoToRecent"></TabButton>
-		<TabButton Text="Contacts" Icon="fluent:people-32-filled" @onclick="@GoToContacts"></TabButton>
-		<TabButton Text="Keypad" Icon="fluent:grid-dots-28-filled" @onclick="@GoToKeypad"></TabButton>
+		<TabButton Text="Favorite" Icon="fluent:star-28-filled" Toggled:Value="@IsFavoriteTab" @onclick="@GoToFavorite"></TabButton>
+		<TabButton Text="Recent" Icon="fluent:clock-16-filled" Toggled:Value="@IsRecentTab" @onclick="@GoToRecent"></TabButton>
+		<TabButton Text="Contacts" Icon="fluent:people-32-filled" Toggled:Value="@IsContactsTab" @onclick="@GoToContacts"></TabButton>
+		<TabButton Text="Keypad" Icon="fluent:grid-dots-28-filled" Toggled:Value="@IsKeypadTab" @onclick="@GoToKeypad"></TabButton>
 	</div>
 	<div class="tab" style="order: 0">
 		<div @ref="Container" class="container"></div>

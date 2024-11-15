@@ -12,6 +12,7 @@ public sealed partial class MessageBar : Panel
 	public new Action? OnBack { get; set; }
 
 	private string Root => new CssBuilder()
+		.AddClass( "light", Theme is PhoneTheme.Light )
 		.AddClass( "transparent", Theme is PhoneTheme.Transparent )
 		.Build();
 

@@ -1,0 +1,25 @@
+﻿@namespace Rp.Phone.Apps.FaceTime.Components
+@using Rp.Phone.UI.Components
+@using Rp.Phone.Apps.Messages.Components
+@inherits Rp.UI.NavigationPage
+
+<root>
+	<MessageBar @ref="_navigationBar" Theme="@PhoneTheme.Light">
+		<Content>
+			<div class="header">
+				<div class="left">
+					<Button Icon="fluent:add-16-filled"></Button>
+				</div>
+				<div class="right">
+					<Button Text="Edit"></Button>
+				</div>
+			</div>
+			<div class="footer">
+				<span>@PageName</span>
+			</div>
+		</Content>
+	</MessageBar>
+	<div class="content">
+		
+	</div>
+</root>

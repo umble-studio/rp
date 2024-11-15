@@ -4,6 +4,10 @@
     border-bottom: solid 2px hsl(200, 8%, 96%);
     padding-top: 56px;
 
+    &.light {
+        background-color: white;
+    }
+    
     &.transparent {
         border-bottom: transparent;
     }
