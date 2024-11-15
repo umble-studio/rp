@@ -36,7 +36,7 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 	{
 		if ( app != this ) return;
 
-		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
 		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
