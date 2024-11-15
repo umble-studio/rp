@@ -8,17 +8,16 @@
     transition: all .2s ease-out;
 
     &:hover {
-        background-color: hsla(220, 8%, 96%, 1);
-        
         &.light {
             background-color: hsla(220, 8%, 94%, 1);
         }
-        
+
         &.transparent {
+            background-color: hsla(220, 8%, 94%, .2);
             backdrop-filter: blur(8px);
         }
     }
-    
+
     &:active {
         transform: scale(.96);
     }
