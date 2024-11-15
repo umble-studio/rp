@@ -2,7 +2,7 @@
 using Sandbox.Razor;
 using Sandbox.UI;
 
-namespace Rp.Phone.Apps.Messages.Components;
+namespace Rp.Phone.UI.Components;
 
 public sealed partial class MessageBar : Panel
 {

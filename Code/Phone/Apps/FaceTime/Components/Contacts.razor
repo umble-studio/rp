@@ -1,0 +1,44 @@
+﻿@namespace Rp.Phone.Apps.FaceTime.Components
+@using System
+@using Rp.Phone.UI.Components
+@using Rp.Phone.Apps.Messages.Components
+@inherits Sandbox.UI.Panel
+
+<root class="@Root">
+	<MessageBar @ref="_navigationBar">
+		<Content>
+			<div class="header">
+				<div class="left">
+					<Button Icon="fluent:add-16-filled"></Button>
+				</div>
+				<div class="right">
+					<Button Text="Edit"></Button>
+				</div>
+			</div>
+			<div class="footer">
+				<span>Favorites</span>
+			</div>
+		</Content>
+	</MessageBar>
+	<div class="contact-container">
+
+	</div>
+	<div class="navigation-bar">
+		<div class="nav-button">
+			<iconify icon="fluent:star-28-filled" color="dodgerblue" size="30"></iconify>
+			<span>Favorite</span>
+		</div>
+		<div class="nav-button">
+			<iconify icon="fluent:clock-16-filled" color="dodgerblue" size="30"></iconify>
+			<span>Recent</span>
+		</div>
+		<div class="nav-button">
+			<iconify icon="fluent:people-32-filled" color="dodgerblue" size="30"></iconify>
+			<span>Contacts</span>
+		</div>
+		<div class="nav-button">
+			<iconify icon="fluent:grid-dots-28-filled" color="dodgerblue" size="30"></iconify>
+			<span>Keypad</span>
+		</div>
+	</div>
+</root>
