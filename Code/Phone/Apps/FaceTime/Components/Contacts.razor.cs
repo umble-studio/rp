@@ -24,6 +24,9 @@ public sealed partial class Contacts : Panel
 	public void Show()
 	{
 		_isOpen = true;
+		
+		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
+		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	public void Hide()
