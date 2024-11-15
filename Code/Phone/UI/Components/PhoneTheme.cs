@@ -2,6 +2,7 @@
 
 public enum PhoneTheme
 {
+	Transparent,
 	Light,
 	Dark
 }
