@@ -7,6 +7,9 @@ namespace Rp.Phone.Apps.FaceTime.Components;
 public sealed partial class Call : Panel
 {
 	private bool _isOpen;
+	private PhoneContact? _phoneContact;
+	
+	public FaceTimeApp App { get; set; } = null!;
 	
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
@@ -16,16 +19,17 @@ public sealed partial class Call : Panel
 	private string Root => new CssBuilder()
 		.AddClass( "show", _isOpen )
 		.Build();
-	
-	public void Show()
+
+	public void Show( PhoneContact contact )
 	{
-		
-	}
-	
-	public void Hide()
-	{
-		
+		_isOpen = true;
+		_phoneContact = contact;
 	}
 
-	protected override int BuildHash() => HashCode.Combine( _isOpen ); 
+	public void Hide()
+	{
+		_isOpen = false;
+	}
+
+	protected override int BuildHash() => HashCode.Combine( _isOpen, _phoneContact );
 }

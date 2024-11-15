@@ -5,13 +5,15 @@
 @using Rp.Phone.Apps.Messages.Components
 @inherits Panel
 
+@if ( _phoneContact is null ) return;
+
 <root class="@Root">
 	<div class="content">
 		<img src="textures/ui/phone/woman.jpg" alt="">
 		<div class="gradient"></div>
 		<div class="contact-info">
-			<span class="time">02:47</span>
-			<span class="name">Francesca</span>
+			<span class="time">00:00</span>
+			<span class="name">@_phoneContact.ContactName</span>
 		</div>
 		<div class="menu">
 			<div class="first-column">

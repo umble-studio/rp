@@ -6,26 +6,17 @@
     //background-color: black;
     //opacity: 0;
     display: none;
-    //transform: scale(1);
     border-radius: 32px;
     transition: all .2s ease-out;
     overflow: hidden;
-    
-    //&:intro {
-    //    opacity: 0;
-    //    transform: scale(.6);
-    //}
-    //
-    //&:outro {
-    //    opacity: 0;
-    //    transform: scale(.6);
-    //}
+    margin-top: 920px;
+    z-index: 10;
 
     &.show {
-        //opacity: 1;
+        margin-top: 0;
         display: flex;
     }
-    
+
     > .content {
         width: 100%;
         flex-grow: 1;
@@ -34,14 +25,13 @@
 
         > .contact-info {
             width: 100%;
-            //height: 260px;
             position: absolute;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            top: 100px;
+            top: 90px;
         }
-        
+
         > img {
             width: 100%;
             height: 100%;
@@ -72,7 +62,6 @@
                 font-size: 58px;
                 font-weight: 600;
                 font-family: "SF Pro Display";
-                line-height: 40px;
             }
         }
 
