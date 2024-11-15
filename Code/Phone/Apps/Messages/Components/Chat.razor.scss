@@ -11,17 +11,8 @@
     margin-left: 400px;
     position: absolute;
 
-    &:intro {
-        opacity: 0;
-    }
-
-    &:outro {
-        opacity: 0;
-    }
-
     &.show {
         margin-left: 0;
-        //opacity: 1;
         display: flex;
     }
 

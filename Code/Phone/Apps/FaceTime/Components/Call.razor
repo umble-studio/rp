@@ -1,25 +1,38 @@
 ﻿@namespace Rp.Phone.Apps.FaceTime.Components
 @using System
-@using Sandbox.UI
 @using Rp.Phone.UI.Components
 @using Rp.Phone.Apps.Messages.Components
-@inherits Panel
+@inherits Sandbox.UI.Panel
 
 @if ( _phoneContact is null ) return;
 
 <root class="@Root">
+	<img src="textures/ui/phone/woman.jpg" alt="">
+	<div class="gradient"></div>
 	<div class="content">
-		<img src="textures/ui/phone/woman.jpg" alt="">
-		<div class="gradient"></div>
+		<MessageBar @ref="_navigationBar" Theme="@PhoneTheme.Transparent">
+			<Content>
+				<div class="header">
+					<div class="left">
+						<Button Icon="fluent:chevron-left-24-filled" IconColor="white" Theme="@PhoneTheme.Transparent" @onclick="@OnBack"></Button>
+					</div>
+					<div class="right">
+						<Button Icon="fluent:info-24-regular" IconColor="white" Theme="@PhoneTheme.Transparent" @onclick="@OnContactInfo"></Button>
+					</div>
+				</div>
+			</Content>
+		</MessageBar>
 		<div class="contact-info">
 			<span class="time">00:00</span>
 			<span class="name">@_phoneContact.ContactName</span>
 		</div>
 		<div class="menu">
 			<div class="first-column">
-				<CircleButton Icon:Value="@_speakerIcon" Text="Speaker" CanToggled="@true" ToggleChanged="@OnSpeakerClicked"></CircleButton>
+				<CircleButton Icon:Value="@_speakerIcon" Text="Speaker" CanToggled="@true"
+				              ToggleChanged="@OnSpeakerClicked"></CircleButton>
 				<CircleButton Icon="fluent:video-28-filled" Text="FaceTime"></CircleButton>
-				<CircleButton Icon:Value="@_muteIcon" Text="Mute" CanToggled="@true" ToggleChanged="@OnMuteClicked"></CircleButton>
+				<CircleButton Icon:Value="@_muteIcon" Text="Mute" CanToggled="@true"
+				              ToggleChanged="@OnMuteClicked"></CircleButton>
 			</div>
 			<div class="second-column">
 				<CircleButton Icon="fluent:people-add-28-filled" Text="Add"></CircleButton>

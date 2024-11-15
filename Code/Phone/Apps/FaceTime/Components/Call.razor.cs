@@ -1,4 +1,5 @@
 ﻿using System;
+using Rp.Phone.UI.Components;
 using Rp.UI;
 using Sandbox.UI;
 
@@ -7,6 +8,7 @@ namespace Rp.Phone.Apps.FaceTime.Components;
 public sealed partial class Call : Panel
 {
 	private bool _isOpen;
+	private MessageBar _navigationBar = null!;
 	private PhoneContact? _phoneContact;
 	private string _speakerIcon = "fluent:speaker-off-28-filled";
 	private string _muteIcon = "fluent:mic-28-filled";
@@ -28,6 +30,9 @@ public sealed partial class Call : Panel
 	{
 		_isOpen = true;
 		_phoneContact = contact;
+		
+		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	public void Hide()
@@ -45,6 +50,15 @@ public sealed partial class Call : Panel
 	{
 		_isMuted = toggle;
 		_muteIcon = toggle ? "fluent:mic-off-28-filled" : "fluent:mic-28-filled";
+	}
+
+	private void OnBack( PanelEvent e )
+	{
+		App.SwitchToContacts();
+	}
+
+	private void OnContactInfo( PanelEvent e )
+	{
 	}
 
 	protected override int BuildHash() =>
