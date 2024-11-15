@@ -1,10 +1,10 @@
 ﻿@namespace Rp.Phone.UI.Components
 @inherits Sandbox.UI.Panel
 
-<root>
+<root class="@Root">
 	@if ( !string.IsNullOrEmpty( Icon ) )
 	{
-		<iconify Icon="@Icon" Color="dodgerblue" Size="@(24)"></iconify>
+		<iconify Icon="@Icon" Color="@IconColor" Size="@(24)"></iconify>
 	}
 	@if ( !string.IsNullOrEmpty( Text ) )
 	{
