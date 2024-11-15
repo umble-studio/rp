@@ -4,10 +4,16 @@
     align-items: center;
     gap: 4px;
     pointer-events: all;
-    
+
     &:hover {
         > .content {
             background-color: hsla(0, 0%, 0%, .6);
+        }
+    }
+
+    &:active {
+        > .content {
+            transform: scale(.96);
         }
     }
 
