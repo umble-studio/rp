@@ -17,9 +17,9 @@
 		</div>
 		<div class="menu">
 			<div class="first-column">
-				<CircleButton Icon="fluent:speaker-28-filled" Text="Speaker"></CircleButton>
+				<CircleButton Icon:Value="@_speakerIcon" Text="Speaker" CanToggled="@true" ToggleChanged="@OnSpeakerClicked"></CircleButton>
 				<CircleButton Icon="fluent:video-28-filled" Text="FaceTime"></CircleButton>
-				<CircleButton Icon="fluent:mic-off-28-filled" Text="Mute"></CircleButton>
+				<CircleButton Icon:Value="@_muteIcon" Text="Mute" CanToggled="@true" ToggleChanged="@OnMuteClicked"></CircleButton>
 			</div>
 			<div class="second-column">
 				<CircleButton Icon="fluent:people-add-28-filled" Text="Add"></CircleButton>
