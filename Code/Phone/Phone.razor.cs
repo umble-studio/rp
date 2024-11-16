@@ -1,17 +1,16 @@
 ﻿using System;
 using Rp.Core.Managers;
 using Rp.Phone.Apps;
-using Rp.Phone.Apps.Messages.Services;
 using Rp.Phone.Extensions;
 using Rp.Phone.UI.Components;
+using Rp.UI;
 using Sandbox.UI;
-using Sandbox.Utility;
 using ControlCenter = Rp.Phone.UI.Components.ControlCenter;
 using SteamId = Rp.Core.SteamId;
 
 namespace Rp.Phone;
 
-public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetworkListener
+public sealed partial class Phone : CascadingPanelComponent, IPhoneEvent, Component.INetworkListener
 {
 	private Panel _phoneContent = null!;
 	private Panel _appContainer = null!;
