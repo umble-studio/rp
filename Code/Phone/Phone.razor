@@ -5,16 +5,20 @@
 
 <root>
 	<div class="@Root">
-		<div @ref="_phoneContent" class="phone-content">
-			<StatusBar @ref="_statusBar"></StatusBar>
-			<div @ref="_appContainer" class="app">
+		<div @ref=" _phoneContent" class="phone-content">
+			<CascadingValue Name="Phone" Value="@this">
+				<ChildContent>
+					<StatusBar @ref=" _statusBar"></StatusBar>
+					<div @ref=" _appContainer" class="app">
 
-			</div>
-			<Keyboard @ref="_keyboard"></Keyboard>
-			<ControlCenter @ref="_controlCenter"></ControlCenter>
-			<div class="phone-main-menu" @onclick="@OnMainMenu">
-				<div class="bar"></div>
-			</div>
+					</div>
+					<Keyboard @ref=" _keyboard"></Keyboard>
+					<ControlCenter @ref=" _controlCenter"></ControlCenter>
+					<div class="phone-main-menu" @onclick="@OnMainMenu">
+						<div class="bar"></div>
+					</div>
+				</ChildContent>
+			</CascadingValue>
 		</div>
 		<div class="phone-hull">
 

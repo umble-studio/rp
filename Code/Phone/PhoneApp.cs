@@ -1,10 +1,11 @@
 ﻿using System;
+using Rp.UI;
 using Rp.UI.Extensions;
 using Sandbox.UI;
 
 namespace Rp.Phone;
 
-public abstract class PhoneApp : Panel, IPhoneApp
+public abstract class PhoneApp : CascadingPanel, IPhoneApp
 {
 	private bool _isOpen;
 	private bool _isFocused;

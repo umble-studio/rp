@@ -14,7 +14,7 @@ public sealed partial class UserConversations : Panel
 
 	public MessagesApp App { get; set; } = null!;
 
-	private List<PhoneContact> Contacts => Phone.Current.Contacts.All;
+	private List<PhoneContact> Contacts => App.Phone.Contacts.All;
 
 	private string Root => new CssBuilder()
 		.AddClass( "show", _isOpen )
@@ -26,10 +26,10 @@ public sealed partial class UserConversations : Panel
 		{
 			_messageBar.OnBack += () =>
 			{
-				var entry = Phone.Current.History.GetPrevious();
+				var entry = App.Phone.History.GetPrevious();
 				if ( entry is null ) return;
 
-				Phone.Current.SwitchToApp( entry );
+				App.Phone.SwitchToApp( entry );
 			};
 		}
 	}
@@ -49,7 +49,7 @@ public sealed partial class UserConversations : Panel
 		var entry = Phone.Current.History.GetPrevious();
 		if ( entry is null ) return;
 
-		Phone.Current.SwitchToApp( entry );
+		App.Phone.SwitchToApp( entry );
 	}
 
 	private void CreateConversation()

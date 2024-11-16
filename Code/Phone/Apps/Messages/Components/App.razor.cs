@@ -1,6 +1,7 @@
 ﻿using System;
 using Rp.Phone.Apps.Messages.Services;
 using Rp.Phone.UI.Components;
+using Rp.UI;
 
 namespace Rp.Phone.Apps.Messages.Components;
 
@@ -16,13 +17,15 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 
 	public ConversationService ConversationService { get; set; } = null!;
 
+	[CascadingProperty( "Phone" )] public Phone Phone { get; set; } = null!;
+
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
 		if ( !firstTime ) return;
-		
+
 		// Keep conversation updated when opening the app
 		ConversationService.Instance.LoadConversations();
-		
+
 		_conversationsTab.Show();
 	}
 
@@ -42,16 +45,16 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 	{
 		if ( app != this ) return;
 
-		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
-		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
+		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	void IPhoneEvent.OnAppClosed( IPhoneApp app )
 	{
 		if ( app != this ) return;
 
-		Phone.Current.Keyboard.Hide();
+		Phone.Keyboard.Hide();
 	}
 
-	protected override int BuildHash() => HashCode.Combine( Phone.Current.Keyboard.IsOpen );
+	protected override int BuildHash() => HashCode.Combine( Phone, Phone.Keyboard.IsOpen );
 }

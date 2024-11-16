@@ -27,7 +27,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 
 	private string Footer => new CssBuilder()
 		.AddClass( "footer" )
-		.AddClass( "keyboard-open", Phone.Current.Keyboard.IsOpen )
+		.AddClass( "keyboard-open", App.Phone.Keyboard.IsOpen )
 		.Build();
 
 	protected override void OnAfterTreeRender( bool firstTime )
@@ -50,7 +50,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 				{
 					// Name = "Me",
 					// Avatar = "textures/ui/phone/avatars/avatar_02.jpg",
-					PhoneNumber = Phone.Current.SimCard!.PhoneNumber
+					PhoneNumber = App.Phone.SimCard!.PhoneNumber
 				},
 				Content = Value,
 				Date = DateTime.Now
@@ -82,7 +82,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 		_content.TryScrollToBottom();
 
 		// TODO - Remove notification when we are seeing the message associated with the notification
-		Phone.Current.Notification.ClearPendingNotifications<MessagesApp>();
+		App.Phone.Notification.ClearPendingNotifications<MessagesApp>();
 	}
 
 	public void Hide()
@@ -102,15 +102,15 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 
 	private void OnInputFocused()
 	{
-		Phone.Current.Keyboard.Show( this );
+		App.Phone.Keyboard.Show( this );
 	}
 
 	private void OnInputBlurred()
 	{
-		Phone.Current.Keyboard.Hide();
+		App.Phone.Keyboard.Hide();
 	}
 
 	protected override int BuildHash() =>
 		HashCode.Combine( _isOpen, _conversation?.Participants.Count, _conversation?.Messages.Count,
-			Phone.Current.Keyboard.IsOpen );
+			App.Phone.Keyboard.IsOpen );
 }

@@ -13,7 +13,7 @@ public sealed partial class AppIcon : Panel
 
 	protected override void OnClick( MousePanelEvent e )
 	{
-		Rp.Phone.Phone.Current.SwitchToApp( App );
+		Phone.Current.SwitchToApp( App );
 	}
 
 	protected override int BuildHash() => HashCode.Combine( App, Notifications, ShowTitle );
