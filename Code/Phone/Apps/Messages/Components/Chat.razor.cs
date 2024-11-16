@@ -29,7 +29,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 		.AddClass( "footer" )
 		.AddClass( "keyboard-open", Phone.Current.Keyboard.IsOpen )
 		.Build();
-	
+
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
 		if ( !firstTime ) return;
@@ -59,15 +59,19 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 		Value = string.Empty;
 		_content.TryScrollToBottom();
 
+		Sound.Play( "sounds/phone/send_message.sound" );
 		Scene.RunEvent<IMessageEvent>( x => x.OnMessageSent( message ), true );
-		
+
 		ConversationService.Instance.SendMessageRpcRequest( _conversation!.Id,
 			message );
 	}
 
 	void IMessageEvent.OnMessageReceived( MessageData messageData )
 	{
-		Log.Info( "Scrolling to bottom" );
+		// Don't play sound if the message was sent by the sender of the message
+		if ( messageData.Author.PhoneNumber != Phone.Current.SimCard!.PhoneNumber )
+			Sound.Play( "sounds/phone/receive_message.sound" );
+
 		_content.TryScrollToBottom();
 	}
 
