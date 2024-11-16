@@ -37,6 +37,11 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 		else Sound.Play( "sounds/phone/call_unmute.sound" );
 	}
 
+	private void OnKeypad()
+	{
+		Host.Navigate<KeypadTab>();
+	}
+	
 	private void OnBack( PanelEvent e )
 	{
 		// App.SwitchToContacts();
