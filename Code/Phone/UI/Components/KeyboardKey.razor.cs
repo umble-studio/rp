@@ -10,8 +10,8 @@ public sealed partial class KeyboardKey : Panel, IKeyboardEvent
 	public string Key { get; set; } = string.Empty;
 	public string Icon { get; set; } = string.Empty;
 	public int IconSize { get; set; } = 30;
-	public bool Expand { get; set; }
-	
+	public bool Expand { get; set; } = false;
+
 	private bool Pressed { get; set; }
 
 	private string Root => new CssBuilder()
@@ -26,8 +26,10 @@ public sealed partial class KeyboardKey : Panel, IKeyboardEvent
 
 	async void IKeyboardEvent.OnKeyboardKeyPressed( string key )
 	{
+		Sound.Play( "sounds/phone/keyboard_touch.sound" );
+		
 		if ( Key != key ) return;
-
+		
 		Pressed = true;
 		await GameTask.Delay( 100 );
 		Pressed = false;
