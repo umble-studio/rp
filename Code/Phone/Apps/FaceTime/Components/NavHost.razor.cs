@@ -6,7 +6,7 @@ namespace Rp.Phone.Apps.FaceTime.Components;
 
 public sealed partial class NavHost : NavigationHost
 {
-	protected override Panel Container { get; set; } = null!;
+	protected override CascadingPanel Container { get; set; } = null!;
 	
 	private bool IsFavoriteTab => CurrentPage is FavoriteTab;
 	private bool IsRecentTab => CurrentPage is RecentTab;
