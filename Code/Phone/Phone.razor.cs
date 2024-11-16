@@ -33,13 +33,13 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 		Current = this;
 	}
 
-	public void OnActive( Connection channel )
-	{
-		// We need to register all services when we join the server
-		// Without this, phone services are not synced on other clients, so the service doesn't exist
-		if ( Connection.Host == channel )
-			RegisterAllServices();
-	}
+	// public void OnActive( Connection channel )
+	// {
+	// 	// We need to register all services when we join the server
+	// 	// Without this, phone services are not synced on other clients, so the service doesn't exist
+	// 	if ( Connection.Host == channel )
+	// 		RegisterAllServices();
+	// }
 
 	protected override async void OnUpdate()
 	{

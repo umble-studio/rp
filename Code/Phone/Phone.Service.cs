@@ -1,6 +1,4 @@
-﻿using SteamId = Rp.Core.SteamId;
-
-namespace Rp.Phone;
+﻿namespace Rp.Phone;
 
 public partial class Phone
 {
