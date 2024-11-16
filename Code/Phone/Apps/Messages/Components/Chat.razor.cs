@@ -69,7 +69,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 	void IMessageEvent.OnMessageReceived( MessageData messageData )
 	{
 		// Don't play sound if the message was sent by the sender of the message
-		if ( messageData.Author.PhoneNumber != Phone.Current.SimCard!.PhoneNumber )
+		if ( _isOpen && messageData.Author.PhoneNumber != Phone.Current.SimCard!.PhoneNumber )
 			Sound.Play( "sounds/phone/receive_message.sound" );
 
 		_content.TryScrollToBottom();
