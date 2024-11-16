@@ -3,9 +3,10 @@
     background-color: hsla(220, 8%, 94%, 1);
     //flex-grow: 1;
     flex-direction: column;
-    transition: all 0s ease-out;
     //margin-left: 0;
+    opacity: 1;
     display: flex;
+    transition: all .2s ease-out;
 
     &.hidden {
         //margin-left: 400px;

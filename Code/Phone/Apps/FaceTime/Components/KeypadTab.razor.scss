@@ -10,6 +10,10 @@
     &.hidden {
         opacity: 0;
         display: none;
+
+        > .keypad {
+            transform: scale(.9);
+        }
     }
 
     > .keypad {
@@ -20,6 +24,7 @@
         flex-direction: column;
         gap: 16px;
         padding: 24px 0;
+        transition: all .2s ease-out;
 
         > .header {
             height: 70px;
