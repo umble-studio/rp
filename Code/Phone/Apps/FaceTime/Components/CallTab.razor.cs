@@ -14,9 +14,9 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 	private bool _isSpeaker;
 
 	public override string PageName => "Call";
-	
+
 	public FaceTimeApp App { get; set; } = null!;
-	
+
 	protected override void OnAfterTreeRender( bool firstTime )
 	{
 		if ( !firstTime ) return;
@@ -32,6 +32,9 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 	{
 		_isMuted = toggle;
 		_muteIcon = toggle ? "fluent:mic-off-28-filled" : "fluent:mic-28-filled";
+
+		if ( _isMuted ) Sound.Play( "sounds/phone/call_mute.sound" );
+		else Sound.Play( "sounds/phone/call_unmute.sound" );
 	}
 
 	private void OnBack( PanelEvent e )
@@ -43,12 +46,12 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 	private void OnContactInfo( PanelEvent e )
 	{
 	}
-	
+
 	public void OnNavigationOpen( INavigationPage page, params object[] args )
 	{
 		if ( page is not CallTab ) return;
 		_phoneContact = args[0] as PhoneContact;
-		
+
 		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Light;
 		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
