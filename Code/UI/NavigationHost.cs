@@ -4,12 +4,12 @@ using Sandbox.UI;
 
 namespace Rp.UI;
 
-public abstract class NavigationHost : Panel
+public abstract class NavigationHost : CascadingPanel
 {
 	private readonly List<Type> _pages = new();
 	private readonly List<NavigationPage> _instances = new();
 
-	protected abstract Panel Container { get; set; }
+	protected abstract CascadingPanel Container { get; set; }
 	protected Type? DefaultPage { get; init; }
 	protected NavigationPage? CurrentPage { get; private set; }
 

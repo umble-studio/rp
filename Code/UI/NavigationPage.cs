@@ -3,7 +3,7 @@ using Sandbox.UI;
 
 namespace Rp.UI;
 
-public abstract class NavigationPage : Panel, INavigationPage
+public abstract class NavigationPage : CascadingPanel, INavigationPage
 {
 	private bool _isOpen;
 
