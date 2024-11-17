@@ -5,11 +5,18 @@ namespace Rp.Phone;
 
 public partial class Phone
 {
-	public NotificationCenter Notification { get; private set; } = new();
+	public NotificationCenter Notification { get; }
 
 	public sealed class NotificationCenter
 	{
+		private readonly Phone _phone;
+
 		public List<AppNotification> PendingNotifications { get; } = new();
+
+		public NotificationCenter( Phone phone )
+		{
+			_phone = phone;
+		}
 
 		public void AddPendingNotification( AppNotification notification )
 		{
@@ -20,23 +27,23 @@ public partial class Phone
 		{
 			PendingNotifications.Remove( notification );
 		}
-		
+
 		public void ClearPendingNotifications<T>() where T : IPhoneApp
 		{
 			PendingNotifications.RemoveAll( x => x.App is T );
 		}
 
 		public void ClearPendingNotifications() => PendingNotifications.Clear();
-		
+
 		public void CreateNotification( AppNotification notification )
 		{
 			AddPendingNotification( notification );
-			Current.Scene.RunEvent<IAppNotificationEvent>( x => x.OnNotify( notification ), true );
+			Game.ActiveScene.RunEvent<IAppNotificationEvent>( x => x.OnNotify( notification ), true );
 		}
 
 		public void CreateNotification<T>( AppNotification notification ) where T : IAppNotifiable, IPhoneApp
 		{
-			var app = Current.GetApp<T>();
+			var app = _phone.GetApp<T>();
 			if ( app is null ) return;
 
 			notification.App = app;
