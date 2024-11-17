@@ -57,8 +57,8 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 		if ( page is not CallTab ) return;
 		_phoneContact = args[0] as PhoneContact;
 
-		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Light;
-		Phone.Current.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+		App.Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		App.Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	protected override int BuildHash() =>
