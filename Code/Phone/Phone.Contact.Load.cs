@@ -9,7 +9,7 @@ public partial class Phone
 	{
 		Contacts.Clear();
 		
-		if ( Current.SimCard is null )
+		if ( SimCard is null )
 		{
 			Log.Info( "Unable to load contacts when sim card is null" );
 			return;
@@ -17,25 +17,25 @@ public partial class Phone
 
 		var localContact = new PhoneContact
 		{
-			Owner = Current.SimCard.Id,
+			Owner = SimCard.Id,
 			ContactAvatar = null,
 			ContactName = "You",
-			ContactNumber = Current.SimCard.PhoneNumber
+			ContactNumber = SimCard.PhoneNumber
 		};
 
 		Contacts.AddContact( localContact );
 
-		Log.Warning( "Load contacts.. " + Current.SimCard.Id );
-		LoadContactsClientRpc( Current.SimCard.Id.ToString() );
+		Log.Warning( "Load contacts.. " + SimCard.Id );
+		LoadContactsClientRpc( SimCard.Id.ToString() );
 	}
 
 	#region Commands
 
 	[ConCmd( "phone_reload_contacts" )]
-	private static void ReloadContactsCmd()
+	private void ReloadContactsCmd()
 	{
 		Log.Info( "Reloading contacts.." );
-		Current.LoadContacts();
+		LoadContacts();
 	}
 
 	#endregion

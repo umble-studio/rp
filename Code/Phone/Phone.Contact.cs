@@ -6,7 +6,7 @@ namespace Rp.Phone;
 
 public partial class Phone
 {
-	public PhoneContact LocalContact => Contacts.GetContactByNumber( Current.SimCard!.PhoneNumber )!;
+	public PhoneContact LocalContact => Contacts.GetContactByNumber( SimCard!.PhoneNumber )!;
 
 	public PhoneContacts Contacts { get; private set; } = new();
 
@@ -62,9 +62,9 @@ public partial class Phone
 	#region Commands
 
 	[ConCmd( "phone_create_contact" )]
-	private static void CreateContactCmd( string phoneNumber, string name, string? avatar = null )
+	private void CreateContactCmd( string phoneNumber, string name, string? avatar = null )
 	{
-		if ( Current.SimCard is null )
+		if ( SimCard is null )
 		{
 			Log.Warning( "Unable to create contact when sim card is null" );
 			return;
@@ -72,13 +72,13 @@ public partial class Phone
 
 		var contact = new PhoneContact
 		{
-			Owner = Current.SimCard.Id,
+			Owner = SimCard.Id,
 			ContactName = name,
 			ContactAvatar = avatar,
 			ContactNumber = PhoneNumber.Parse( phoneNumber )
 		};
 
-		Current.CreateContactRpc( contact );
+		CreateContactRpc( contact );
 	}
 
 	[Broadcast( NetPermission.Anyone )]
@@ -107,5 +107,5 @@ public record PhoneContact
 	[Saved] public string? ContactAvatar { get; init; }
 	[Saved] public PhoneNumber ContactNumber { get; init; }
 
-	public bool IsMe() => ContactNumber == Phone.Current.SimCard?.PhoneNumber;
+	// public bool IsMe() => ContactNumber == Phone.Current.SimCard?.PhoneNumber;
 }
