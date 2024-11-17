@@ -4,7 +4,7 @@ using Sandbox.UI;
 
 namespace Rp.Phone.UI.Components;
 
-public sealed partial class ControlCenter : Panel
+public sealed partial class ControlCenter : PhoneWidget
 {
 	public bool IsOpen { get; set; }
 
@@ -12,5 +12,5 @@ public sealed partial class ControlCenter : Panel
 		.AddClass( "open", IsOpen )
 		.Build();
 
-	protected override int BuildHash() => HashCode.Combine( IsOpen );
+	protected override int ShouldRender() => HashCode.Combine( IsOpen );
 }
