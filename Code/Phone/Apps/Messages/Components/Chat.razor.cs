@@ -1,5 +1,4 @@
 ﻿using System;
-using Rp.Phone.Apps.Messages.Services;
 using Rp.Phone.UI.Components;
 using Rp.UI;
 using Rp.UI.Extensions;
@@ -7,7 +6,7 @@ using Sandbox.UI;
 
 namespace Rp.Phone.Apps.Messages.Components;
 
-public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotifiable<MessagesApp>, IKeyboardEvent,
+public sealed partial class Chat : CascadingPanel, IPhoneEvent, IAppNotifiable, IAppNotifiable<MessagesApp>, IKeyboardEvent,
 	IMessageEvent
 {
 	private Panel _content = null!;
@@ -30,7 +29,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 		.AddClass( "keyboard-open", App.Phone.Keyboard.IsOpen )
 		.Build();
 
-	protected override void OnAfterTreeRender( bool firstTime )
+	protected override void OnAfterRender( bool firstTime )
 	{
 		if ( !firstTime ) return;
 		AcceptsFocus = true;
@@ -48,8 +47,6 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 			{
 				Author = new MessageAuthor()
 				{
-					// Name = "Me",
-					// Avatar = "textures/ui/phone/avatars/avatar_02.jpg",
 					PhoneNumber = App.Phone.SimCard!.PhoneNumber
 				},
 				Content = Value,
@@ -62,14 +59,14 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 		Sound.Play( "sounds/phone/send_message.sound" );
 		Scene.RunEvent<IMessageEvent>( x => x.OnMessageSent( message ), true );
 
-		ConversationService.Instance.SendMessageRpcRequest( _conversation!.Id,
+		App.ConversationService.SendMessageRpcRequest( _conversation!.Id,
 			message );
 	}
 
 	void IMessageEvent.OnMessageReceived( MessageData messageData )
 	{
 		// Don't play sound if the message was sent by the sender of the message
-		if ( _isOpen && messageData.Author.PhoneNumber != Phone.Current.SimCard!.PhoneNumber )
+		if ( _isOpen && messageData.Author.PhoneNumber != App.Phone.SimCard!.PhoneNumber )
 			Sound.Play( "sounds/phone/receive_message.sound" );
 
 		_content.TryScrollToBottom();
@@ -110,7 +107,7 @@ public sealed partial class Chat : Panel, IPhoneEvent, IAppNotifiable, IAppNotif
 		App.Phone.Keyboard.Hide();
 	}
 
-	protected override int BuildHash() =>
+	protected override int ShouldRender() =>
 		HashCode.Combine( _isOpen, _conversation?.Participants.Count, _conversation?.Messages.Count,
 			App.Phone.Keyboard.IsOpen );
 }
