@@ -22,5 +22,5 @@ public sealed partial class FavoriteTab : PhoneNavigationPage
 		Host.Navigate<CallTab>( contact );
 	}
 
-	protected override int ShouldRender() => HashCode.Combine( Phone.Contacts.All );
+	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), Phone.Contacts.All );
 }

@@ -15,8 +15,6 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 
 	public override string PageName => "Call";
 
-	public FaceTimeApp App { get; set; } = null!;
-
 	private void OnSpeakerClicked( bool toggle )
 	{
 		_isSpeaker = toggle;
@@ -51,10 +49,10 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 		if ( page is not CallTab ) return;
 		_phoneContact = args[0] as PhoneContact;
 
-		App.Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
-		App.Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	protected override int ShouldRender() =>
-		HashCode.Combine( _phoneContact, _isSpeaker, _isMuted );
+		HashCode.Combine( base.ShouldRender(), _phoneContact, _isSpeaker, _isMuted );
 }

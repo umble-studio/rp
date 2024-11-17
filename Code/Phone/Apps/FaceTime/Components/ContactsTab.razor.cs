@@ -4,7 +4,7 @@ using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class ContactsTab : NavigationPage
+public sealed partial class ContactsTab : PhoneNavigationPage
 {
 	private MessageBar _navigationBar = null!;
 	

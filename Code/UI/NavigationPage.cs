@@ -1,5 +1,4 @@
 using System;
-using Sandbox.UI;
 
 namespace Rp.UI;
 
@@ -25,5 +24,5 @@ public abstract class NavigationPage : CascadingPanel, INavigationPage
 		_isOpen = false;
 	}
 
-	protected override int BuildHash() => HashCode.Combine( _isOpen );
+	protected override int ShouldRender() => HashCode.Combine( _isOpen, Host );
 }
