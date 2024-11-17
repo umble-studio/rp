@@ -16,8 +16,5 @@ public sealed partial class LockScreen : PhoneApp, IPhoneEvent
 		_date = DateTime.Now;
 	}
 
-	protected override int BuildHash()
-	{
-		return HashCode.Combine( base.BuildHash(), _date );
-	}
+	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), _date );
 }
