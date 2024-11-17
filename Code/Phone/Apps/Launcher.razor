@@ -5,10 +5,9 @@
 
 <root>
 	<div class="apps">
-		@for ( var i = 0; i < Apps.Count; i++ )
+		@foreach ( var app in Apps )
 		{
-			var app = Apps[i];
-			<AppIcon App="@app"></AppIcon>
+			<AppIcon @key="@app" App="@app"></AppIcon>
 		}
 	</div>
 	<AppDock @ref="_dock"></AppDock>
