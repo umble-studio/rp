@@ -24,8 +24,6 @@ public sealed partial class Alert : Panel
 		
 		foreach ( var button in Buttons )
 			_footer.AddChild( button );
-		
-		Log.Info("Rendered alert: " + Buttons.Count);
 	}
 
 	protected override int BuildHash() => HashCode.Combine( Title, Message, Buttons.Count );
