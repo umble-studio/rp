@@ -16,6 +16,8 @@ public abstract class PhoneApp : CascadingPanel, IPhoneApp
 	public virtual string? AppNotificationIcon { get; } = null;
 	public virtual bool ShowAppInLauncher { get; } = true;
 
+	[CascadingProperty("Phone")] public Phone Phone { get; set; } = null!;
+
 	public virtual void OpenApp()
 	{
 		_isOpen = true;
@@ -51,5 +53,5 @@ public abstract class PhoneApp : CascadingPanel, IPhoneApp
 		Game.ActiveScene.RunEvent<IPhoneEvent>( x => x.OnAppBlurred( this ), true );
 	}
 
-	protected override int BuildHash() => HashCode.Combine( _isOpen, _isFocused );
+	protected override int ShouldRender() => HashCode.Combine( _isOpen, _isFocused );
 }
