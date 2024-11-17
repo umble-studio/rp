@@ -11,14 +11,11 @@ public sealed partial class KeypadTab : PhoneNavigationPage
 
 	private string PhoneNumberFormat()
 	{
-		if ( string.IsNullOrEmpty( _phoneNumber ) )
-			return string.Empty;
-
 		if ( _phoneNumber.Length < 4 )
-			return $"{int.Parse( _phoneNumber ):###}";
+			return _phoneNumber;
 
-		var firstPart = _phoneNumber.AsSpan( 0, 3 );
-		var secondPart = _phoneNumber.AsSpan( 3 );
+		var firstPart = _phoneNumber[..3];
+		var secondPart = _phoneNumber[3..];
 
 		return $"{firstPart}-{secondPart}";
 	}
@@ -58,8 +55,8 @@ public sealed partial class KeypadTab : PhoneNavigationPage
 	{
 	}
 
-	protected override int BuildHash()
+	protected override int ShouldRender()
 	{
-		return HashCode.Combine( base.BuildHash(), _phoneNumber );
+		return HashCode.Combine( base.ShouldRender(), PhoneNumberFormat() );
 	}
 }

@@ -5,72 +5,72 @@
 @inherits PhoneNavigationPage
 
 <root>
-		<div class="keypad">
-			<div class="header">
-				<span class="phone-number">@( PhoneNumberFormat() )</span>
+	<div class="keypad">
+		<div class="header">
+			<span class="phone-number">@( PhoneNumberFormat() )</span>
+		</div>
+		<div>
+			<div class="button" @onclick="@NumberOne">
+				<span class="number">1</span>
+				<span class="text"></span>
 			</div>
-			<div>
-				<div class="button" @onclick="@NumberOne">
-					<span class="number">1</span>
-					<span class="text"></span>
-				</div>
-				<div class="button" @onclick="@NumberTwo">
-					<span class="number">2</span>
-					<span class="text">abc</span>
-				</div>
-				<div class="button" @onclick="@NumberThree">
-					<span class="number">3</span>
-					<span class="text">def</span>
-				</div>
+			<div class="button" @onclick="@NumberTwo">
+				<span class="number">2</span>
+				<span class="text">abc</span>
 			</div>
-			<div>
-				<div class="button" @onclick="@NumberFour">
-					<span class="number">4</span>
-					<span class="text">ghi</span>
-				</div>
-				<div class="button" @onclick="@NumberFive">
-					<span class="number">5</span>
-					<span class="text">jkl</span>
-				</div>
-				<div class="button" @onclick="@NumberSix">
-					<span class="number">6</span>
-					<span class="text">mno</span>
-				</div>
-			</div>
-			<div>
-				<div class="button" @onclick="@NumberSeven">
-					<span class="number">7</span>
-					<span class="text">pqrs</span>
-				</div>
-				<div class="button" @onclick="@NumberEight">
-					<span class="number">8</span>
-					<span class="text">tuv</span>
-				</div>
-				<div class="button" @onclick="@NumberNine">
-					<span class="number">9</span>
-					<span class="text">wxyz</span>
-				</div>
-			</div>
-			<div>
-				<div class="button">
-					<span class="number">*</span>
-				</div>
-				<div class="button" @onclick="@NumberZero">
-					<span class="number">0</span>
-					<span class="text">+</span>
-				</div>
-				<div class="button">
-					<span class="number">#</span>
-				</div>
-			</div>
-			<div>
-				<div class="button no-background"></div>
-				<div class="button green" @onclick="@Call">
-					<iconify icon="fluent:call-24-filled" color="white" size="42"></iconify>
-				</div>
-				<div class="button no-background" @onclick="@Backspace">
-					<iconify icon="fluent:backspace-24-filled" color="white" size="42"></iconify>
-				</div>
+			<div class="button" @onclick="@NumberThree">
+				<span class="number">3</span>
+				<span class="text">def</span>
 			</div>
 		</div>
+		<div>
+			<div class="button" @onclick="@NumberFour">
+				<span class="number">4</span>
+				<span class="text">ghi</span>
+			</div>
+			<div class="button" @onclick="@NumberFive">
+				<span class="number">5</span>
+				<span class="text">jkl</span>
+			</div>
+			<div class="button" @onclick="@NumberSix">
+				<span class="number">6</span>
+				<span class="text">mno</span>
+			</div>
+		</div>
+		<div>
+			<div class="button" @onclick="@NumberSeven">
+				<span class="number">7</span>
+				<span class="text">pqrs</span>
+			</div>
+			<div class="button" @onclick="@NumberEight">
+				<span class="number">8</span>
+				<span class="text">tuv</span>
+			</div>
+			<div class="button" @onclick="@NumberNine">
+				<span class="number">9</span>
+				<span class="text">wxyz</span>
+			</div>
+		</div>
+		<div>
+			<div class="button">
+				<span class="number">*</span>
+			</div>
+			<div class="button" @onclick="@NumberZero">
+				<span class="number">0</span>
+				<span class="text">+</span>
+			</div>
+			<div class="button">
+				<span class="number">#</span>
+			</div>
+		</div>
+		<div>
+			<div class="button no-background"></div>
+			<div class="button green" @onclick="@Call">
+				<iconify icon="fluent:call-24-filled" color="white" size="42"></iconify>
+			</div>
+			<div class="button no-background" @onclick="@Backspace">
+				<iconify icon="fluent:backspace-24-filled" color="white" size="42"></iconify>
+			</div>
+		</div>
+	</div>
 </root>
