@@ -1,5 +1,4 @@
-﻿using System;
-using Rp.Core.Systems;
+﻿using Rp.Core.Systems;
 
 namespace Rp.Core.Managers;
 
