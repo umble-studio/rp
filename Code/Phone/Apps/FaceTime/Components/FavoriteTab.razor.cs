@@ -4,13 +4,18 @@ using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class FavoriteTab : NavigationPage
+public sealed partial class FavoriteTab : PhoneNavigationPage
 {
 	private MessageBar _navigationBar = null!;
 	
 	public override string PageName => "Favorites";
+
+	private List<PhoneContact> Contacts { get; set; }
 	
-	[CascadingProperty("Phone")] public Phone Phone { get; set; } = null!;
+	protected override void OnAfterRender( bool firstRender )
+	{
+		Contacts = Phone.Contacts.All;
+	}
 
 	private void OnSelectContact( PhoneContact contact )
 	{
