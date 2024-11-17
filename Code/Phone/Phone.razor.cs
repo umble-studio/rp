@@ -3,7 +3,6 @@ using Rp.Core.Managers;
 using Rp.Phone.Apps;
 using Rp.Phone.Extensions;
 using Rp.Phone.UI.Components;
-using Rp.UI;
 using Sandbox.UI;
 using ControlCenter = Rp.Phone.UI.Components.ControlCenter;
 using SteamId = Rp.Core.SteamId;
@@ -25,6 +24,9 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 	public StatusBar StatusBar => _statusBar;
 	public Keyboard Keyboard => _keyboard;
 
+	public static Phone Local => Game.ActiveScene.GetAllComponents<Phone>()
+		.FirstOrDefault( x => x.Network.Owner == Connection.Local )!;
+
 	public Phone()
 	{
 		Notification = new NotificationCenter( this );
@@ -37,6 +39,13 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 	// 	if ( Connection.Host == channel )
 	// 		RegisterAllServices();
 	// }
+
+	// Temporary code to give the ownership of the phone to the client (only for testing purposes)
+	// TODO - Need to be refactored later
+	public void OnActive( Connection channel )
+	{
+		Network.AssignOwnership( channel );
+	}
 
 	protected override async void OnUpdate()
 	{
@@ -80,7 +89,7 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 		{
 			var instance = PhoneExtensions.CreateAppInstance( app.TargetType );
 			instance.Phone = this;
-			
+
 			Apps.Add( instance );
 			Log.Info( "Registered app: " + app.Name );
 		}
@@ -142,7 +151,7 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 
 		_currentApp = PhoneExtensions.CreateAppInstance( app.GetType() );
 		_currentApp.Phone = this;
-		
+
 		panel = (Panel)_currentApp;
 		Apps.Add( _currentApp );
 	}
