@@ -2,7 +2,7 @@
 @using System
 @using Rp.Phone.Apps.Messages.Services
 @using Rp.Phone.UI.Components
-@inherits Sandbox.UI.Panel
+@inherits Rp.UI.CascadingPanel
 
 <root class="@Root">
 	<MessageBar @ref="_messageBar">
@@ -40,12 +40,12 @@
 	</div>
 	<div class="messages-container">
 		<div class="messages">
-			@foreach ( var conversation in ConversationService.Instance.Conversations )
+			@foreach ( var conversation in App.ConversationService.Conversations )
 			{
 				var participants = conversation.Participants;
 				if ( participants.Count <= 1 ) continue;
 
-				var otherParticipant = conversation.Participants.FirstOrDefault( x => !x.IsMe() );
+				var otherParticipant = conversation.Participants.FirstOrDefault( x => !x.IsMe( PhoneNumber ) );
 				if ( otherParticipant is null ) continue;
 
 				var latestMessage = conversation.GetLatestMessage();
@@ -59,7 +59,7 @@
 							<span class="date">@( latestMessage.Date.ToString( "t" ) )</span>
 						</div>
 						<span
-							class="text">@( latestMessage.IsMe() ? "Me:" : string.Empty ) @latestMessage.Content</span>
+							class="text">@( latestMessage.IsMe( PhoneNumber ) ? "Me:" : string.Empty ) @latestMessage.Content</span>
 					</div>
 				</div>
 			}

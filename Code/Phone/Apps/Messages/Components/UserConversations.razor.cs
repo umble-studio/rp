@@ -6,7 +6,7 @@ using Sandbox.UI;
 
 namespace Rp.Phone.Apps.Messages.Components;
 
-public sealed partial class UserConversations : Panel
+public sealed partial class UserConversations : CascadingPanel
 {
 	private MessageBar _messageBar = null!;
 	private PhoneContact _selectedContact = null!;
@@ -16,22 +16,23 @@ public sealed partial class UserConversations : Panel
 
 	private List<PhoneContact> Contacts => App.Phone.Contacts.All;
 
+	private PhoneNumber PhoneNumber => App.Phone.SimCard!.PhoneNumber;
+
 	private string Root => new CssBuilder()
 		.AddClass( "show", _isOpen )
 		.Build();
 
-	protected override void OnAfterTreeRender( bool firstTime )
+	protected override void OnAfterRender( bool firstTime )
 	{
-		if ( firstTime )
-		{
-			_messageBar.OnBack += () =>
-			{
-				var entry = App.Phone.History.GetPrevious();
-				if ( entry is null ) return;
+		if ( !firstTime ) return;
 
-				App.Phone.SwitchToApp( entry );
-			};
-		}
+		_messageBar.OnBack += () =>
+		{
+			var entry = App.Phone.History.GetPrevious();
+			if ( entry is null ) return;
+
+			App.Phone.SwitchToApp( entry );
+		};
 	}
 
 	public void Show()
@@ -46,7 +47,7 @@ public sealed partial class UserConversations : Panel
 
 	private void BackToLauncher()
 	{
-		var entry = Phone.Current.History.GetPrevious();
+		var entry = App.Phone.History.GetPrevious();
 		if ( entry is null ) return;
 
 		App.Phone.SwitchToApp( entry );
@@ -71,7 +72,7 @@ public sealed partial class UserConversations : Panel
 
 		// Only one conversation per contact is supported
 		// So we don't need to forget about other conversations
-		var conversation = ConversationService.Instance
+		var conversation = App.ConversationService
 			.GetConversations( contact.ContactNumber )
 			.FirstOrDefault();
 
@@ -81,7 +82,7 @@ public sealed partial class UserConversations : Panel
 		{
 			Log.Info( "Create new conversation with: " + contact.ContactNumber );
 
-			ConversationService.Instance.CreateConversation( contact );
+			App.ConversationService.CreateConversation( contact );
 		}
 		else
 		{
@@ -90,10 +91,10 @@ public sealed partial class UserConversations : Panel
 		}
 	}
 
-	protected override int BuildHash() => HashCode.Combine(
+	protected override int ShouldRender() => HashCode.Combine(
 		_isOpen,
-		ConversationService.Instance.Conversations,
-		ConversationService.Instance.Conversations.Where( x => x.Messages.Any() || x.Participants.Any() ),
+		App.ConversationService.Conversations,
+		App.ConversationService.Conversations.Where( x => x.Messages.Count != 0 || x.Participants.Count != 0 ),
 		Contacts
 	);
 }
