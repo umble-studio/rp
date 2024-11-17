@@ -5,7 +5,7 @@ namespace Rp.Core.Managers;
 public partial class CharacterManager
 {
 	[Broadcast( NetPermission.Anyone )]
-	private void CreateCharacterRpcRequest( CharacterData character )
+	private static void CreateCharacterRpcRequest( CharacterData character )
 	{
 		if ( !Networking.IsHost ) return;
 

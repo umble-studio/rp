@@ -29,12 +29,12 @@ public partial class PlayerManager
 		Players.Add( player );
 	}
 
-	private PlayerData? ServerLoadPlayer( Connection channel )
+	private static PlayerData? ServerLoadPlayer( Connection channel )
 	{
 		return RoverDatabase.Instance.SelectOne<PlayerData>( x => x.Owner == channel.SteamId );
 	}
 
-	private PlayerData? ServerCreatePlayer( Connection channel )
+	private static PlayerData? ServerCreatePlayer( Connection channel )
 	{
 		var player = new PlayerData { Owner = channel.SteamId };
 		RoverDatabase.Instance.Insert( player );

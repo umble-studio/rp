@@ -22,6 +22,6 @@ public partial class CharacterManager
 		player.CurrentCharacter = character.CharacterId;
 
 		Log.Info( "Creating character: " + character.CharacterId );
-		Instance.CreateCharacterRpcRequest( character );
+		CreateCharacterRpcRequest( character );
 	}
 }
