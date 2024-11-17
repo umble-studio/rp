@@ -11,8 +11,8 @@ public partial class ConversationService : IMessageEvent
 
 	public void LoadConversations()
 	{
-		Log.Info( "LoadConversations: " + string.Join( ", ", Phone.Current.SimCard ) );
-		LoadConversationsRpcRequest( Phone.Current.SimCard!.PhoneNumber );
+		Log.Info( "LoadConversations: " + string.Join( ", ", Phone.SimCard ) );
+		LoadConversationsRpcRequest( Phone.SimCard!.PhoneNumber );
 	}
 
 	public void AddConversation( ConversationData conversation )
@@ -46,10 +46,10 @@ public partial class ConversationService : IMessageEvent
 
 	public void CreateConversation( PhoneContact target )
 	{
-		Log.Info( "Create conversation with: " + string.Join( ", ", Phone.Current.LocalContact, target ) );
+		Log.Info( "Create conversation with: " + string.Join( ", ", Phone.LocalContact, target ) );
 
 		_conversationCreator = true;
-		CreateConversationRpcRequest( Phone.Current.LocalContact, target );
+		CreateConversationRpcRequest( Phone.LocalContact, target );
 	}
 
 	#region Message Events
@@ -60,20 +60,20 @@ public partial class ConversationService : IMessageEvent
 		if ( !_conversationCreator ) return;
 		_conversationCreator = false;
 
-		var app = Phone.Current.GetApp<MessagesApp>();
+		var app = Phone.GetApp<MessagesApp>();
 		app.SwitchToChat( conversationData );
 	}
 
 	void IMessageEvent.OnMessageReceived( MessageData message )
 	{
-		var app = Phone.Current.GetApp<MessagesApp>();
+		var app = Phone.GetApp<MessagesApp>();
 
 		var notification = new AppNotificationBuilder( app )
 			.WithTitle( "New Message: " + message.Author.PhoneNumber )
 			.WithMessage( message.Content )
 			.Build();
 
-		Phone.Current.Notification.CreateNotification( notification );
+		Phone.Notification.CreateNotification( notification );
 	}
 
 	#endregion
