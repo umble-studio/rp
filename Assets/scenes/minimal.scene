@@ -330,36 +330,6 @@
       ]
     },
     {
-      "__guid": "33095c19-cebd-46f6-91cf-a61a074c2c49",
-      "Flags": 0,
-      "Name": "Phone",
-      "Position": "34.31328,71.24145,1.414833",
-      "Enabled": true,
-      "Components": [
-        {
-          "__type": "Sandbox.ScreenPanel",
-          "__guid": "428b7a58-f126-48de-9c19-221c26addd5a",
-          "AutoScreenScale": true,
-          "Opacity": 1,
-          "Scale": 1,
-          "ScaleStrategy": "ConsistentHeight",
-          "ZIndex": 0
-        },
-        {
-          "__type": "Rp.Phone.Phone",
-          "__guid": "589f0c79-c44e-48fa-b7fb-0051cb3571b6"
-        }
-      ],
-      "Children": [
-        {
-          "__guid": "7d517de1-7e2a-4a2d-a236-58d1dd66dc59",
-          "Flags": 0,
-          "Name": "Object",
-          "Enabled": true
-        }
-      ]
-    },
-    {
       "__guid": "3c0c1713-7b7f-42e9-8bb6-551dad55e07a",
       "Flags": 0,
       "Name": "Network Helper",
@@ -483,6 +453,15 @@
           "__guid": "cdaf2e48-a358-47a9-aa04-6d9de24609c2"
         }
       ]
+    },
+    {
+      "__guid": "0f0058da-678f-42b3-bf48-aa07a659a123",
+      "Flags": 0,
+      "Name": "phone",
+      "Enabled": true,
+      "NetworkMode": 1,
+      "__Prefab": "prefabs/phone.prefab",
+      "__PrefabVariables": {}
     }
   ],
   "SceneProperties": {
@@ -514,5 +493,6 @@
   "Title": "minimal",
   "Description": null,
   "__references": [],
+  "HasUnsavedChanges": false,
   "__version": 2
 }

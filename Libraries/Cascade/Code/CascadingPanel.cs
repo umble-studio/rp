@@ -1,7 +1,7 @@
 using System;
 using Sandbox.UI;
 
-namespace Rp.UI;
+namespace Cascade;
 
 public partial class CascadingPanel : Panel
 {

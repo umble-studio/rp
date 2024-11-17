@@ -8,7 +8,7 @@
     "Components": [
       {
         "__type": "Sandbox.ScreenPanel",
-        "__guid": "aa3d80bf-e180-4d8c-80d0-a26c31453cc6",
+        "__guid": "428b7a58-f126-48de-9c19-221c26addd5a",
         "AutoScreenScale": true,
         "Opacity": 1,
         "Scale": 1,
@@ -17,7 +17,15 @@
       },
       {
         "__type": "Rp.Phone.Phone",
-        "__guid": "77165561-767d-452a-9eec-fc2613f22131"
+        "__guid": "589f0c79-c44e-48fa-b7fb-0051cb3571b6"
+      },
+      {
+        "__type": "Rp.Phone.Apps.Messages.Services.ConversationService",
+        "__guid": "f8e37462-ac5d-4d9b-8877-41df8defcb58"
+      },
+      {
+        "__type": "Rp.Phone.Apps.FaceTime.Services.CallService",
+        "__guid": "f29b5976-7746-4684-b240-dcd5a055b17c"
       }
     ],
     "Children": [],
@@ -52,5 +60,6 @@
   "DontBreakAsTemplate": false,
   "ResourceVersion": 1,
   "__references": [],
+  "HasUnsavedChanges": false,
   "__version": 1
 }

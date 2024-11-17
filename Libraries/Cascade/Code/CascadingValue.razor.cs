@@ -1,6 +1,6 @@
 using System;
 
-namespace Rp.UI;
+namespace Cascade;
 
 public sealed partial class CascadingValue : CascadingPanel
 {

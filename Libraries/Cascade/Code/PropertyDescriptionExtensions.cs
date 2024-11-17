@@ -1,6 +1,7 @@
 using System;
+using Sandbox;
 
-namespace Rp.UI;
+namespace Cascade;
 
 internal static class PropertyDescriptionExtensions
 {

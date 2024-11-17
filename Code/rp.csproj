@@ -53,6 +53,7 @@
   <ItemGroup>
 		<ProjectReference Include="C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\base\Code\Base Library.csproj" />
 		<ProjectReference Include="C:\Users\bubbl\Documents\S&amp;box Projects\rp\Libraries\Bindery\Code\bindery.csproj" />
+		<ProjectReference Include="C:\Users\bubbl\Documents\S&amp;box Projects\rp\Libraries\Cascade\Code\cascade.csproj" />
 		<ProjectReference Include="C:\Users\bubbl\Documents\S&amp;box Projects\rp\Libraries\umblestudio.roverdb\Code\roverdb.csproj" />
 		<ProjectReference Include="C:\Users\bubbl\Documents\S&amp;box Projects\rp\Libraries\umblestudio.umble_iconify\Code\umble_iconify.csproj" />
 
