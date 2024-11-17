@@ -453,15 +453,6 @@
           "__guid": "cdaf2e48-a358-47a9-aa04-6d9de24609c2"
         }
       ]
-    },
-    {
-      "__guid": "0f0058da-678f-42b3-bf48-aa07a659a123",
-      "Flags": 0,
-      "Name": "phone",
-      "Enabled": true,
-      "NetworkMode": 1,
-      "__Prefab": "prefabs/phone.prefab",
-      "__PrefabVariables": {}
     }
   ],
   "SceneProperties": {

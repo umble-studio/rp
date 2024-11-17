@@ -176,6 +176,15 @@
             "__guid": "10ad40e0-684d-4264-ad07-1a7444448fb1"
           }
         ]
+      },
+      {
+        "__guid": "c1124a17-4738-4da3-a8db-3f24180ba446",
+        "Flags": 0,
+        "Name": "phone",
+        "Enabled": true,
+        "NetworkMode": 1,
+        "__Prefab": "prefabs/phone.prefab",
+        "__PrefabVariables": {}
       }
     ],
     "__variables": [],
