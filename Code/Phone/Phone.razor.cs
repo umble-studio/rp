@@ -10,7 +10,7 @@ using SteamId = Rp.Core.SteamId;
 
 namespace Rp.Phone;
 
-public sealed partial class Phone : CascadingPanelComponent, IPhoneEvent, Component.INetworkListener
+public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetworkListener
 {
 	private Panel _phoneContent = null!;
 	private Panel _appContainer = null!;
@@ -22,14 +22,12 @@ public sealed partial class Phone : CascadingPanelComponent, IPhoneEvent, Compon
 
 	public List<IPhoneApp> Apps { get; } = new();
 
-	public static Phone Current { get; private set; } = null!;
-
 	public StatusBar StatusBar => _statusBar;
 	public Keyboard Keyboard => _keyboard;
 
 	public Phone()
 	{
-		Current = this;
+		Notification = new NotificationCenter( this );
 	}
 
 	// public void OnActive( Connection channel )
@@ -60,7 +58,7 @@ public sealed partial class Phone : CascadingPanelComponent, IPhoneEvent, Compon
 				await GameTask.Delay( 100 );
 
 			Log.Info( "Sim card loaded" );
-			
+
 			LoadContacts();
 			CreateAppInstances();
 
@@ -71,14 +69,6 @@ public sealed partial class Phone : CascadingPanelComponent, IPhoneEvent, Compon
 			// RegisterAllServices();
 			// ConversationService.Instance.LoadConversations();
 			SwitchToApp<LockScreen>();
-
-			// var notification = new AppNotificationBuilder( _currentApp! )
-			// 	.WithTitle( "Hey" )
-			// 	.WithMessage( "Hello world!" )
-			// 	.Build();
-			//
-			// Notification.CreateNotification<MessagesApp>( notification );
-			// Notification.CreateNotification<MessagesApp>( notification );
 		}
 	}
 
@@ -89,8 +79,9 @@ public sealed partial class Phone : CascadingPanelComponent, IPhoneEvent, Compon
 		foreach ( var app in apps )
 		{
 			var instance = PhoneExtensions.CreateAppInstance( app.TargetType );
+			instance.Phone = this;
+			
 			Apps.Add( instance );
-
 			Log.Info( "Registered app: " + app.Name );
 		}
 	}
@@ -150,8 +141,9 @@ public sealed partial class Phone : CascadingPanelComponent, IPhoneEvent, Compon
 		Apps.RemoveAll( x => x.AppName == app.AppName );
 
 		_currentApp = PhoneExtensions.CreateAppInstance( app.GetType() );
+		_currentApp.Phone = this;
+		
 		panel = (Panel)_currentApp;
-
 		Apps.Add( _currentApp );
 	}
 

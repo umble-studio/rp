@@ -1,25 +1,25 @@
 ﻿@namespace Rp.Phone
 @using Rp.UI
 @using Rp.Phone.UI.Components
-@inherits CascadingPanelComponent
+@inherits PanelComponent
 
 <root>
 	<div class="@Root">
-		<div @ref=" _phoneContent" class="phone-content">
-			<CascadingValue Name="Phone" Value="@this">
-				<ChildContent>
-					<StatusBar @ref=" _statusBar"></StatusBar>
-					<div @ref=" _appContainer" class="app">
+		<CascadingValue Name="Phone" Value="@this">
+			<ChildContent>
+				<div @ref="_phoneContent" class="phone-content">
+					<StatusBar @ref="_statusBar"></StatusBar>
+					<div @ref="_appContainer" class="app">
 
 					</div>
-					<Keyboard @ref=" _keyboard"></Keyboard>
-					<ControlCenter @ref=" _controlCenter"></ControlCenter>
+					<Keyboard @ref="_keyboard"></Keyboard>
+					<ControlCenter @ref="_controlCenter"></ControlCenter>
 					<div class="phone-main-menu" @onclick="@OnMainMenu">
 						<div class="bar"></div>
 					</div>
-				</ChildContent>
-			</CascadingValue>
-		</div>
+				</div>
+			</ChildContent>
+		</CascadingValue>
 		<div class="phone-hull">
 
 		</div>
