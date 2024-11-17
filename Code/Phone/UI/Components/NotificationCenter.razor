@@ -2,10 +2,10 @@
 @using Rp.Phone
 @using Sandbox.UI
 @using Phone = Rp.Phone.Phone
-@inherits Panel
+@inherits PhoneWidget
 
 <root>
-	@foreach ( var notification in Phone.Current.Notification.PendingNotifications )
+	@foreach ( var notification in Notifications )
 	{
 		<Notification @key="@notification" Pending="@notification"></Notification>
 	}
