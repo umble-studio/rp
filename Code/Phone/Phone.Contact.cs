@@ -59,28 +59,6 @@ public partial class Phone
 		}
 	}
 
-	#region Commands
-
-	[ConCmd( "phone_create_contact" )]
-	private void CreateContactCmd( string phoneNumber, string name, string? avatar = null )
-	{
-		if ( SimCard is null )
-		{
-			Log.Warning( "Unable to create contact when sim card is null" );
-			return;
-		}
-
-		var contact = new PhoneContact
-		{
-			Owner = SimCard.Id,
-			ContactName = name,
-			ContactAvatar = avatar,
-			ContactNumber = PhoneNumber.Parse( phoneNumber )
-		};
-
-		CreateContactRpc( contact );
-	}
-
 	[Broadcast( NetPermission.Anyone )]
 	private void CreateContactRpc( PhoneContact contact )
 	{
@@ -89,8 +67,6 @@ public partial class Phone
 		Log.Info( "Insert contact: " + contact.ContactNumber );
 		RoverDatabase.Instance.Insert( contact );
 	}
-
-	#endregion
 }
 
 [Collection( "phone/contacts" )]

@@ -23,21 +23,6 @@ public partial class Phone
 		}
 	}
 
-	#region Commands
-
-	[ConCmd( "phone_create_simcard" )]
-	private void CreateSimCardCmd( ulong steamId, int characterId, int phoneNumber )
-	{
-		var simCard = new SimCardData
-		{
-			Owner = new CharacterId( steamId, (ushort)characterId ), PhoneNumber = phoneNumber
-		};
-
-		CreateSimCardRpc( simCard );
-	}
-
-	#endregion
-
 	private void LoadSimCard( SteamId steamId, CharacterId characterId )
 	{
 		_isSimCardLoaded = false;

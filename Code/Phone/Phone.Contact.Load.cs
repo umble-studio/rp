@@ -29,17 +29,6 @@ public partial class Phone
 		LoadContactsClientRpc( SimCard.Id.ToString() );
 	}
 
-	#region Commands
-
-	[ConCmd( "phone_reload_contacts" )]
-	private void ReloadContactsCmd()
-	{
-		Log.Info( "Reloading contacts.." );
-		LoadContacts();
-	}
-
-	#endregion
-
 	#region RPC
 
 	[Broadcast( NetPermission.Anyone )]
