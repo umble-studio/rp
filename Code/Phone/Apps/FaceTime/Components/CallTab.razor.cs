@@ -5,7 +5,7 @@ using Sandbox.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class CallTab : NavigationPage, INavigationEvent
+public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 {
 	private PhoneContact? _phoneContact;
 	private string _speakerIcon = "fluent:speaker-off-28-filled";
@@ -16,11 +16,6 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 	public override string PageName => "Call";
 
 	public FaceTimeApp App { get; set; } = null!;
-
-	protected override void OnAfterTreeRender( bool firstTime )
-	{
-		if ( !firstTime ) return;
-	}
 
 	private void OnSpeakerClicked( bool toggle )
 	{
@@ -44,7 +39,6 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 	
 	private void OnBack( PanelEvent e )
 	{
-		// App.SwitchToContacts();
 		Host.Navigate<FavoriteTab>();
 	}
 
@@ -61,6 +55,6 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 		App.Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
-	protected override int BuildHash() =>
+	protected override int ShouldRender() =>
 		HashCode.Combine( _phoneContact, _isSpeaker, _isMuted );
 }
