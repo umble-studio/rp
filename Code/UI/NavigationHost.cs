@@ -9,11 +9,11 @@ public abstract class NavigationHost : CascadingPanel
 	private readonly List<Type> _pages = new();
 	private readonly List<NavigationPage> _instances = new();
 
-	protected abstract CascadingPanel Container { get; set; }
+	protected Panel Container { get; set; } = null!;
 	protected Type? DefaultPage { get; init; }
 	protected NavigationPage? CurrentPage { get; private set; }
 
-	protected override void OnAfterTreeRender( bool firstTime )
+	protected override void OnAfterRender( bool firstTime )
 	{
 		Container.Style.FlexGrow = 1;
 
@@ -85,5 +85,6 @@ public abstract class NavigationHost : CascadingPanel
 		return IsRegistered( type );
 	}
 
-	protected override int BuildHash() => HashCode.Combine( CurrentPage, _pages.Count, _instances.Count, Container );
+	protected override int ShouldRender() =>
+		HashCode.Combine( _pages.Count, _instances.Count, DefaultPage, Container, CurrentPage );
 }

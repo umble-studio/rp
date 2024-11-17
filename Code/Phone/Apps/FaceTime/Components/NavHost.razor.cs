@@ -1,18 +1,14 @@
-﻿using System.ComponentModel;
-using Rp.UI;
-using Sandbox.UI;
+﻿using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
 public sealed partial class NavHost : NavigationHost
 {
-	protected override CascadingPanel Container { get; set; } = null!;
-	
 	private bool IsFavoriteTab => CurrentPage is FavoriteTab;
 	private bool IsRecentTab => CurrentPage is RecentTab;
 	private bool IsContactsTab => CurrentPage is ContactsTab;
 	private bool IsKeypadTab => CurrentPage is KeypadTab;
-	
+
 	public NavHost()
 	{
 		DefaultPage = typeof(FavoriteTab);
