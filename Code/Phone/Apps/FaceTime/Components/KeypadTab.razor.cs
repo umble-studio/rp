@@ -13,16 +13,16 @@ public sealed partial class KeypadTab : NavigationPage
 	{
 		if ( string.IsNullOrEmpty( _phoneNumber ) )
 			return string.Empty;
-		
-		if(_phoneNumber.Length < 4)
+
+		if ( _phoneNumber.Length < 4 )
 			return $"{int.Parse( _phoneNumber ):###}";
 
 		var firstPart = _phoneNumber.AsSpan( 0, 3 );
 		var secondPart = _phoneNumber.AsSpan( 3 );
-		
+
 		return $"{firstPart}-{secondPart}";
 	}
-	
+
 	private void AddNumber( string number )
 	{
 		if ( _phoneNumber.Length + 1 > 7 ) return;
@@ -42,12 +42,10 @@ public sealed partial class KeypadTab : NavigationPage
 
 	private void Star()
 	{
-		
 	}
 
 	private void Hash()
 	{
-		
 	}
 
 	private void Backspace()
@@ -55,7 +53,7 @@ public sealed partial class KeypadTab : NavigationPage
 		if ( _phoneNumber.Length > 0 )
 			_phoneNumber = _phoneNumber[..^1];
 	}
-	
+
 	private void Call()
 	{
 	}

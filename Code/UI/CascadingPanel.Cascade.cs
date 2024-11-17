@@ -1,9 +1,11 @@
-using System.Reflection;
+using Sandbox.UI;
 
 namespace Rp.UI;
 
 public partial class CascadingPanel
 {
+	private readonly List<PropertyDescription> _cachedProperties = new();
+	
 	private void DoCascade( bool firstTime )
 	{
 		if ( !firstTime )
@@ -15,20 +17,19 @@ public partial class CascadingPanel
 		IterateChildren( Ancestors );
 	}
 
-	private void IterateChildren( IEnumerable<Sandbox.UI.Panel> children )
+	private void IterateChildren( IEnumerable<Panel> children )
 	{
 		foreach ( var child in children )
 			Check( child );
 	}
 
-	private void Check( Sandbox.UI.Panel panel )
+	private void Check( Panel panel )
 	{
 		if ( panel is not CascadingValue cascade ) return;
 
-		var props = GetType()
-			.GetProperties( BindingFlags.Public | BindingFlags.Instance )
-			.ToList();
-
+		var type = TypeLibrary.GetType( GetType() );
+		var props = type.Properties;
+		
 		foreach ( var prop in props )
 		{
 			var found = prop.IsCascadingProperty( cascade.Name, cascade.Value.GetType() );
@@ -36,6 +37,11 @@ public partial class CascadingPanel
 
 			prop.SetValue( this, cascade.Value );
 			
+			if ( _cachedProperties.Exists( x => x.Name == prop.Name ) ) 
+				continue;
+			
+			_cachedProperties.Add( prop );
+
 			// I don't know if this is needed
 			// StateHasChanged();
 		}
