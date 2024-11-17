@@ -1,12 +1,12 @@
 ﻿@namespace Rp.Phone.Apps.Messages.Components
 @using System
 @using Sandbox.UI
-@inherits Panel
+@inherits PhoneWidget
 
 <root class="@Root">
 	<div class="container">
 		<div class="user">
-			@if ( !Data.IsMe() )
+			@if ( !Data.IsMe( PhoneNumber ) )
 			{
 				<img src="@Participant.Avatar" alt="">
 			}
@@ -21,7 +21,7 @@
 			}
 		</div>
 		<div class="user">
-			@if ( Data.IsMe() )
+			@if ( Data.IsMe( PhoneNumber ) )
 			{
 				<img src="@Participant.Avatar" alt="">
 			}
