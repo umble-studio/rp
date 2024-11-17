@@ -10,10 +10,12 @@ public sealed partial class FavoriteTab : NavigationPage
 	
 	public override string PageName => "Favorites";
 	
+	[CascadingProperty("Phone")] public Phone Phone { get; set; } = null!;
+
 	private void OnSelectContact( PhoneContact contact )
 	{
 		Host.Navigate<CallTab>( contact );
 	}
 
-	protected override int BuildHash() => HashCode.Combine( Phone.Current.Contacts.All );
+	protected override int ShouldRender() => HashCode.Combine( Phone.Contacts.All );
 }

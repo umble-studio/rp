@@ -20,10 +20,10 @@
 		</Content>
 	</MessageBar>
 	<div class="contacts">
-		@foreach ( var contact in Phone.Current.Contacts.All )
+		@foreach ( var contact in Phone.Contacts.All )
 		{
-			if ( contact.IsMe() ) continue;
-
+			// if ( contact.IsMe() ) continue;
+			
 			<div @key="@contact" class="contact" @onclick="@( () => OnSelectContact( contact ) )">
 				<div class="avatar-container">
 					@if ( !string.IsNullOrEmpty( @contact.ContactAvatar ) )
