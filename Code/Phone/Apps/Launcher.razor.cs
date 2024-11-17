@@ -12,15 +12,14 @@ public sealed partial class Launcher : PhoneApp, IPhoneEvent
 	public override string? AppIcon => null;
 	public override bool ShowAppInLauncher => false;
 
-	private List<IPhoneApp> Apps => Phone.Current.Apps
-		.Where( x => x.ShowAppInLauncher && !IsDocked( x ) )
-		.ToList();
+	private List<IPhoneApp> Apps { get; set; } = new();
 
-	protected override void OnAfterTreeRender( bool firstTime )
+	protected override void OnAfterRender( bool firstRender )
 	{
-		if ( !firstTime ) return;
+		if ( !firstRender ) return;
 
 		DockDefaultApps();
+		Apps = Phone.Apps.Where( x => x.ShowAppInLauncher && !IsDocked( x ) ).ToList();
 	}
 
 	public void DockApp( IPhoneApp app )
@@ -41,17 +40,14 @@ public sealed partial class Launcher : PhoneApp, IPhoneEvent
 		DockApp( GetApp<CallApp>()! );
 	}
 
-	public T? GetApp<T>() where T : IPhoneApp => Phone.Current.Apps.OfType<T>().FirstOrDefault();
+	public T? GetApp<T>() where T : IPhoneApp => Phone.Apps.OfType<T>().FirstOrDefault();
 
 	public void OnAppOpened( IPhoneApp app )
 	{
 		if ( app != this ) return;
 
-		Phone.Current.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
 	}
 
-	protected override int BuildHash()
-	{
-		return HashCode.Combine( base.BuildHash(), _dock, Phone.Current, Phone.Current.Apps );
-	}
+	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), _dock, Apps, Apps.Count );
 }
