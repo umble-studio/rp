@@ -42,13 +42,15 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 
 	// Temporary code to give the ownership of the phone to the client (only for testing purposes)
 	// TODO - Need to be refactored later
-	public void OnActive( Connection channel )
-	{
-		Network.AssignOwnership( channel );
-	}
+	// public void OnActive( Connection channel )
+	// {
+	// 	Network.AssignOwnership( channel );
+	// }
 
 	protected override async void OnUpdate()
 	{
+		if ( Network.IsProxy ) return;
+		
 		if ( Input.Pressed( "phone" ) )
 			IsOpen = !_isOpen;
 
