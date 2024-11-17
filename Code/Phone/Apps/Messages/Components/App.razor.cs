@@ -1,7 +1,6 @@
 ﻿using System;
 using Rp.Phone.Apps.Messages.Services;
 using Rp.Phone.UI.Components;
-using Rp.UI;
 
 namespace Rp.Phone.Apps.Messages.Components;
 
@@ -15,16 +14,16 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 	public override string AppIcon => "textures/ui/phone/app_message.png";
 	public override string? AppNotificationIcon => "fluent:comment-48-filled";
 
-	public ConversationService ConversationService { get; set; } = null!;
+	public ConversationService ConversationService { get; private set; } = null!;
 
-	[CascadingProperty( "Phone" )] public Phone Phone { get; set; } = null!;
-
-	protected override void OnAfterTreeRender( bool firstTime )
+	protected override void OnAfterRender( bool firstRender )
 	{
-		if ( !firstTime ) return;
+		if ( !firstRender ) return;
 
+		ConversationService = Phone.GetService<ConversationService>();
+		
 		// Keep conversation updated when opening the app
-		ConversationService.Instance.LoadConversations();
+		ConversationService.LoadConversations();
 
 		_conversationsTab.Show();
 	}
@@ -45,16 +44,16 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 	{
 		if ( app != this ) return;
 
-		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
-		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+		app.Phone.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
+		app.Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	void IPhoneEvent.OnAppClosed( IPhoneApp app )
 	{
 		if ( app != this ) return;
 
-		Phone.Keyboard.Hide();
+		app.Phone.Keyboard.Hide();
 	}
 
-	protected override int BuildHash() => HashCode.Combine( Phone, Phone.Keyboard.IsOpen );
+	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), ConversationService, Phone.Keyboard.IsOpen );
 }
