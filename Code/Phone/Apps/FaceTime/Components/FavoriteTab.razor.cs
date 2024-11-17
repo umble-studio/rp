@@ -10,7 +10,7 @@ public sealed partial class FavoriteTab : PhoneNavigationPage
 	
 	public override string PageName => "Favorites";
 
-	private List<PhoneContact> Contacts { get; set; }
+	private List<PhoneContact> Contacts { get; set; } = new();
 	
 	protected override void OnAfterRender( bool firstRender )
 	{
