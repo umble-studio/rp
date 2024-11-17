@@ -26,14 +26,14 @@ public partial class Phone
 	#region Commands
 
 	[ConCmd( "phone_create_simcard" )]
-	private static void CreateSimCardCmd( ulong steamId, int characterId, int phoneNumber )
+	private void CreateSimCardCmd( ulong steamId, int characterId, int phoneNumber )
 	{
 		var simCard = new SimCardData
 		{
 			Owner = new CharacterId( steamId, (ushort)characterId ), PhoneNumber = phoneNumber
 		};
 
-		Current.CreateSimCardRpc( simCard );
+		CreateSimCardRpc( simCard );
 	}
 
 	#endregion
