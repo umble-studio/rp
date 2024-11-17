@@ -11,6 +11,7 @@ public partial class Phone
 	private SimCardData? _simCard;
 	private bool _isSimCardLoaded;
 
+	[Sync]
 	public SimCardData? SimCard
 	{
 		get => _simCard;
@@ -23,16 +24,16 @@ public partial class Phone
 		}
 	}
 
-	private void LoadSimCard( SteamId steamId, CharacterId characterId )
+	private void LoadSimCard( CharacterId characterId )
 	{
 		_isSimCardLoaded = false;
-		LoadSimCardsClientRpc( steamId, characterId );
+		LoadSimCardsClientRpc( characterId );
 	}
 
 	#region RPC
 
 	[Broadcast( NetPermission.Anyone )]
-	private void LoadSimCardsClientRpc( SteamId steamId, CharacterId characterId )
+	private void LoadSimCardsClientRpc( CharacterId characterId )
 	{
 		if ( !Networking.IsHost ) return;
 

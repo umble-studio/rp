@@ -5,7 +5,6 @@ using Rp.Phone.Extensions;
 using Rp.Phone.UI.Components;
 using Sandbox.UI;
 using ControlCenter = Rp.Phone.UI.Components.ControlCenter;
-using SteamId = Rp.Core.SteamId;
 
 namespace Rp.Phone;
 
@@ -62,7 +61,7 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 
 			Log.Info( "is character loaded: " + CharacterManager.Instance.Current );
 
-			LoadSimCard( SteamId.Local, CharacterManager.Instance.Current.CharacterId );
+			LoadSimCard( CharacterManager.Instance.Current.CharacterId );
 
 			// TODO - Refactor this code to be cleaner
 			while ( !_isSimCardLoaded )
