@@ -2,6 +2,8 @@
 
 public interface IPhoneApp
 {
+	Phone Phone { get; internal set; }
+	
 	string AppName { get; }
 	string AppTitle { get; }
 	string? AppIcon { get; }
