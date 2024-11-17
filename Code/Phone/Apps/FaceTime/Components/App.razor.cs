@@ -17,8 +17,8 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 	{
 		if ( app != this ) return;
 
-		app.Phone.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
-		app.Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Dark; 
+		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	void INavigationEvent.OnNavigationOpen( INavigationPage page, params object[] args )
@@ -26,12 +26,5 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 		_pageName = page.PageName;
 	}
 
-	// void IPhoneEvent.OnAppClosed( IPhoneApp app )
-	// {
-	// 	if ( app != this ) return;
-	//
-	// 	Phone.Current.Keyboard.Hide();
-	// }
-
-	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), _pageName, Phone?.Keyboard?.IsOpen );
+	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), _pageName, Phone.Keyboard?.IsOpen );
 }
