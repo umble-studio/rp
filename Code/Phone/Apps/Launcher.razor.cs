@@ -16,6 +16,8 @@ public sealed partial class Launcher : PhoneApp, IPhoneEvent
 
 	protected override void OnAfterRender( bool firstRender )
 	{
+		base.OnAfterRender( firstRender );
+		
 		if ( !firstRender ) return;
 
 		DockDefaultApps();
