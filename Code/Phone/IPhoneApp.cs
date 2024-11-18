@@ -9,6 +9,7 @@ public interface IPhoneApp
 	string? AppIcon { get; }
 	string? AppNotificationIcon { get; }
 	bool ShowAppInLauncher { get; }
+	bool IsInitialized { get; }
 
 	void OpenApp();
 	void CloseApp();

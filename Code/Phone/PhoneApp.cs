@@ -16,8 +16,15 @@ public abstract class PhoneApp : CascadingPanel, IPhoneApp
 	public abstract string? AppIcon { get; }
 	public virtual string? AppNotificationIcon { get; } = null;
 	public virtual bool ShowAppInLauncher { get; } = true;
+	public bool IsInitialized { get; private set; }
 
 	[CascadingProperty("Phone")] public Phone Phone { get; set; } = null!;
+
+	protected override void OnAfterRender( bool firstRender )
+	{
+		if ( firstRender )
+			IsInitialized = true;
+	}
 
 	public virtual void OpenApp()
 	{
