@@ -114,9 +114,10 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 		}
 	}
 
-	public void SwitchToApp<T>() where T : IPhoneApp
+	public T SwitchToApp<T>() where T : IPhoneApp
 	{
-		if ( _currentApp is T ) return;
+		if ( _currentApp is T app ) 
+			return app;
 		
 		_currentApp?.CloseApp();
 		_currentApp = GetApp<T>();
@@ -130,6 +131,8 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 
 		_appContainer.AddChild( panel );
 		_currentApp?.OpenApp();
+
+		return (T)_currentApp;
 	}
 
 	public void SwitchToApp( IPhoneApp app )
