@@ -5,6 +5,11 @@ namespace Rp.Phone.Apps.FaceTime.Services;
 public record CallResult
 {
 	/// <summary>
+	/// The id of the call
+	/// </summary>
+	public Guid CallId { get; init; }
+	
+	/// <summary>
 	/// The participant that ended the call
 	/// </summary>
 	public PhoneNumber Caller { get; init; }

@@ -25,7 +25,7 @@
       },
       {
         "__type": "Rp.Phone.Apps.FaceTime.Services.CallService",
-        "__guid": "f29b5976-7746-4684-b240-dcd5a055b17c"
+        "__guid": "00000000-0000-0000-0000-000000000000"
       },
       {
         "__type": "Sandbox.Voice",
@@ -35,7 +35,7 @@
         "MorphScale": 3,
         "MorphSmoothTime": 0.1,
         "PushToTalkInput": "voice",
-        "Volume": 1,
+        "Volume": 10,
         "WorldspacePlayback": true
       }
     ],

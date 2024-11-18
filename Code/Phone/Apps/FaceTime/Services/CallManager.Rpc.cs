@@ -15,13 +15,6 @@ public sealed partial class CallManager
 		var isTargetReadyToCall = Instance.IsParticipantReadyToCall( incomingCallInfo.Callee );
 		Log.Info( "isTargetReadyToCall: " + isTargetReadyToCall );
 
-		if ( isReadyToCall && !isTargetReadyToCall )
-		{
-			Log.Warning( "Cancel call: " + incomingCallInfo.Caller + ", " + incomingCallInfo.Callee );
-			// CancelCallRpcResponse();
-			return;
-		}
-
 		var phones = Instance.Scene.GetAllComponents<Phone>()
 			.Where( x => x.Network.Active && x.SimCard is not null )
 			.ToList();
@@ -29,9 +22,17 @@ public sealed partial class CallManager
 		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallInfo.Caller );
 		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallInfo.Callee );
 
+		if ( isReadyToCall && !isTargetReadyToCall )
+		{
+			Log.Warning( "Cancel call: " + incomingCallInfo.Caller + ", " + incomingCallInfo.Callee );
+
+			using ( Rpc.FilterInclude( x => x == firstPhone!.Network.Owner ) )
+				firstPhone!.GetService<CallService>().CancelCallRpcResponse();
+		}
+
 		if ( firstPhone is null || secondPhone is null )
 		{
-			Log.Error( "One of the phones is null: " + (firstPhone is null) + ", " + (secondPhone is null) );
+			Log.Warning( "One of the phones is null: " + (firstPhone is null) + ", " + (secondPhone is null) );
 			return;
 		}
 
@@ -55,7 +56,7 @@ public sealed partial class CallManager
 	}
 
 	[Broadcast( NetPermission.Anyone )]
-	public static void AcceptIncomingCallRpcRequest( Guid callId )
+	public static async void AcceptIncomingCallRpcRequest( Guid callId )
 	{
 		if ( !Networking.IsHost ) return;
 
@@ -93,11 +94,15 @@ public sealed partial class CallManager
 		callService.IsOutgoingCallCallPending = false;
 		callService.IsOccupied = true;
 		callService.CallInfo = callInfo;
+		callService.AcceptingCallRpcRequest( incomingCallRequest );
+
+		await GameTask.DelaySeconds( 1 );
 
 		callService = secondPhone.GetService<CallService>();
 		callService.IsIncomingCallPending = false;
 		callService.IsOccupied = true;
 		callService.CallInfo = callInfo;
+		callService.AcceptingCallRpcRequest( incomingCallRequest );
 
 		Instance.Sessions.Add( callInfo.CallId, callInfo );
 	}
@@ -181,6 +186,7 @@ public sealed partial class CallManager
 
 		var callResult = new CallResult
 		{
+			CallId = callId,
 			Caller = session.Caller,
 			Callee = session.Callee,
 			StartedAt = session.StartedAt,

@@ -1,4 +1,5 @@
 ﻿using System;
+using Sandbox.Audio;
 
 namespace Rp.Phone.Apps.FaceTime.Services;
 
@@ -30,6 +31,8 @@ public sealed partial class CallService : Component, IPhoneService
 	[HostSync]
 	public bool IsOccupied { get; set; }
 
+	public bool IsCalling => CallInfo is not null;
+	
 	public void StartCall( PhoneNumber target )
 	{
 		Log.Info( "StartCall: " + IsOccupied );
