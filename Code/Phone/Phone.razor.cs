@@ -116,6 +116,8 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 
 	public void SwitchToApp<T>() where T : IPhoneApp
 	{
+		if ( _currentApp is T ) return;
+		
 		_currentApp?.CloseApp();
 		_currentApp = GetApp<T>();
 
@@ -146,6 +148,11 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 		_currentApp?.OpenApp();
 	}
 
+	public bool IsAppOpened<T>() where T : IPhoneApp
+	{
+		return _currentApp is T;
+	}
+	
 	public void RefreshAppInstance( IPhoneApp app, out Panel panel )
 	{
 		Apps.RemoveAll( x => x.AppName == app.AppName );
