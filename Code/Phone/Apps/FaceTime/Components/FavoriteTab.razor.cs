@@ -23,7 +23,7 @@ public sealed partial class FavoriteTab : PhoneNavigationPage
 		var callService = Phone.Local.GetService<CallService>();
 		callService.StartCall( contact.ContactNumber );
 
-		Host.Navigate<CallTab>( contact );
+		Host.Navigate<CallTab>();
 	}
 
 	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), Phone.Contacts.All );

@@ -4,7 +4,11 @@
 @using Rp.Phone.Apps.Messages.Components
 @inherits PhoneNavigationPage
 
-@if ( _currentContact is null ) return;
+@if ( CallInfo is null )
+{
+	Log.Info( "CallInfo is null" );
+	return;
+}
 
 <root>
 	<img src="textures/ui/phone/woman_02.jpg" alt="">
@@ -25,8 +29,34 @@
 			</Content>
 		</MessageBar>
 		<div class="contact-info">
-			<span class="time">00:00</span>
-			<span class="name">@_currentContact.ContactName</span>
+			<span class="time">@GetCallDuration()</span>
+			@if ( CallInfo is not null )
+			{
+				var imTheCaller = Caller?.ContactNumber == Phone.LocalContact.ContactNumber;
+				
+				@if ( imTheCaller )
+				{
+					if ( Callee is not null )
+					{
+						<span class="name">@Callee.ContactName</span>
+					}
+					else
+					{
+						<span class="name">@CallInfo.Callee</span>
+					}
+				}
+				else
+				{
+					if ( Caller is not null )
+					{
+						<span class="name">@Caller.ContactName</span>
+					}
+					else
+					{
+						<span class="name">@CallInfo.Caller</span>
+					}
+				}
+			}
 		</div>
 		<div class="menu">
 			<div class="first-column">

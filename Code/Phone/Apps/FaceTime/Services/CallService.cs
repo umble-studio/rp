@@ -4,94 +4,60 @@ namespace Rp.Phone.Apps.FaceTime.Services;
 
 public sealed partial class CallService : Component, IPhoneService
 {
-	[HostSync] public Guid? CurrentCallId { get; private set; }
-	[HostSync] public IncomingCallRequest? IncomingCall { get; private set; }
-	[HostSync] public bool IsOutgoingCallCallPending { get; private set; }
-	[HostSync] public bool IsIncomingCallPending { get; private set; }
-	[HostSync] public bool IsOccupied { get; private set; }
+	private SoundHandle? _callingSound;
 
-	public bool CanCall { get; private set; } = true;
-	public bool IsCalling { get; private set; }
-	
-	// public Info CallInfo { get; private set; }
+	/// <summary>
+	/// The current call info, if the phone is in a call.
+	/// </summary>
+	[HostSync]
+	public CallSession? CallInfo { get; set; }
 
-	// protected override async void OnUpdate()
-	// {
-	// 	if ( Network.IsProxy ) return;
-	//
-	// 	var callService = Phone.Local.GetService<CallService>();
-	//
-	// 	if ( callService.IncomingCall is not null )
-	// 	{
-	// 		if ( _isCallInitialized ) return;
-	// 		_isCallInitialized = true;
-	//
-	// 		Phone.Local.SwitchToApp<FaceTimeApp>();
-	//
-	// 		Log.Info( "Before" );
-	// 		await GameTask.DelaySeconds( 1 );
-	// 		Log.Info( "After" );
-	//
-	// 		var faceTimeApp = Phone.Local.GetApp<FaceTimeApp>();
-	// 		var phoneContact = Phone.Local.Contacts.GetContactByNumber( callService.IncomingCall.Value.Caller );
-	//
-	// 		faceTimeApp.NavHost.Navigate<CallTab>( callService.IncomingCall.Value.Caller );
-	// 	}
-	// }
+	/// <summary>
+	/// Whether the phone is waiting for an outgoing call response.
+	/// </summary>
+	[HostSync]
+	public bool IsOutgoingCallCallPending { get; set; }
 
-	protected override void OnUpdate()
+	/// <summary>
+	/// Whether the phone is waiting for an incoming call response.
+	/// </summary>
+	[HostSync]
+	public bool IsIncomingCallPending { get; set; }
+
+	/// <summary>
+	/// Is the phone currently occupied with a call ?
+	/// </summary>
+	[HostSync]
+	public bool IsOccupied { get; set; }
+
+	public void StartCall( PhoneNumber target )
 	{
-		if ( Networking.IsHost )
+		Log.Info( "StartCall: " + IsOccupied );
+		if ( Phone.Local.SimCard?.PhoneNumber == target || IsOccupied ) return;
+
+		var me = Phone.Local.SimCard?.PhoneNumber;
+		if ( me is null ) return;
+
+		using var _ = Rpc.FilterInclude( x => x.IsHost );
+
+		var incomingCallInfo = new IncomingCallRequest
 		{
-			CheckForOutdatedIncomingCallsRequests();
+			CallId = Guid.NewGuid(), Caller = me.Value, Callee = target, CreatedAt = DateTime.Now
+		};
+
+		_callingSound = Sound.Play( "sounds/phone/call_to_us.sound" );
+		CallManager.StartCallRpcRequest( incomingCallInfo );
+	}
+
+	public void EndCall()
+	{
+		if ( CallInfo == null || CallInfo.CallId == Guid.Empty )
+		{
+			Log.Error( "CurrentCallId is null or empty" );
+			return;
 		}
-	}
 
-	public readonly record struct IncomingCallRequest
-	{
-		public Guid CallId { get; init; }
-		public PhoneNumber Caller { get; init; }
-		public PhoneNumber Target { get; init; }
-		public DateTime CreatedAt { get; init; }
-	}
-
-	public struct Participant
-	{
-		public PhoneContact Contact { get; set; }
-		public bool IsVideoEnabled { get; set; }
-		public bool IsMuted { get; set; }
-
-		public bool IsSpeakerEnabled { get; set; }
-		// public bool IsSpeaking { get; set; }
-	}
-
-	public record struct Info
-	{
-		public Guid CallId { get; init; }
-		public List<Participant> Participants { get; init; }
-		public DateTime StartedAt { get; init; }
-	}
-
-	public readonly struct End
-	{
-		/// <summary>
-		/// The contact that ended the call
-		/// </summary>
-		public PhoneContact Contact { get; init; }
-
-		/// <summary>
-		/// The time the call started 
-		/// </summary>
-		public DateTime StartedAt { get; init; }
-
-		/// <summary>
-		/// The time the call ended
-		/// </summary>
-		public DateTime? EndedAt { get; init; }
-
-		/// <summary>
-		/// The reason the call ended
-		/// </summary>
-		public string Reason { get; init; }
+		using var _ = Rpc.FilterInclude( x => x.IsHost );
+		CallManager.EndCallRpcRequest( CallInfo.CallId, Phone.Local.SimCard!.PhoneNumber );
 	}
 }

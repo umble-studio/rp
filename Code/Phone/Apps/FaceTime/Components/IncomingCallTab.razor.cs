@@ -2,13 +2,12 @@
 using Rp.Phone.Apps.FaceTime.Services;
 using Rp.Phone.UI.Components;
 using Rp.UI;
-using Sandbox.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
 public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEvent
 {
-	private CallService.IncomingCallRequest? _incomingCallRequest;
+	private IncomingCallRequest? _incomingCallRequest;
 
 	public override string PageName => "Incoming Call";
 
@@ -16,11 +15,16 @@ public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEv
 	{
 		var callService = Phone.Local.GetService<CallService>();
 
+		Log.Info( "Accept Call: " + string.Join( ", ", callService.IsOccupied ) );
+
 		if ( callService.IsOccupied ) return;
 		if ( _incomingCallRequest is null ) return;
 
-		Log.Info( "Accept incoming call from phone: " + _incomingCallRequest.Value.Caller );
-		callService.AcceptIncomingCallRpcRequest( _incomingCallRequest.Value.CallId );
+		Log.Info( "Accept incoming call from phone: " + _incomingCallRequest.Caller );
+		CallManager.AcceptIncomingCallRpcRequest( _incomingCallRequest.CallId );
+
+		var app = Phone.Local.GetApp<FaceTimeApp>();
+		app.NavHost.Navigate<CallTab>();
 	}
 
 	private void RejectCall()
@@ -28,14 +32,14 @@ public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEv
 		var callService = Phone.Local.GetService<CallService>();
 		if ( _incomingCallRequest is null ) return;
 
-		callService.RejectIncomingCallRpcRequest( _incomingCallRequest.Value.CallId );
+		CallManager.RejectIncomingCallRpcRequest( _incomingCallRequest.CallId );
 	}
 
 	public void OnNavigationOpen( INavigationPage page, params object[] args )
 	{
 		if ( page is not IncomingCallTab ) return;
 
-		if ( args[0] is CallService.IncomingCallRequest request )
+		if ( args[0] is IncomingCallRequest request )
 		{
 			_incomingCallRequest = request;
 		}

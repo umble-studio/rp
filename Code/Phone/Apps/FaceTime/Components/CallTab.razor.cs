@@ -8,13 +8,29 @@ namespace Rp.Phone.Apps.FaceTime.Components;
 
 public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 {
-	private PhoneContact? _currentContact;
 	private string _speakerIcon = "fluent:speaker-off-28-filled";
 	private string _muteIcon = "fluent:mic-28-filled";
 	private bool _isMuted;
 	private bool _isSpeaker;
 
 	public override string PageName => "Call";
+
+	private CallSession? CallInfo
+		=> Phone.Local.GetService<CallService>().CallInfo;
+
+	private PhoneContact? Caller =>
+		CallInfo is null ? null : Phone.Local.Contacts.GetContactByNumber( CallInfo.Caller );
+
+	private PhoneContact? Callee =>
+		CallInfo is null ? null : Phone.Local.Contacts.GetContactByNumber( CallInfo.Callee );
+
+	private string GetCallDuration()
+	{
+		if ( CallInfo is null ) return "00:00";
+
+		var value = DateTime.Now - CallInfo!.StartedAt;
+		return value.ToString( @"mm\:ss" );
+	}
 
 	private void OnSpeakerClicked( bool toggle )
 	{
@@ -60,22 +76,11 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 	{
 		if ( page is not CallTab ) return;
 
-		if ( args[0] is PhoneContact contact )
-		{
-			_currentContact = contact;
-		}
-
 		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
 		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	protected override int ShouldRender() =>
-		HashCode.Combine( base.ShouldRender(), _currentContact, _isSpeaker,
-			_isMuted );
-
-	public enum View
-	{
-		IncomingCall,
-		OutgoingCall
-	}
+		HashCode.Combine( base.ShouldRender(), CallInfo, _isSpeaker,
+			_isMuted, GetCallDuration() );
 }

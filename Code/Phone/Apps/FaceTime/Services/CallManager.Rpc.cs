@@ -1,0 +1,197 @@
+using System;
+
+namespace Rp.Phone.Apps.FaceTime.Services;
+
+public sealed partial class CallManager
+{
+	[Broadcast( NetPermission.Anyone )]
+	public static void StartCallRpcRequest( IncomingCallRequest incomingCallInfo )
+	{
+		if ( !Networking.IsHost ) return;
+
+		var isReadyToCall = Instance.IsParticipantReadyToCall( incomingCallInfo.Caller );
+		Log.Info( "isReadyToCall: " + isReadyToCall );
+
+		var isTargetReadyToCall = Instance.IsParticipantReadyToCall( incomingCallInfo.Callee );
+		Log.Info( "isTargetReadyToCall: " + isTargetReadyToCall );
+
+		if ( isReadyToCall && !isTargetReadyToCall )
+		{
+			Log.Warning( "Cancel call: " + incomingCallInfo.Caller + ", " + incomingCallInfo.Callee );
+			// CancelCallRpcResponse();
+			return;
+		}
+
+		var phones = Instance.Scene.GetAllComponents<Phone>()
+			.Where( x => x.Network.Active && x.SimCard is not null )
+			.ToList();
+
+		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallInfo.Caller );
+		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallInfo.Callee );
+
+		if ( firstPhone is null || secondPhone is null )
+		{
+			Log.Error( "One of the phones is null: " + (firstPhone is null) + ", " + (secondPhone is null) );
+			return;
+		}
+
+		Log.Info( "Add pending incoming call request: " + incomingCallInfo.CallId );
+
+		Instance.PendingIncomingCallsRequests[incomingCallInfo.CallId] = incomingCallInfo;
+
+		// The other phone is now waiting for the call to be accepted
+		var callService = firstPhone.GetService<CallService>();
+		callService.IsOutgoingCallCallPending = true;
+
+		// We tell the other phone that we are waiting for a call response
+		callService = secondPhone.GetService<CallService>();
+		callService.IsIncomingCallPending = true;
+
+		// Sending the incoming call request to the target phone
+		var targetConnection = secondPhone.Network.Owner;
+
+		using ( Rpc.FilterInclude( x => x == targetConnection ) )
+			callService.ShowIncomingCallTabRpcRequest( incomingCallInfo );
+	}
+
+	[Broadcast( NetPermission.Anyone )]
+	public static void AcceptIncomingCallRpcRequest( Guid callId )
+	{
+		if ( !Networking.IsHost ) return;
+
+		if ( !Instance.PendingIncomingCallsRequests.Remove( callId, out var incomingCallRequest ) )
+		{
+			Log.Error( $"{nameof(AcceptIncomingCallRpcRequest)}: Call not found: " + callId );
+			return;
+		}
+
+		var phones = Instance.Scene.GetAllComponents<Phone>()
+			.Where( x => x.Network.Active && x.SimCard is not null )
+			.ToList();
+
+		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Caller );
+		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Callee );
+
+		if ( firstPhone is null || secondPhone is null )
+		{
+			Log.Error( "One of the phones is null: " + (firstPhone is null) + ", " + (secondPhone is null) );
+			return;
+		}
+
+		Log.Info( "Accept incoming call: " + incomingCallRequest.CallId );
+
+		// We set the current call state as occupied for both participants
+		var callInfo = new CallSession()
+		{
+			CallId = callId,
+			Caller = incomingCallRequest.Caller,
+			Callee = incomingCallRequest.Callee,
+			StartedAt = DateTime.Now
+		};
+
+		var callService = firstPhone.GetService<CallService>();
+		callService.IsOutgoingCallCallPending = false;
+		callService.IsOccupied = true;
+		callService.CallInfo = callInfo;
+
+		callService = secondPhone.GetService<CallService>();
+		callService.IsIncomingCallPending = false;
+		callService.IsOccupied = true;
+		callService.CallInfo = callInfo;
+
+		Instance.Sessions.Add( callInfo.CallId, callInfo );
+	}
+
+	[Broadcast( NetPermission.Anyone )]
+	public static void RejectIncomingCallRpcRequest( Guid callId )
+	{
+		if ( !Networking.IsHost ) return;
+
+		if ( !Instance.PendingIncomingCallsRequests.Remove( callId, out var incomingCallRequest ) )
+		{
+			Log.Info( $"{nameof(RejectIncomingCallRpcRequest)}: Call not found: " + callId );
+			return;
+		}
+
+		var phones = Instance.Scene.GetAllComponents<Phone>()
+			.Where( x => x.Network.Active && x.SimCard is not null )
+			.ToList();
+
+		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Caller );
+		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Callee );
+
+		if ( firstPhone is null || secondPhone is null )
+		{
+			Log.Info( "One of the phones is null: " + (firstPhone is null) + ", " + (secondPhone is null) );
+			return;
+		}
+
+		Log.Info( "Reject incoming call from phone: " + incomingCallRequest.Caller );
+
+		// We set the current call state as not occupied for both participants
+		var callService = firstPhone.GetService<CallService>();
+		callService.IsOutgoingCallCallPending = false;
+		callService.IsOccupied = false;
+		callService.CallInfo = default;
+
+		callService = secondPhone.GetService<CallService>();
+		callService.IsIncomingCallPending = false;
+		callService.IsOccupied = false;
+		callService.CallInfo = default;
+	}
+
+	[Broadcast( NetPermission.Anyone )]
+	public static void EndCallRpcRequest( Guid callId, PhoneNumber caller )
+	{
+		if ( !Networking.IsHost ) return;
+
+		if ( !Instance.Sessions.Remove( callId, out var session ) )
+		{
+			Log.Info( $"{nameof(EndCallRpcRequest)}: Call not found: " + callId );
+			return;
+		}
+
+		var phones = Instance.Scene.GetAllComponents<Phone>()
+			.Where( x => x.Network.Active && x.SimCard is not null )
+			.ToList();
+
+		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == session.Caller );
+		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == session.Callee );
+
+		if ( firstPhone is null || secondPhone is null )
+		{
+			Log.Info( "One of the phones is null: " + (firstPhone is null) + ", " + (secondPhone is null) );
+			return;
+		}
+
+		// We set the current call state as not occupied for both participants
+		var callService = firstPhone.GetService<CallService>();
+		callService.IsOutgoingCallCallPending = false;
+		callService.IsOccupied = false;
+		callService.CallInfo = null;
+
+		callService = secondPhone.GetService<CallService>();
+		callService.IsIncomingCallPending = false;
+		callService.IsOccupied = false;
+		callService.CallInfo = null;
+
+		var reason = session.Caller == caller
+			? CallResult.ReasonType.EndedByCaller
+			: CallResult.ReasonType.EndedByCallee;
+
+		var callResult = new CallResult
+		{
+			Caller = session.Caller,
+			Callee = session.Callee,
+			StartedAt = session.StartedAt,
+			EndedAt = DateTime.Now,
+			Reason = reason
+		};
+
+		// Send the call result to both participants
+		var connections = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
+
+		using ( Rpc.FilterInclude( x => connections.Any( c => c.SteamId == x.SteamId ) ) )
+			callService.EndingCallRpcRequest( callResult );
+	}
+}

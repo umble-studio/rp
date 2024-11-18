@@ -470,6 +470,29 @@
           "ZNear": 10
         }
       ]
+    },
+    {
+      "__guid": "92512b1a-9272-497a-b3ab-9487894c3f6c",
+      "Flags": 0,
+      "Name": "Managers",
+      "Position": "-194.1202,-279.7495,203.0393",
+      "Enabled": true,
+      "NetworkMode": 0,
+      "Children": [
+        {
+          "__guid": "9f6a760f-601a-43c8-9999-9fb9e51af86d",
+          "Flags": 0,
+          "Name": "Call Manager",
+          "Enabled": true,
+          "NetworkMode": 0,
+          "Components": [
+            {
+              "__type": "Rp.Phone.Apps.FaceTime.Services.CallManager",
+              "__guid": "63565e95-a18d-4a1c-8f3e-268940a1e0e7"
+            }
+          ]
+        }
+      ]
     }
   ],
   "SceneProperties": {
