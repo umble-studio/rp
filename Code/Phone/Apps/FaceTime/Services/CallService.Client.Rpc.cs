@@ -28,12 +28,11 @@ public partial class CallService
 		Log.Info( $"{nameof(ShowIncomingCallTabRpcRequest)}: {incomingCallInfo.Caller}, {incomingCallInfo.Target}" );
 
 		// Switch to FaceTime app and wait a second to make sure the app is loaded
-		Phone.Local.SwitchToApp<FaceTimeApp>();
-		await GameTask.DelaySeconds( 3 );
-		
-		Log.Info("Switched to FaceTime app");
-		
-		var app = Phone.Local.GetApp<FaceTimeApp>();
+		var app = Phone.Local.SwitchToApp<FaceTimeApp>();
+
+		while ( !app.IsInitialized )
+			await GameTask.Delay( 1 );
+
 		app.NavHost.Navigate<IncomingCallTab>( incomingCallInfo );
 	}
 
