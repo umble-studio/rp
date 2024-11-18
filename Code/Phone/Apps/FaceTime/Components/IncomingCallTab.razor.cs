@@ -40,8 +40,8 @@ public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEv
 			_incomingCallRequest = request;
 		}
 
-		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
-		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+		Phone.Local.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		Phone.Local.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	protected override int ShouldRender() =>
