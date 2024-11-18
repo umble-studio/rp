@@ -1,10 +1,8 @@
-﻿using Rp.Core.Systems;
+﻿namespace Rp.Core.Managers;
 
-namespace Rp.Core.Managers;
-
-public partial class GameManager : INetworkInitializer.IClient
+public partial class GameManager
 {
-	void INetworkInitializer.IClient.InitializeClient()
+	protected override void OnStart()
 	{
 		Task.RunInThreadAsync( async () =>
 		{
@@ -12,7 +10,7 @@ public partial class GameManager : INetworkInitializer.IClient
 			await PlayerManager.Instance.WaitForPlayerInitialization();
 
 			// Initialize the character manager when the player is loaded
-			CharacterManager.Instance.InitializeClient();
+			CharacterManager.Instance.OnActive();
 		} );
 	}
 }

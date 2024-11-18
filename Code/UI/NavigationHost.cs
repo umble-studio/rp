@@ -43,10 +43,12 @@ public abstract class NavigationHost : CascadingPanel
 		_pages.Add( typeof(T) );
 	}
 
-	public void Navigate( Type type, params object[] args )
+	public INavigationPage? Navigate( Type type, params object[] args )
 	{
 		var page = GetPage( type );
-		if ( page is null ) return;
+		
+		if ( page is null ) 
+			return null;
 
 		if ( CurrentPage is not null )
 		{
@@ -61,11 +63,12 @@ public abstract class NavigationHost : CascadingPanel
 		CurrentPage.Style.ZIndex = 10;
 
 		Scene.RunEvent<INavigationEvent>( x => x.OnNavigationOpen( CurrentPage, args ), true );
+		return CurrentPage;
 	}
 
-	public void Navigate<T>( params object[] args ) where T : INavigationPage, new()
+	public T Navigate<T>( params object[] args ) where T : INavigationPage, new()
 	{
-		Navigate( typeof(T), args );
+		return (T)Navigate( typeof(T), args )!;
 	}
 
 	private NavigationPage? GetPage( Type type )

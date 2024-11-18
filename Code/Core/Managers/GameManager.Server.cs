@@ -1,12 +1,10 @@
-﻿using Rp.Core.Systems;
+﻿namespace Rp.Core.Managers;
 
-namespace Rp.Core.Managers;
-
-public partial class GameManager : INetworkInitializer.IServer
+public partial class GameManager : Component.INetworkListener
 {
-	void INetworkInitializer.IServer.InitializeServer( Connection channel )
+	public void OnActive( Connection channel )
 	{
-		PlayerManager.Instance.InitializeServer( channel );
-		CharacterManager.Instance.InitializeServer();
+		PlayerManager.Instance.OnActive( channel );
+		CharacterManager.Instance.OnActive( channel );
 	}
 }

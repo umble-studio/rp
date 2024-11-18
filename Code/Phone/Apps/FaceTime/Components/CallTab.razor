@@ -4,7 +4,7 @@
 @using Rp.Phone.Apps.Messages.Components
 @inherits PhoneNavigationPage
 
-@if ( _phoneContact is null ) return;
+@if ( _currentContact is null ) return;
 
 <root>
 	<img src="textures/ui/phone/woman_02.jpg" alt="">
@@ -14,17 +14,19 @@
 			<Content>
 				<div class="header">
 					<div class="left">
-						<Button Icon="fluent:chevron-left-24-filled" IconColor="white" Theme="@PhoneTheme.Transparent" @onclick="@OnBack"></Button>
+						<Button Icon="fluent:chevron-left-24-filled" IconColor="white" Theme="@PhoneTheme.Transparent"
+						        @onclick="@OnBack"></Button>
 					</div>
 					<div class="right">
-						<Button Icon="fluent:info-24-regular" IconColor="white" Theme="@PhoneTheme.Transparent" @onclick="@OnContactInfo"></Button>
+						<Button Icon="fluent:info-24-regular" IconColor="white" Theme="@PhoneTheme.Transparent"
+						        @onclick="@OnContactInfo"></Button>
 					</div>
 				</div>
 			</Content>
 		</MessageBar>
 		<div class="contact-info">
 			<span class="time">00:00</span>
-			<span class="name">@_phoneContact.ContactName</span>
+			<span class="name">@_currentContact.ContactName</span>
 		</div>
 		<div class="menu">
 			<div class="first-column">
@@ -36,7 +38,9 @@
 			</div>
 			<div class="second-column">
 				<CircleButton Icon="fluent:people-add-28-filled" Text="Add"></CircleButton>
-				<CircleButton Icon="fluent:call-end-28-filled" Text="End"></CircleButton>
+				<CircleButton Icon="fluent:call-end-28-filled"
+				              Text="End"
+				              Clicked="@EndCall"></CircleButton>
 				<CircleButton Icon="fluent:grid-dots-28-filled" Text="Keypad" Clicked="@OnKeypad"></CircleButton>
 			</div>
 		</div>

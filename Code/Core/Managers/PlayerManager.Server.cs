@@ -4,41 +4,34 @@ namespace Rp.Core.Managers;
 
 public partial class PlayerManager
 {
-	/// <summary>
-	/// List of connected players (Server only)
-	/// </summary>
-	public readonly List<PlayerData> Players = new();
+	public static readonly Dictionary<SteamId, PlayerData> ServerPlayers = new();
 
-	internal void InitializeServer( Connection channel )
+	internal void OnActive( Connection channel )
 	{
-		// Clear all occurrences of the player, then catch it
-		Players.RemoveAll( x => x.Owner == channel.SteamId );
-
-		PlayerData? player;
-
-		if ( ServerPlayerExists( channel.SteamId ) )
-		{
-			player = ServerLoadPlayer( channel );
-		}
-		else
-		{
-			player = ServerCreatePlayer( channel );
-		}
+		var player = ServerPlayerExists( channel.SteamId )
+			? ServerLoadPlayer( channel )
+			: ServerCreatePlayer( channel );
 
 		if ( player is null ) return;
-		Players.Add( player );
+		ServerPlayers[channel.SteamId] = player;
 	}
 
-	private static PlayerData? ServerLoadPlayer( Connection channel )
+	private PlayerData? ServerLoadPlayer( Connection channel )
 	{
-		return RoverDatabase.Instance.SelectOne<PlayerData>( x => x.Owner == channel.SteamId );
+		var player = RoverDatabase.Instance.SelectOne<PlayerData>( x => x.Owner == channel.SteamId );
+
+		if ( player is null )
+			return null;
+
+		return ServerPlayers[player.Owner] = player;
 	}
 
-	private static PlayerData? ServerCreatePlayer( Connection channel )
+	private PlayerData? ServerCreatePlayer( Connection channel )
 	{
 		var player = new PlayerData { Owner = channel.SteamId };
 		RoverDatabase.Instance.Insert( player );
 
+		ServerPlayers[player.Owner] = player;
 		return player;
 	}
 

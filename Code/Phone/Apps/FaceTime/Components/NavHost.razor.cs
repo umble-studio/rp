@@ -17,6 +17,7 @@ public sealed partial class NavHost : NavigationHost
 		RegisterPage<RecentTab>();
 		RegisterPage<ContactsTab>();
 		RegisterPage<KeypadTab>();
+		RegisterPage<IncomingCallTab>();
 		RegisterPage<CallTab>();
 
 		Navigate<FavoriteTab>();

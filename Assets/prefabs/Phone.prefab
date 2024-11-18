@@ -26,6 +26,17 @@
       {
         "__type": "Rp.Phone.Apps.FaceTime.Services.CallService",
         "__guid": "f29b5976-7746-4684-b240-dcd5a055b17c"
+      },
+      {
+        "__type": "Sandbox.Voice",
+        "__guid": "acaeaeda-a3ef-4422-9810-c4a4ab9f60a1",
+        "Loopback": false,
+        "Mode": "Manual",
+        "MorphScale": 3,
+        "MorphSmoothTime": 0.1,
+        "PushToTalkInput": "voice",
+        "Volume": 1,
+        "WorldspacePlayback": true
       }
     ],
     "Children": [],

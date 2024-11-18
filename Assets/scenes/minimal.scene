@@ -445,12 +445,29 @@
       "__guid": "6886bec6-f684-41f3-9aec-bc57a60f2802",
       "Flags": 0,
       "Name": "Player Manager",
-      "Position": "33.31787,108.373,10.93331",
+      "Position": "34.33426,108.373,10.93331",
       "Enabled": true,
       "Components": [
         {
           "__type": "Rp.Core.Managers.PlayerManager",
           "__guid": "cdaf2e48-a358-47a9-aa04-6d9de24609c2"
+        },
+        {
+          "__type": "Sandbox.CameraComponent",
+          "__guid": "91f763d6-e704-4d3b-8bf8-3dc75b06d6f2",
+          "BackgroundColor": "0.33333,0.46275,0.52157,1",
+          "ClearFlags": "All",
+          "FieldOfView": 60,
+          "IsMainCamera": true,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 10
         }
       ]
     }

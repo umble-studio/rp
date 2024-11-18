@@ -6,7 +6,7 @@ public partial class CharacterManager
 {
 	private bool _isCharacterLoaded;
 
-	internal void InitializeClient()
+	internal void OnActive()
 	{
 		LoadCharacters();
 		
