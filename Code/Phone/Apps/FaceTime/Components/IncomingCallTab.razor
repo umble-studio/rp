@@ -1,0 +1,26 @@
+﻿@namespace Rp.Phone.Apps.FaceTime.Components
+@using System
+@using Rp.Phone.UI.Components
+@using Rp.Phone.Apps.Messages.Components
+@inherits PhoneNavigationPage
+
+@if ( _incomingCallRequest is null ) return;
+
+<root>
+	<div class="content">
+		<div class="caller-info">
+			<span class="name">Incoming call</span>
+			<span class="caller">@_incomingCallRequest.Value.Caller</span>
+		</div>
+		<div class="menu">
+			<div class="first-column">
+				<CircleButton Icon="fluent:call-28-filled"
+				              Text="Accept"
+				              Clicked="@AcceptCall"></CircleButton>
+				<CircleButton Icon="fluent:call-end-28-filled"
+				              Text="Reject"
+				              Clicked="@RejectCall"></CircleButton>
+			</div>
+		</div>
+	</div>
+</root>
