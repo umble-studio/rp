@@ -33,6 +33,7 @@ public partial class CallService
 		var voice = GetComponent<Voice>();
 		voice.CreateVoiceCallMixer( incomingCallInfo.CallId );
 
+		Sound.Play( "sounds/phone/facetime_accept.sound" );
 		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallAccepted( incomingCallInfo ), true );
 	}
 
