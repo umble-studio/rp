@@ -10,10 +10,7 @@ public sealed partial class CallManager
 		if ( !Networking.IsHost ) return;
 
 		var isReadyToCall = Instance.IsParticipantReadyToCall( incomingCallInfo.Caller );
-		Log.Info( "isReadyToCall: " + isReadyToCall );
-
 		var isTargetReadyToCall = Instance.IsParticipantReadyToCall( incomingCallInfo.Callee );
-		Log.Info( "isTargetReadyToCall: " + isTargetReadyToCall );
 
 		var phones = Instance.Scene.GetAllComponents<Phone>()
 			.Where( x => x.Network.Active && x.SimCard is not null )

@@ -8,29 +8,29 @@ public sealed partial class CallManager : Singleton<CallManager>, Component.INet
 	private readonly Dictionary<Guid, IncomingCallRequest> PendingIncomingCallsRequests = new();
 	private readonly Dictionary<Guid, CallSession> Sessions = new();
 
-	// private const int MaxPendingIncomingCallDuration = 11;
+	private const int MaxPendingIncomingCallDuration = 10;
 
-	// protected override void OnUpdate()
-	// {
-	// 	if ( Networking.IsHost )
-	// 	{
-	// 		CheckForOutdatedIncomingCallsRequests();
-	// 	}
-	// }
-	//
-	// private void CheckForOutdatedIncomingCallsRequests()
-	// {
-	// 	foreach ( var (callId, incomingCall) in PendingIncomingCallsRequests )
-	// 	{
-	// 		if ( DateTime.Now - incomingCall.CreatedAt > TimeSpan.FromSeconds( MaxPendingIncomingCallDuration ) )
-	// 		{
-	// 			Log.Info( "Removing outdated incoming call request: " + callId );
-	//
-	// 			// CancelPendingOutgoingCallRpcResponse( callId );
-	// 			PendingIncomingCallsRequests.Remove( callId );
-	// 		}
-	// 	}
-	// }
+	protected override void OnUpdate()
+	{
+		if ( Networking.IsHost )
+		{
+			CheckForOutdatedIncomingCallsRequests();
+		}
+	}
+	
+	private void CheckForOutdatedIncomingCallsRequests()
+	{
+		foreach ( var (callId, incomingCall) in PendingIncomingCallsRequests )
+		{
+			if ( DateTime.Now - incomingCall.CreatedAt > TimeSpan.FromSeconds( MaxPendingIncomingCallDuration ) )
+			{
+				Log.Info( "Removing outdated incoming call request: " + callId );
+	
+				// CancelPendingOutgoingCallRpcResponse( callId );
+				PendingIncomingCallsRequests.Remove( callId );
+			}
+		}
+	}
 
 	public bool IsParticipantReadyToCall( PhoneNumber participantNumber )
 	{
@@ -42,21 +42,5 @@ public sealed partial class CallManager : Singleton<CallManager>, Component.INet
 
 		var callService = participantPhone.GameObject.GetComponent<CallService>();
 		return !callService.IsOccupied;
-	}
-
-	[ConCmd( "phone_reset_calls" )]
-	private static void ResetCmd()
-	{
-		Instance.PendingIncomingCallsRequests.Clear();
-		Instance.Sessions.Clear();
-
-		foreach ( var phone in Instance.Scene.GetAllComponents<Phone>() )
-		{
-			var callService = phone.GameObject.GetComponent<CallService>();
-			callService.IsOutgoingCallCallPending = false;
-			callService.IsIncomingCallPending = false;
-			callService.IsOccupied = false;
-			callService.CallInfo = default;
-		}
 	}
 }
