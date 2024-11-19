@@ -1,7 +1,7 @@
 using System;
 using Sandbox.Audio;
 
-namespace Rp.Phone.Apps.FaceTime.Services;
+namespace Rp.Phone;
 
 internal static class PhoneCallMixerHelper
 {
