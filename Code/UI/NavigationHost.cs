@@ -66,8 +66,6 @@ public abstract class NavigationHost : CascadingPanel
 		CurrentPage.Show();
 		CurrentPage.Style.ZIndex = 10;
 
-		Log.Info( "NAVIGATE: " + type.Name );
-
 		Scene.RunEvent<INavigationEvent>( x => x.OnNavigationOpen( CurrentPage, args ), true );
 		return CurrentPage;
 	}
