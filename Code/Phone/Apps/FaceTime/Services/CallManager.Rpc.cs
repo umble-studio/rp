@@ -27,7 +27,7 @@ public sealed partial class CallManager
 			Log.Warning( "Cancel call: " + incomingCallInfo.Caller + ", " + incomingCallInfo.Callee );
 
 			using ( Rpc.FilterInclude( x => x == firstPhone!.Network.Owner ) )
-				firstPhone!.GetService<CallService>().CancelCallRpcResponse();
+				firstPhone!.GetService<CallService>().CancelCallRpcResponse( incomingCallInfo.CallId );
 		}
 
 		if ( firstPhone is null || secondPhone is null )
@@ -156,7 +156,7 @@ public sealed partial class CallManager
 			EndedAt = DateTime.Now,
 			Reason = CallResult.ReasonType.EndedByCallee
 		};
-		
+
 		using ( Rpc.FilterInclude( x => targets.Contains( x ) ) )
 			callService.EndingCallRpcRequest( callResult );
 	}
