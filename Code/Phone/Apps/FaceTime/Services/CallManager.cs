@@ -41,6 +41,8 @@ public sealed partial class CallManager : Singleton<CallManager>, Component.INet
 
 			foreach ( var connection in connections )
 			{
+				if ( !connection.IsActive ) continue;
+				
 				var phone = phones.FirstOrDefault( x => x.Network.Owner == connection );
 				if ( phone is null ) continue;
 
