@@ -41,13 +41,17 @@ public sealed partial class CallService : Component, IPhoneService
 	/// Starts an outgoing call
 	/// </summary>
 	/// <param name="target">The target to call.</param>
-	public void StartOutgoingCall( PhoneNumber target )
+	public bool StartOutgoingCall( PhoneNumber target )
 	{
 		Log.Info( "StartCall: " + IsOccupied );
-		if ( Phone.Local.SimCard?.PhoneNumber == target || IsOccupied ) return;
+		
+		if ( Phone.Local.SimCard?.PhoneNumber == target || IsOccupied ) 
+			return false;
 
 		var me = Phone.Local.SimCard?.PhoneNumber;
-		if ( me is null ) return;
+		
+		if ( me is null ) 
+			return false;
 
 		using var _ = Rpc.FilterInclude( x => x.IsHost );
 
@@ -61,6 +65,8 @@ public sealed partial class CallService : Component, IPhoneService
 
 		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallStarted( incomingCallInfo.CallId ), true );
 		CallManager.StartCallRpcRequest( incomingCallInfo );
+
+		return true;
 	}
 
 	/// <summary>

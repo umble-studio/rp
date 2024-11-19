@@ -59,12 +59,13 @@ public sealed partial class KeypadTab : PhoneNavigationPage
 		if ( !int.TryParse( _phoneNumber, out var number ) ) return;
 
 		var phoneNumber = (PhoneNumber)number;
-
+		var callService = Phone.Local.GetService<CallService>();
+		
+		var canCall = callService.StartOutgoingCall( phoneNumber );
+		if ( !canCall ) return;
+		
 		var app = Phone.Local.GetApp<FaceTimeApp>();
 		app.NavHost.Navigate<CallTab>();
-
-		var callService = Phone.Local.GetService<CallService>();
-		callService.StartOutgoingCall( phoneNumber );
 	}
 
 	protected override int ShouldRender()

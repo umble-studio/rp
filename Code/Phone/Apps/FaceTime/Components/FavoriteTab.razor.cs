@@ -21,8 +21,10 @@ public sealed partial class FavoriteTab : PhoneNavigationPage
 	private void OnSelectContact( PhoneContact contact )
 	{
 		var callService = Phone.Local.GetService<CallService>();
-		callService.StartOutgoingCall( contact.ContactNumber );
-
+		
+		var canCall = callService.StartOutgoingCall( contact.ContactNumber );
+		if ( !canCall ) return;
+		
 		Host.Navigate<CallTab>();
 	}
 
