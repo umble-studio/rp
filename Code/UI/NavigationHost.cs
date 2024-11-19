@@ -25,7 +25,7 @@ public abstract class NavigationHost : CascadingPanel
 
 			var nav = instance as NavigationPage;
 			nav!.Host = this;
-
+			
 			_instances.Add( nav );
 			Container.AddChild( nav );
 		}
@@ -51,6 +51,9 @@ public abstract class NavigationHost : CascadingPanel
 		if ( page is null ) 
 			return null;
 
+		foreach ( var p in _instances )
+			p.Style.ZIndex = 0;
+		
 		if ( CurrentPage is not null )
 		{
 			Scene.RunEvent<INavigationEvent>( x => x.OnNavigationClose( CurrentPage ), true );

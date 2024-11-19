@@ -5,13 +5,15 @@
     border-radius: 32px;
     transition: all .2s ease-out;
     top: 0;
-    display: flex;
-    margin-top: 0;
+    //display: none;
     position: absolute;
+    opacity: 0;
+    margin-top: 920px;
 
-    &.hidden {
-        margin-top: 920px;
-        //display: none;
+    &.show {
+        opacity: 1;
+        margin-top: 0;
+        //display: flex;
     }
 
     > .content {
@@ -45,7 +47,7 @@
                 text-align: center;
             }
         }
-        
+
         > .menu {
             width: 100%;
             gap: 20px;
@@ -58,7 +60,7 @@
 
             > .first-column {
                 justify-content: space-evenly;
-                
+
                 > CircleButton:first-child {
                     > .content {
                         background-color: hsla(130, 50%, 49%, 1);
@@ -75,7 +77,7 @@
                     > .content {
                         background-color: hsla(0, 60%, 49%, 1);
                     }
-                    
+
                     &:hover {
                         > .content {
                             background-color: hsla(0, 60%, 36%, 1);

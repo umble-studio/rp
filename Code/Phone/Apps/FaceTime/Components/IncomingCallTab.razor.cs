@@ -26,9 +26,7 @@ public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEv
 
 	private void RejectCall()
 	{
-		var callService = Phone.Local.GetService<CallService>();
 		if ( _incomingCallRequest is null ) return;
-
 		CallManager.RejectIncomingCallRpcRequest( _incomingCallRequest.CallId );
 	}
 
@@ -37,9 +35,7 @@ public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEv
 		if ( page is not IncomingCallTab ) return;
 
 		if ( args[0] is IncomingCallRequest request )
-		{
 			_incomingCallRequest = request;
-		}
 
 		Phone.Local.StatusBar.TextPhoneTheme = PhoneTheme.Light;
 		Phone.Local.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;

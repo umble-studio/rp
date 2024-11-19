@@ -9,10 +9,10 @@ public abstract class NavigationPage : CascadingPanel, INavigationPage
 
 	public abstract string PageName { get; }
 	public NavigationHost Host { get; internal set; } = null!;
-
+	
 	public override void Tick()
 	{
-		BindClass( "hidden", () => !_isOpen );
+		BindClass( "show", () => _isOpen );
 	}
 
 	internal void Show()
