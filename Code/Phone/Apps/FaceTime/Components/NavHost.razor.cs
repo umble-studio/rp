@@ -1,4 +1,5 @@
-﻿using Rp.UI;
+﻿using System;
+using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
@@ -11,16 +12,29 @@ public sealed partial class NavHost : NavigationHost
 
 	public NavHost()
 	{
-		DefaultPage = typeof(FavoriteTab);
-
 		RegisterPage<FavoriteTab>();
 		RegisterPage<RecentTab>();
 		RegisterPage<ContactsTab>();
 		RegisterPage<KeypadTab>();
 		RegisterPage<IncomingCallTab>();
 		RegisterPage<CallTab>();
+	}
 
-		Navigate<FavoriteTab>();
+	protected override void OnNavigationReady()
+	{
+		if ( PhoneCookie.TryGetCookie<Type>( "facetime:latest_tab", out var type ) )
+		{
+			Navigate( type );
+			return;
+		}
+		
+		GoToFavorite();
+	}
+
+	public override INavigationPage? Navigate( Type type, params object[] args )
+	{
+		PhoneCookie.SetCookie( "facetime:latest_tab", type );
+		return base.Navigate( type, args );
 	}
 
 	public void GoToFavorite()
