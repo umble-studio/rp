@@ -24,12 +24,22 @@ public partial class CallService
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
-	public void AcceptingCallRpcRequest( IncomingCallRequest incomingCallInfo )
+	public async void AcceptingCallRpcRequest( IncomingCallRequest incomingCallInfo )
 	{
 		Log.Info( $"{nameof(AcceptingCallRpcRequest)}: {incomingCallInfo.Caller}, {incomingCallInfo.Callee}" );
 
-		_incomingSound?.Stop();
+		var app = Phone.Local.GetApp<FaceTimeApp>();
+		var tab = app.NavHost.Navigate<CallTab>();
 
+		var callService = Phone.Local.GetService<CallService>();
+
+		while ( callService.CallInfo is null )
+			await GameTask.Delay( 100 );
+
+		tab.ShowCallView( callService.CallInfo );
+
+		_incomingSound?.Stop();
+		
 		var voice = GetComponent<Voice>();
 		voice.CreateVoiceCallMixer( incomingCallInfo.CallId );
 

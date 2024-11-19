@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using Rp.Phone.Apps.FaceTime.Services;
 using Rp.Phone.UI.Components;
 using Rp.UI;
@@ -8,6 +9,8 @@ namespace Rp.Phone.Apps.FaceTime.Components;
 
 public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 {
+	private CallSession? _callSession;
+	private PhoneContact? _pendingPhoneContact;
 	private string _speakerIcon = "fluent:speaker-off-28-filled";
 	private string _muteIcon = "fluent:mic-28-filled";
 	private bool _isMuted;
@@ -15,20 +18,17 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 
 	public override string PageName => "Call";
 
-	private CallSession? CallInfo
-		=> Phone.Local.GetService<CallService>().CallInfo;
-
 	private PhoneContact? Caller =>
-		CallInfo is null ? null : Phone.Local.Contacts.GetContactByNumber( CallInfo.Caller );
+		_callSession is null ? null : Phone.Local.Contacts.GetContactByNumber( _callSession.Caller );
 
 	private PhoneContact? Callee =>
-		CallInfo is null ? null : Phone.Local.Contacts.GetContactByNumber( CallInfo.Callee );
+		_callSession is null ? null : Phone.Local.Contacts.GetContactByNumber( _callSession.Callee );
 
 	private string GetCallDuration()
 	{
-		if ( CallInfo is null ) return "00:00";
+		if ( _callSession is null ) return "00:00";
 
-		var value = DateTime.Now - CallInfo!.StartedAt;
+		var value = DateTime.Now - _callSession!.StartedAt;
 		return value.ToString( @"mm\:ss" );
 	}
 
@@ -72,15 +72,30 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 		}
 	}
 
+	public void ShowPendingCallView( PhoneContact phoneContact )
+	{
+		_callSession = null;
+		_pendingPhoneContact = phoneContact;
+	}
+
+	public void ShowCallView( CallSession callSession )
+	{
+		_callSession = callSession;
+		_pendingPhoneContact = null;
+	}
+
 	public void OnNavigationOpen( INavigationPage page, params object[] args )
 	{
 		if ( page is not CallTab ) return;
+
+		_pendingPhoneContact = null;
+		_callSession = null;
 
 		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
 		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	protected override int ShouldRender() =>
-		HashCode.Combine( base.ShouldRender(), CallInfo, _isSpeaker,
+		HashCode.Combine( base.ShouldRender(), _pendingPhoneContact, _callSession, _isSpeaker,
 			_isMuted, GetCallDuration() );
 }

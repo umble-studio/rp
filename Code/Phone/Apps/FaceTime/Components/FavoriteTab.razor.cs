@@ -21,11 +21,12 @@ public sealed partial class FavoriteTab : PhoneNavigationPage
 	private void OnSelectContact( PhoneContact contact )
 	{
 		var callService = Phone.Local.GetService<CallService>();
-		
+
 		var canCall = callService.StartOutgoingCall( contact.ContactNumber );
 		if ( !canCall ) return;
-		
-		Host.Navigate<CallTab>();
+
+		var tab = Host.Navigate<CallTab>();
+		tab.ShowPendingCallView( contact );
 	}
 
 	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), Phone.Contacts.All );
