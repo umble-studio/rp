@@ -24,8 +24,6 @@ internal static class PhoneCallMixerHelper
 		mixer.Spacializing = 0;
 		mixer.AirAbsorption = 0;
 		mixer.DistanceAttenuation = 0;
-		mixer.Solo = false;
-		mixer.Mute = false;
 
 		voice.TargetMixer = mixer;
 		voice.IsListening = true;
