@@ -6,7 +6,7 @@
 <root class="@Root">
 	<div class="container">
 		<div class="user">
-			@if ( !Data.IsMe( PhoneNumber ) )
+			@if ( !Data.IsMe() )
 			{
 				<img src="@Participant.Avatar" alt="">
 			}
@@ -21,7 +21,7 @@
 			}
 		</div>
 		<div class="user">
-			@if ( Data.IsMe( PhoneNumber ) )
+			@if ( Data.IsMe() )
 			{
 				<img src="@Participant.Avatar" alt="">
 			}

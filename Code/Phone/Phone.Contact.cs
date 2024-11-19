@@ -82,6 +82,4 @@ public record PhoneContact
 	[Saved] public string ContactName { get; init; } = null!;
 	[Saved] public string? ContactAvatar { get; init; }
 	[Saved] public PhoneNumber ContactNumber { get; init; }
-
-	// public bool IsMe() => ContactNumber == Phone.Current.SimCard?.PhoneNumber;
 }

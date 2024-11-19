@@ -1,4 +1,5 @@
 ﻿@namespace Rp.Phone.Apps.FaceTime.Components
+@using Rp.Phone.Apps.Messages
 @using Rp.Phone.UI.Components
 @using Rp.Phone.Apps.Messages.Components
 @inherits PhoneNavigationPage
@@ -22,7 +23,7 @@
 	<div class="contacts">
 		@foreach ( var contact in Contacts )
 		{
-			// if ( contact.IsMe() ) continue;
+			if ( contact.IsMe() ) continue;
 
 			<div @key="@contact" class="contact" @onclick="@( () => OnSelectContact( contact ) )">
 				<div class="avatar-container">

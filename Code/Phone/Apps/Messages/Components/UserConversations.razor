@@ -45,7 +45,7 @@
 				var participants = conversation.Participants;
 				if ( participants.Count <= 1 ) continue;
 
-				var otherParticipant = conversation.Participants.FirstOrDefault( x => !x.IsMe( PhoneNumber ) );
+				var otherParticipant = conversation.Participants.FirstOrDefault( x => !x.IsMe() );
 				if ( otherParticipant is null ) continue;
 
 				var latestMessage = conversation.GetLatestMessage();
@@ -59,7 +59,7 @@
 							<span class="date">@( latestMessage.Date.ToString( "t" ) )</span>
 						</div>
 						<span
-							class="text">@( latestMessage.IsMe( PhoneNumber ) ? "Me:" : string.Empty ) @latestMessage.Content</span>
+							class="text">@( latestMessage.IsMe() ? "Me:" : string.Empty ) @latestMessage.Content</span>
 					</div>
 				</div>
 			}

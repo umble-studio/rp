@@ -7,18 +7,24 @@ public static class ConversationExtensions
 	/// </summary>
 	/// <param name="message"></param>
 	/// <returns></returns>
-	public static bool IsMe( this MessageData message, PhoneNumber phoneNumber ) =>
-		message.Author.PhoneNumber == phoneNumber;
-	// public static bool IsMe( this MessageData message ) =>
-	// 	message.Author.PhoneNumber == Phone.Current.SimCard.PhoneNumber;
+	public static bool IsMe( this MessageData message ) =>
+		message.Author.PhoneNumber == Phone.Local.SimCard!.PhoneNumber;
+	
+	/// <summary>
+	/// Checks if the contact is the current user
+	/// </summary>
+	/// <param name="contact"></param>
+	/// <returns></returns>
+	public static bool IsMe( this PhoneContact contact ) =>
+		contact.ContactNumber == Phone.Local.SimCard!.PhoneNumber;
 	
 	/// <summary>
 	/// Checks if the participant is the current user
 	/// </summary>
 	/// <param name="participant"></param>
 	/// <returns></returns>
-	public static bool IsMe( this ConversationParticipant participant, PhoneNumber phoneNumber ) =>
-		participant.PhoneNumber == phoneNumber;
+	public static bool IsMe( this ConversationParticipant participant ) =>
+		participant.PhoneNumber == Phone.Local.SimCard!.PhoneNumber;
 	
 	/// <summary>
 	/// Returns the latest message of the conversation

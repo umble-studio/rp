@@ -11,16 +11,16 @@ public sealed partial class Message : PhoneWidget
 	public bool ShowDate { get; set; }
 
 	private PhoneNumber PhoneNumber { get; set; }
-	
+
 	private string Root => new CssBuilder()
-		.AddClass( "me", Data.IsMe( PhoneNumber ) )
-		.AddClass( "other", !Data.IsMe( PhoneNumber ) )
+		.AddClass( "me", Data.IsMe() )
+		.AddClass( "other", !Data.IsMe() )
 		.AddClass( "space", ShowDate )
 		.Build();
-	
+
 	protected override void OnAfterRender( bool firstRender )
 	{
-		Log.Info("OnAfterRender");
+		Log.Info( "OnAfterRender" );
 		PhoneNumber = Phone.SimCard!.PhoneNumber;
 	}
 
