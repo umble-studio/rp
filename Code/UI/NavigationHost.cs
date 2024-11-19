@@ -11,7 +11,6 @@ public abstract class NavigationHost : CascadingPanel
 	private readonly List<NavigationPage> _instances = new();
 
 	protected Panel Container { get; set; } = null!;
-	protected Type? DefaultPage { get; init; }
 	protected NavigationPage? CurrentPage { get; private set; }
 
 	protected override void OnAfterRender( bool firstTime )
@@ -30,11 +29,13 @@ public abstract class NavigationHost : CascadingPanel
 			_instances.Add( nav );
 			Container.AddChild( nav );
 		}
+		
+		OnNavigationReady();
+	}
 
-		if ( !firstTime ) return;
-		if ( DefaultPage is null ) return;
-
-		Navigate( DefaultPage );
+	protected virtual void OnNavigationReady()
+	{
+		
 	}
 
 	protected void RegisterPage<T>() where T : INavigationPage, new()
@@ -43,7 +44,7 @@ public abstract class NavigationHost : CascadingPanel
 		_pages.Add( typeof(T) );
 	}
 
-	public INavigationPage? Navigate( Type type, params object[] args )
+	public virtual INavigationPage? Navigate( Type type, params object[] args )
 	{
 		var page = GetPage( type );
 		
@@ -76,8 +77,6 @@ public abstract class NavigationHost : CascadingPanel
 		return _instances.FirstOrDefault( x => x.GetType() == type );
 	}
 
-	private NavigationPage? GetPage<T>() where T : INavigationPage => GetPage( typeof(T) );
-
 	private bool IsRegistered( TypeDescription type )
 	{
 		return _pages.Exists( x => x.Name == type.Name );
@@ -90,5 +89,5 @@ public abstract class NavigationHost : CascadingPanel
 	}
 
 	protected override int ShouldRender() =>
-		HashCode.Combine( _pages.Count, _instances.Count, DefaultPage, Container, CurrentPage );
+		HashCode.Combine( _pages.Count, _instances.Count, Container, CurrentPage );
 }
