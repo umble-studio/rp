@@ -39,6 +39,6 @@ public record CallResult
 		EndedByCaller,
 		EndedByCallee,
 		NetworkError,
-		Unknown
+		NoResponse
 	}
 }
