@@ -5,34 +5,34 @@ namespace Rp.Phone.Apps.FaceTime.Services;
 
 public sealed partial class CallManager : Singleton<CallManager>, Component.INetworkListener
 {
-	private readonly Dictionary<Guid, IncomingCallRequest> PendingIncomingCallsRequests = new();
+	private readonly Dictionary<Guid, (IncomingCallRequest CallRequest, List<Connection> Connections)>
+		PendingIncomingCallsRequests = new();
+
 	private readonly Dictionary<Guid, CallSession> Sessions = new();
 
 	private const int MaxPendingIncomingCallDuration = 10;
 
 	protected override void OnUpdate()
 	{
-		if ( Networking.IsHost )
-		{
-			CheckForOutdatedIncomingCallsRequests();
-		}
+		if ( !Networking.IsHost ) return;
+		CheckForOutdatedIncomingCallsRequests();
 	}
-	
+
 	private void CheckForOutdatedIncomingCallsRequests()
 	{
-		foreach ( var (callId, incomingCall) in PendingIncomingCallsRequests )
+		foreach ( var (callId, (incomingCall, connections)) in PendingIncomingCallsRequests )
 		{
-			if ( DateTime.Now - incomingCall.CreatedAt > TimeSpan.FromSeconds( MaxPendingIncomingCallDuration ) )
-			{
-				Log.Info( "Removing outdated incoming call request: " + callId );
-	
-				// CancelPendingOutgoingCallRpcResponse( callId );
-				PendingIncomingCallsRequests.Remove( callId );
-			}
+			if ( DateTime.Now - incomingCall.CreatedAt <=
+			     TimeSpan.FromSeconds( MaxPendingIncomingCallDuration ) ) continue;
+
+			Log.Info( "Removing outdated incoming call request: " + callId );
+
+			// CancelPendingOutgoingCallRpcResponse( callId );
+			PendingIncomingCallsRequests.Remove( callId );
 		}
 	}
 
-	public bool IsParticipantReadyToCall( PhoneNumber participantNumber )
+	private bool IsParticipantReadyToCall( PhoneNumber participantNumber )
 	{
 		var participantPhone = Scene.GetAllComponents<Phone>().FirstOrDefault( x =>
 			x.SimCard is not null && x.SimCard.PhoneNumber == participantNumber );

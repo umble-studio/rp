@@ -35,7 +35,8 @@ public sealed partial class CallManager
 
 		Log.Info( "Add pending incoming call request: " + incomingCallInfo.CallId );
 
-		Instance.PendingIncomingCallsRequests[incomingCallInfo.CallId] = incomingCallInfo;
+		var connections = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
+		Instance.PendingIncomingCallsRequests[incomingCallInfo.CallId] = (incomingCallInfo, connections);
 
 		// The other phone is now waiting for the call to be accepted
 		var callService = firstPhone.GetService<CallService>();
@@ -57,12 +58,14 @@ public sealed partial class CallManager
 	{
 		if ( !Networking.IsHost ) return;
 
-		if ( !Instance.PendingIncomingCallsRequests.Remove( callId, out var incomingCallRequest ) )
+		if ( !Instance.PendingIncomingCallsRequests.Remove( callId, out var request ) )
 		{
 			Log.Error( $"{nameof(AcceptIncomingCallRpcRequest)}: Call not found: " + callId );
 			return;
 		}
-
+		
+		var incomingCallRequest = request.CallRequest;
+		
 		var phones = Instance.Scene.GetAllComponents<Phone>()
 			.Where( x => x.Network.Active && x.SimCard is not null )
 			.ToList();
@@ -110,12 +113,14 @@ public sealed partial class CallManager
 	{
 		if ( !Networking.IsHost ) return;
 
-		if ( !Instance.PendingIncomingCallsRequests.Remove( callId, out var incomingCallRequest ) )
+		if ( !Instance.PendingIncomingCallsRequests.Remove( callId, out var request ) )
 		{
 			Log.Info( $"{nameof(RejectIncomingCallRpcRequest)}: Call not found: " + callId );
 			return;
 		}
 
+		var incomingCallRequest = request.CallRequest;
+		
 		var phones = Instance.Scene.GetAllComponents<Phone>()
 			.Where( x => x.Network.Active && x.SimCard is not null )
 			.ToList();
