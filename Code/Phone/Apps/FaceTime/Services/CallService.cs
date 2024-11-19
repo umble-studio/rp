@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Rp.Phone.Apps.FaceTime.Components;
+using Rp.UI.Extensions;
 using Sandbox.Audio;
 
 namespace Rp.Phone.Apps.FaceTime.Services;
@@ -33,8 +36,12 @@ public sealed partial class CallService : Component, IPhoneService
 	public bool IsOccupied { get; set; }
 
 	public bool IsCalling => CallInfo is not null;
-	
-	public void StartCall( PhoneNumber target )
+
+	/// <summary>
+	/// Starts an outgoing call
+	/// </summary>
+	/// <param name="target">The target to call.</param>
+	public void StartOutgoingCall( PhoneNumber target )
 	{
 		Log.Info( "StartCall: " + IsOccupied );
 		if ( Phone.Local.SimCard?.PhoneNumber == target || IsOccupied ) return;
@@ -51,10 +58,15 @@ public sealed partial class CallService : Component, IPhoneService
 
 		_outgoingSound?.Stop();
 		_outgoingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
+
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallStarted( incomingCallInfo.CallId ) );
 		CallManager.StartCallRpcRequest( incomingCallInfo );
 	}
 
-	public void EndCall()
+	/// <summary>
+	/// Ends the outgoing call.
+	/// </summary>
+	public void EndOutgoingCall()
 	{
 		if ( CallInfo == null || CallInfo.CallId == Guid.Empty )
 		{
@@ -64,5 +76,28 @@ public sealed partial class CallService : Component, IPhoneService
 
 		using var _ = Rpc.FilterInclude( x => x.IsHost );
 		CallManager.EndCallRpcRequest( CallInfo.CallId, Phone.Local.SimCard!.PhoneNumber );
+	}
+
+
+	/// <summary>
+	/// Stops the call.
+	/// </summary>
+	/// <param name="callResult">The result of the call.</param>
+	/// <returns></returns>
+	private async Task StopCall( CallResult callResult )
+	{
+		_incomingSound?.Stop();
+
+		var voice = GetComponent<Voice>();
+		voice.DestroyVoiceCallMixer( callResult.CallId );
+
+		// Switch to FaceTime app and wait a second to make sure the app is loaded
+		var app = Phone.Local.SwitchToApp<FaceTimeApp>();
+
+		while ( !app.IsInitialized )
+			await GameTask.Delay( 1 );
+
+		Sound.Play( "sounds/phone/facetime_call_end.sound" );
+		app.NavHost.Navigate<FavoriteTab>();
 	}
 }

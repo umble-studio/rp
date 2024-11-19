@@ -1,6 +1,6 @@
 using System;
 using Rp.Phone.Apps.FaceTime.Components;
-using Sandbox.Audio;
+using Rp.UI.Extensions;
 
 namespace Rp.Phone.Apps.FaceTime.Services;
 
@@ -19,7 +19,7 @@ public partial class CallService
 
 		_incomingSound?.Stop();
 		_incomingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
-		
+
 		app.NavHost.Navigate<IncomingCallTab>( incomingCallInfo );
 	}
 
@@ -30,27 +30,10 @@ public partial class CallService
 
 		_incomingSound?.Stop();
 
-		var mixerName = $"phone-{incomingCallInfo.CallId}";
-		var mixer = Mixer.FindMixerByName( mixerName );
-
-		if ( mixer is not null )
-		{
-			Log.Info( "Skipping mixer creation: " + mixerName );
-			return;
-		}
-
-		mixer = Mixer.Master.AddChild();
-		mixer.Name = mixerName;
-		mixer.Occlusion = 0;
-		mixer.Spacializing = 0;
-		mixer.AirAbsorption = 0;
-		mixer.DistanceAttenuation = 0;
-		mixer.Solo = false;
-		mixer.Mute = false;
-
 		var voice = GetComponent<Voice>();
-		voice.TargetMixer = mixer;
-		voice.IsListening = true;
+		voice.CreateVoiceCallMixer( incomingCallInfo.CallId );
+
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallAccepted( incomingCallInfo ) );
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
@@ -58,32 +41,32 @@ public partial class CallService
 	{
 		Log.Info( "Ending call" );
 
-		_incomingSound?.Stop();
-		
-		var voice = GetComponent<Voice>();
-		voice.IsListening = false;
-
-		// Don't forget to destroy the mixer when the call ends
-		var mixerName = $"phone-{callResult.CallId}";
-		var mixer = Mixer.FindMixerByName( mixerName );
-		mixer?.Destroy();
-
-		// Switch to FaceTime app and wait a second to make sure the app is loaded
-		var app = Phone.Local.SwitchToApp<FaceTimeApp>();
-
-		while ( !app.IsInitialized )
-			await GameTask.Delay( 1 );
-
-		Sound.Play( "sounds/phone/facetime_call_end.sound" );
-		app.NavHost.Navigate<FavoriteTab>();
+		await StopCall( callResult );
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallEnded( callResult ) );
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
-	public async void CancelCallRpcResponse()
+	public async void RejectingCallRpcRequest( CallResult callResult )
+	{
+		Log.Info( "Rejecting call" );
+
+		await StopCall( callResult );
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallRejected( callResult ) );
+	}
+
+	[Broadcast( NetPermission.HostOnly )]
+	public async void CancelCallRpcResponse( Guid callId )
 	{
 		await Task.Delay( 2500 );
 
 		_outgoingSound?.Stop();
 		Sound.Play( "sounds/phone/phone_critical_error.sound" );
+
+		await Task.Delay( 2000 );
+
+		var app = Phone.Local.SwitchToApp<FaceTimeApp>();
+		app.NavHost.Navigate<FavoriteTab>();
+
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallFailed( callId ) );
 	}
 }

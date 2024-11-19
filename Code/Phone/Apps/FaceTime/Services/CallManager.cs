@@ -44,7 +44,7 @@ public sealed partial class CallManager : Singleton<CallManager>, Component.INet
 		return !callService.IsOccupied;
 	}
 
-	[ConCmd("phone_reset_calls")]
+	[ConCmd( "phone_reset_calls" )]
 	private static void ResetCmd()
 	{
 		Instance.PendingIncomingCallsRequests.Clear();

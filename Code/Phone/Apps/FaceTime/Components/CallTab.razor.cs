@@ -68,7 +68,7 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 		if ( callService.IsOccupied )
 		{
 			Log.Info( "End call" );
-			callService.EndCall();
+			callService.EndOutgoingCall();
 		}
 	}
 

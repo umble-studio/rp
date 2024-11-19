@@ -64,7 +64,7 @@ public sealed partial class KeypadTab : PhoneNavigationPage
 		app.NavHost.Navigate<CallTab>();
 
 		var callService = Phone.Local.GetService<CallService>();
-		callService.StartCall( phoneNumber );
+		callService.StartOutgoingCall( phoneNumber );
 	}
 
 	protected override int ShouldRender()
