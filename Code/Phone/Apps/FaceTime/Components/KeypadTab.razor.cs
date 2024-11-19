@@ -57,15 +57,21 @@ public sealed partial class KeypadTab : PhoneNavigationPage
 		// TODO - Do a phone screen shake or something like that
 		if ( string.IsNullOrEmpty( _phoneNumber ) ) return;
 		if ( !int.TryParse( _phoneNumber, out var number ) ) return;
+		
+		// Don't call if the number is less than 7 digits
+		if ( number.ToString().Length < 7 ) return;
 
 		var phoneNumber = (PhoneNumber)number;
 		var callService = Phone.Local.GetService<CallService>();
-		
+
 		var canCall = callService.StartOutgoingCall( phoneNumber );
 		if ( !canCall ) return;
-		
+
 		var app = Phone.Local.GetApp<FaceTimeApp>();
-		app.NavHost.Navigate<CallTab>();
+		var tab = app.NavHost.Navigate<CallTab>();
+
+		var fakeContact = new PhoneContact { ContactNumber = phoneNumber };
+		tab.ShowPendingCallView( fakeContact );
 	}
 
 	protected override int ShouldRender()
