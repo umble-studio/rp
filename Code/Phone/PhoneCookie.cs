@@ -5,7 +5,7 @@ namespace Rp.Phone;
 /// </summary>
 public static class PhoneCookie
 {
-	private static readonly Dictionary<string, object> Cookies = new();
+	public static readonly Dictionary<string, object> Cookies = new();
 
 	/// <summary>
 	/// Sets the value of a cookie.
