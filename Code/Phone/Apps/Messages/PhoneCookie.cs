@@ -1,5 +1,8 @@
 namespace Rp.Phone.Apps.Messages;
 
+/// <summary>
+/// A simple key-value store for the phone's cookies.
+/// </summary>
 public static class PhoneCookie
 {
 	private static readonly Dictionary<string, object> Cookies = new();
