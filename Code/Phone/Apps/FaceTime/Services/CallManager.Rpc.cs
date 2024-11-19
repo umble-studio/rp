@@ -64,14 +64,12 @@ public sealed partial class CallManager
 			return;
 		}
 		
-		var incomingCallRequest = request.CallRequest;
-		
 		var phones = Instance.Scene.GetAllComponents<Phone>()
 			.Where( x => x.Network.Active && x.SimCard is not null )
 			.ToList();
 
-		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Caller );
-		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Callee );
+		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == request.CallRequest.Caller );
+		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == request.CallRequest.Callee );
 
 		if ( firstPhone is null || secondPhone is null )
 		{
@@ -79,14 +77,14 @@ public sealed partial class CallManager
 			return;
 		}
 
-		Log.Info( "Accept incoming call: " + incomingCallRequest.CallId );
+		Log.Info( "Accept incoming call: " + request.CallRequest.CallId );
 
 		// We set the current call state as occupied for both participants
 		var callInfo = new CallSession()
 		{
 			CallId = callId,
-			Caller = incomingCallRequest.Caller,
-			Callee = incomingCallRequest.Callee,
+			Caller = request.CallRequest.Caller,
+			Callee = request.CallRequest.Callee,
 			StartedAt = DateTime.Now
 		};
 
@@ -94,7 +92,7 @@ public sealed partial class CallManager
 		callService.IsOutgoingCallCallPending = false;
 		callService.IsOccupied = true;
 		callService.CallInfo = callInfo;
-		callService.AcceptingCallRpcRequest( incomingCallRequest );
+		callService.AcceptingCallRpcRequest( request.CallRequest );
 
 		// Just wait 1ms to be sure the mixer is created and synced on the other phone owner
 		await GameTask.Delay( 1 );
@@ -103,9 +101,10 @@ public sealed partial class CallManager
 		callService.IsIncomingCallPending = false;
 		callService.IsOccupied = true;
 		callService.CallInfo = callInfo;
-		callService.AcceptingCallRpcRequest( incomingCallRequest );
+		callService.AcceptingCallRpcRequest( request.CallRequest );
 
-		Instance.Sessions.Add( callInfo.CallId, callInfo );
+		var connections = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
+		Instance.Sessions.Add( callInfo.CallId, (callInfo, connections) );
 	}
 
 	[Broadcast( NetPermission.Anyone )]
@@ -119,14 +118,12 @@ public sealed partial class CallManager
 			return;
 		}
 
-		var incomingCallRequest = request.CallRequest;
-		
 		var phones = Instance.Scene.GetAllComponents<Phone>()
 			.Where( x => x.Network.Active && x.SimCard is not null )
 			.ToList();
 
-		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Caller );
-		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == incomingCallRequest.Callee );
+		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == request.CallRequest.Caller );
+		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == request.CallRequest.Callee );
 
 		if ( firstPhone is null || secondPhone is null )
 		{
@@ -134,7 +131,7 @@ public sealed partial class CallManager
 			return;
 		}
 
-		Log.Info( "Reject incoming call from phone: " + incomingCallRequest.Caller );
+		Log.Info( "Reject incoming call from phone: " + request.CallRequest.Caller );
 
 		// We set the current call state as not occupied for both participants
 		var callService = firstPhone.GetService<CallService>();
@@ -152,9 +149,9 @@ public sealed partial class CallManager
 		var callResult = new CallResult
 		{
 			CallId = callId,
-			Caller = incomingCallRequest.Caller,
-			Callee = incomingCallRequest.Callee,
-			StartedAt = incomingCallRequest.CreatedAt,
+			Caller = request.CallRequest.Caller,
+			Callee = request.CallRequest.Callee,
+			StartedAt = request.CallRequest.CreatedAt,
 			EndedAt = DateTime.Now,
 			Reason = CallResult.ReasonType.EndedByCallee
 		};
@@ -173,13 +170,13 @@ public sealed partial class CallManager
 			Log.Info( $"{nameof(EndCallRpcRequest)}: Call not found: " + callId );
 			return;
 		}
-
+		
 		var phones = Instance.Scene.GetAllComponents<Phone>()
 			.Where( x => x.Network.Active && x.SimCard is not null )
 			.ToList();
 
-		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == session.Caller );
-		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == session.Callee );
+		var firstPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == session.CallSession.Caller );
+		var secondPhone = phones.FirstOrDefault( x => x.SimCard!.PhoneNumber == session.CallSession.Callee );
 
 		if ( firstPhone is null || secondPhone is null )
 		{
@@ -198,16 +195,16 @@ public sealed partial class CallManager
 		callService.IsOccupied = false;
 		callService.CallInfo = null;
 
-		var reason = session.Caller == caller
+		var reason = session.CallSession.Caller == caller
 			? CallResult.ReasonType.EndedByCaller
 			: CallResult.ReasonType.EndedByCallee;
 
 		var callResult = new CallResult
 		{
 			CallId = callId,
-			Caller = session.Caller,
-			Callee = session.Callee,
-			StartedAt = session.StartedAt,
+			Caller = session.CallSession.Caller,
+			Callee = session.CallSession.Callee,
+			StartedAt = session.CallSession.StartedAt,
 			EndedAt = DateTime.Now,
 			Reason = reason
 		};

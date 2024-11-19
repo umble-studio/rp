@@ -8,7 +8,7 @@ public sealed partial class CallManager : Singleton<CallManager>, Component.INet
 	private readonly Dictionary<Guid, (IncomingCallRequest CallRequest, List<Connection> Connections)>
 		PendingIncomingCallsRequests = new();
 
-	private readonly Dictionary<Guid, CallSession> Sessions = new();
+	private readonly Dictionary<Guid, (CallSession CallSession, List<Connection> Connections)> Sessions = new();
 
 	private const int MaxPendingIncomingCallDuration = 10;
 
