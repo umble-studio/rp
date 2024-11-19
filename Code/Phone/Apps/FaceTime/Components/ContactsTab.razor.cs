@@ -5,7 +5,7 @@ using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class ContactsTab : PhoneNavigationPage
+public sealed partial class ContactsTab : NavigationPage
 {
 	private MessageBar _navigationBar = null!;
 
@@ -15,7 +15,7 @@ public sealed partial class ContactsTab : PhoneNavigationPage
 
 	protected override void OnAfterRender( bool firstRender )
 	{
-		Contacts = Phone.Contacts.All;
+		Contacts = Phone.Local.Contacts.All;
 	}
 
 	private void OnSelectContact( PhoneContact contact )
@@ -29,5 +29,5 @@ public sealed partial class ContactsTab : PhoneNavigationPage
 		tab.ShowPendingCallView( contact );
 	}
 
-	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), Phone.Contacts.All );
+	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), Phone.Local.Contacts.All );
 }

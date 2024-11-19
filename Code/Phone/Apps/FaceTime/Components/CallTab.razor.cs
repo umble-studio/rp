@@ -7,7 +7,7 @@ using Sandbox.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
+public sealed partial class CallTab : NavigationPage, INavigationEvent
 {
 	private CallSession? _callSession;
 	private PhoneContact? _pendingPhoneContact;
@@ -79,15 +79,15 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 		_pendingPhoneContact = null;
 	}
 
-	public void OnNavigationOpen( INavigationPage page, params object[] args )
+	void INavigationEvent.OnNavigationOpen( INavigationPage page, params object[] args )
 	{
 		if ( page is not CallTab ) return;
 
 		_pendingPhoneContact = null;
 		_callSession = null;
 
-		Phone.StatusBar.TextPhoneTheme = PhoneTheme.Light;
-		Phone.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
+		Phone.Local.StatusBar.TextPhoneTheme = PhoneTheme.Light;
+		Phone.Local.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	protected override int ShouldRender() =>

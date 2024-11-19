@@ -5,18 +5,13 @@ using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class FavoriteTab : PhoneNavigationPage
+public sealed partial class FavoriteTab : NavigationPage
 {
 	private MessageBar _navigationBar = null!;
 
 	public override string PageName => "Favorites";
 
-	private List<PhoneContact> Contacts { get; set; } = new();
-
-	protected override void OnAfterRender( bool firstRender )
-	{
-		Contacts = Phone.Contacts.All;
-	}
+	private List<PhoneContact> Contacts => Phone.Local.Contacts.All;
 
 	private void OnSelectContact( PhoneContact contact )
 	{
@@ -29,5 +24,5 @@ public sealed partial class FavoriteTab : PhoneNavigationPage
 		tab.ShowPendingCallView( contact );
 	}
 
-	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), Phone.Contacts.All );
+	protected override int ShouldRender() => HashCode.Combine( base.ShouldRender(), Contacts, Contacts.Count );
 }

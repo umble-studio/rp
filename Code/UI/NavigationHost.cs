@@ -25,17 +25,17 @@ public abstract class NavigationHost : CascadingPanel
 
 			var nav = instance as NavigationPage;
 			nav!.Host = this;
-			
+
 			_instances.Add( nav );
 			Container.AddChild( nav );
 		}
-		
+
+		if ( !firstTime ) return;
 		OnNavigationReady();
 	}
 
 	protected virtual void OnNavigationReady()
 	{
-		
 	}
 
 	protected void RegisterPage<T>() where T : INavigationPage, new()
@@ -47,13 +47,13 @@ public abstract class NavigationHost : CascadingPanel
 	public virtual INavigationPage? Navigate( Type type, params object[] args )
 	{
 		var page = GetPage( type );
-		
-		if ( page is null ) 
+
+		if ( page is null )
 			return null;
 
 		foreach ( var p in _instances )
 			p.Style.ZIndex = 0;
-		
+
 		if ( CurrentPage is not null )
 		{
 			Scene.RunEvent<INavigationEvent>( x => x.OnNavigationClose( CurrentPage ), true );
@@ -65,6 +65,8 @@ public abstract class NavigationHost : CascadingPanel
 		CurrentPage = page;
 		CurrentPage.Show();
 		CurrentPage.Style.ZIndex = 10;
+
+		Log.Info( "NAVIGATE: " + type.Name );
 
 		Scene.RunEvent<INavigationEvent>( x => x.OnNavigationOpen( CurrentPage, args ), true );
 		return CurrentPage;
@@ -89,6 +91,11 @@ public abstract class NavigationHost : CascadingPanel
 	{
 		var type = TypeLibrary.GetType<T>();
 		return IsRegistered( type );
+	}
+
+	public bool IsOpen<T>() where T : INavigationPage, new()
+	{
+		return CurrentPage is T;
 	}
 
 	protected override int ShouldRender() =>

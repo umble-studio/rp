@@ -4,7 +4,7 @@ using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class KeypadTab : PhoneNavigationPage
+public sealed partial class KeypadTab : NavigationPage
 {
 	private string _phoneNumber = string.Empty;
 

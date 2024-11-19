@@ -2,7 +2,7 @@
 @using System
 @using Rp.Phone.UI.Components
 @using Rp.Phone.Apps.Messages.Components
-@inherits PhoneNavigationPage
+@inherits Rp.UI.NavigationPage
 
 <root>
 	<img src="textures/ui/phone/woman_02.jpg" alt="">
@@ -27,7 +27,7 @@
 			{
 				<span class="time">@GetCallDuration()</span>
 				
-				var imTheCaller = Caller?.ContactNumber == Phone.LocalContact.ContactNumber;
+				var imTheCaller = Caller?.ContactNumber == Phone.Local.LocalContact.ContactNumber;
 				
 				@if ( imTheCaller )
 				{

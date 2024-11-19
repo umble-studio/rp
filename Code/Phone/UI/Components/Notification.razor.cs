@@ -4,14 +4,14 @@ using Sandbox.UI;
 
 namespace Rp.Phone.UI.Components;
 
-public sealed partial class Notification : PhoneWidget
+public sealed partial class Notification : Panel
 {
 	public AppNotification Pending { get; set; } = default;
 
 	private void LaunchApp()
 	{
-		Phone.SwitchToApp( Pending.App );
+		Phone.Local.SwitchToApp( Pending.App );
 	}
 
-	protected override int ShouldRender() => HashCode.Combine( Pending );
+	protected override int BuildHash() => HashCode.Combine( Pending );
 }

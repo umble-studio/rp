@@ -5,7 +5,7 @@ using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEvent
+public sealed partial class IncomingCallTab : NavigationPage, INavigationEvent
 {
 	private IncomingCallRequest? _incomingCallRequest;
 
@@ -30,7 +30,7 @@ public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEv
 		CallManager.RejectIncomingCallRpcRequest( _incomingCallRequest.CallId );
 	}
 
-	public void OnNavigationOpen( INavigationPage page, params object[] args )
+	void INavigationEvent.OnNavigationOpen( INavigationPage page, params object[] args )
 	{
 		if ( page is not IncomingCallTab ) return;
 

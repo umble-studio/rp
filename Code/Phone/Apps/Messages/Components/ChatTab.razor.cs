@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Cascade;
+using Rp.Phone.Apps.Messages.Services;
 using Rp.Phone.UI.Components;
 using Rp.UI;
 using Rp.UI.Extensions;
@@ -7,27 +9,25 @@ using Sandbox.UI;
 
 namespace Rp.Phone.Apps.Messages.Components;
 
-public sealed partial class Chat : CascadingPanel, IPhoneEvent, IAppNotifiable, IAppNotifiable<MessagesApp>, IKeyboardEvent,
-	IMessageEvent
+public sealed partial class ChatTab : NavigationPage, IPhoneEvent, IAppNotifiable, IAppNotifiable<MessagesApp>,
+	IKeyboardEvent,
+	IMessageEvent, INavigationEvent
 {
 	private Panel _content = null!;
 	private MessageBar _messageBar = null!;
 	private ConversationData? _conversation;
-	private bool _isOpen;
-
-	public MessagesApp App { get; set; } = null!;
 
 	private List<MessageData> Messages => _conversation?.Messages ?? new List<MessageData>();
+	private ConversationService ConversationService => Phone.Local.GetService<ConversationService>();
+	private NavHost NavHost => Phone.Local.GetApp<MessagesApp>().NavHost;
+	
+	public override string PageName => "Chat";
 
 	private string Value { get; set; } = string.Empty;
 
-	private string Root => new CssBuilder()
-		.AddClass( "show", _isOpen )
-		.Build();
-
 	private string Footer => new CssBuilder()
 		.AddClass( "footer" )
-		.AddClass( "keyboard-open", App.Phone.Keyboard.IsOpen )
+		.AddClass( "keyboard-open", Phone.Local.Keyboard.IsOpen )
 		.Build();
 
 	protected override void OnAfterRender( bool firstTime )
@@ -37,7 +37,7 @@ public sealed partial class Chat : CascadingPanel, IPhoneEvent, IAppNotifiable, 
 
 		_messageBar.OnBack += () =>
 		{
-			App.SwitchToConversations();
+			NavHost.Navigate<UserConversationsTab>();
 		};
 	}
 
@@ -46,10 +46,7 @@ public sealed partial class Chat : CascadingPanel, IPhoneEvent, IAppNotifiable, 
 		var message =
 			new MessageData
 			{
-				Author = new MessageAuthor()
-				{
-					PhoneNumber = App.Phone.SimCard!.PhoneNumber
-				},
+				Author = new MessageAuthor() { PhoneNumber = Phone.Local.SimCard!.PhoneNumber },
 				Content = Value,
 				Date = DateTime.Now
 			};
@@ -60,37 +57,39 @@ public sealed partial class Chat : CascadingPanel, IPhoneEvent, IAppNotifiable, 
 		Sound.Play( "sounds/phone/send_message.sound" );
 		Scene.RunEvent<IMessageEvent>( x => x.OnMessageSent( message ), true );
 
-		App.ConversationService.SendMessageRpcRequest( _conversation!.Id,
-			message );
+		ConversationService.SendMessageRpcRequest( _conversation!.Id, message );
 	}
 
 	void IMessageEvent.OnMessageReceived( MessageData messageData )
 	{
 		// Don't play sound if the message was sent by the sender of the message
-		if ( _isOpen && messageData.Author.PhoneNumber != App.Phone.SimCard!.PhoneNumber )
+		if ( NavHost.IsOpen<ChatTab>() && messageData.Author.PhoneNumber != Phone.Local.SimCard!.PhoneNumber )
 			Sound.Play( "sounds/phone/receive_message.sound" );
 
 		_content.TryScrollToBottom();
 	}
 
-	public void Show( ConversationData conversationData )
+	void INavigationEvent.OnNavigationOpen( INavigationPage page, params object[] args )
 	{
-		_conversation = conversationData;
-		_isOpen = true;
+		if ( page is not ChatTab ) return;
+
+		Log.Info("ChatTab.OnNavigationOpen: " + args.Length);
+		
+		if ( args[0] is ConversationData data )
+			_conversation = data;
+
 		_content.TryScrollToBottom();
 
 		// TODO - Remove notification when we are seeing the message associated with the notification
-		App.Phone.Notification.ClearPendingNotifications<MessagesApp>();
-	}
+		Phone.Local.Notification.ClearPendingNotifications<MessagesApp>();
 
-	public void Hide()
-	{
-		_isOpen = false;
+		Phone.Local.StatusBar.TextPhoneTheme = PhoneTheme.Dark;
+		Phone.Local.StatusBar.BackgroundPhoneTheme = PhoneTheme.Light;
 	}
 
 	private void BackToConversations()
 	{
-		App.SwitchToConversations();
+		NavHost.Navigate<UserConversationsTab>();
 	}
 
 	void IKeyboardEvent.OnKeyboardEscape()
@@ -100,15 +99,15 @@ public sealed partial class Chat : CascadingPanel, IPhoneEvent, IAppNotifiable, 
 
 	private void OnInputFocused()
 	{
-		App.Phone.Keyboard.Show( this );
+		Phone.Local.Keyboard.Show( this );
 	}
 
 	private void OnInputBlurred()
 	{
-		App.Phone.Keyboard.Hide();
+		Phone.Local.Keyboard.Hide();
 	}
 
 	protected override int ShouldRender() =>
-		HashCode.Combine( _isOpen, _conversation?.Participants.Count, _conversation?.Messages.Count,
-			App.Phone.Keyboard.IsOpen );
+		HashCode.Combine( base.ShouldRender(), _conversation?.Participants.Count, _conversation?.Messages.Count,
+			Phone.Local.Keyboard.IsOpen );
 }

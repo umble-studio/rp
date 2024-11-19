@@ -6,9 +6,6 @@ namespace Rp.Phone.Apps.Messages.Components;
 
 public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNotifiable<MessagesApp>, IKeyboardEvent
 {
-	private Chat _chatTab = null!;
-	private UserConversations _conversationsTab = null!;
-
 	public override string AppName => "message";
 	public override string AppTitle => "Message";
 	public override string AppIcon => "textures/ui/phone/app_message.png";
@@ -16,29 +13,31 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 
 	public ConversationService ConversationService { get; private set; } = null!;
 
+	public NavHost NavHost { get; private set; } = null!;
+	
 	protected override void OnAfterRender( bool firstRender )
 	{
 		if ( !firstRender ) return;
-
+	
 		ConversationService = Phone.GetService<ConversationService>();
 		
 		// Keep conversation updated when opening the app
 		ConversationService.LoadConversations();
-
-		_conversationsTab.Show();
+	
+		NavHost.Navigate<UserConversationsTab>();
 	}
-
-	public void SwitchToChat( ConversationData conversationData )
-	{
-		_conversationsTab.Hide();
-		_chatTab.Show( conversationData );
-	}
-
-	public void SwitchToConversations()
-	{
-		_chatTab.Hide();
-		_conversationsTab.Show();
-	}
+	
+	// public void SwitchToChat( ConversationData conversationData )
+	// {
+	// 	_conversationsTab.Hide();
+	// 	_chatTab.Show( conversationData );
+	// }
+	//
+	// public void SwitchToConversations()
+	// {
+	// 	_chatTab.Hide();
+	// 	_conversationsTab.Show();
+	// }
 
 	void IPhoneEvent.OnAppOpened( IPhoneApp app )
 	{

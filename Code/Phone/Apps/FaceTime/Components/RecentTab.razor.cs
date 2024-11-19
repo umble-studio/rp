@@ -4,7 +4,7 @@ using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
 
-public sealed partial class RecentTab : PhoneNavigationPage
+public sealed partial class RecentTab : NavigationPage
 {
 	private MessageBar _navigationBar = null!;
 	

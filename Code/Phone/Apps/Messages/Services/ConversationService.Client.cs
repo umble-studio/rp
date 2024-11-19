@@ -1,4 +1,5 @@
 ﻿using System;
+using Rp.Phone.Apps.Messages.Components;
 
 namespace Rp.Phone.Apps.Messages.Services;
 
@@ -59,9 +60,9 @@ public partial class ConversationService : IMessageEvent
 		// Only switch to the conversation if we are the creator
 		if ( !_conversationCreator ) return;
 		_conversationCreator = false;
-
+		
 		var app = Phone.GetApp<MessagesApp>();
-		app.SwitchToChat( conversationData );
+		app.NavHost.GoToChat( conversationData );
 	}
 
 	void IMessageEvent.OnMessageReceived( MessageData message )

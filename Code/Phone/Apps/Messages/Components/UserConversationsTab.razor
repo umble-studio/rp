@@ -2,9 +2,9 @@
 @using System
 @using Rp.Phone.Apps.Messages.Services
 @using Rp.Phone.UI.Components
-@inherits Cascade.CascadingPanel
+@inherits Rp.UI.NavigationPage
 
-<root class="@Root">
+<root>
 	<MessageBar @ref="_messageBar">
 		<Content>
 			<div class="header">
@@ -40,7 +40,7 @@
 	</div>
 	<div class="messages-container">
 		<div class="messages">
-			@foreach ( var conversation in App.ConversationService.Conversations )
+			@foreach ( var conversation in ConversationService.Conversations )
 			{
 				var participants = conversation.Participants;
 				if ( participants.Count <= 1 ) continue;
