@@ -5,6 +5,8 @@ namespace Rp.Phone.Apps.FaceTime.Components;
 
 public sealed partial class NavHost : NavigationHost
 {
+	private const string PreviousTabCookieKey = "facetime:current_tab";
+	
 	private bool IsFavoriteTab => CurrentPage is FavoriteTab;
 	private bool IsRecentTab => CurrentPage is RecentTab;
 	private bool IsContactsTab => CurrentPage is ContactsTab;
@@ -22,7 +24,7 @@ public sealed partial class NavHost : NavigationHost
 
 	protected override void OnNavigationReady()
 	{
-		if ( PhoneCookie.TryGetCookie<Type>( "facetime:latest_tab", out var type ) )
+		if ( PhoneCookie.TryGetCookie<Type>( PreviousTabCookieKey, out var type ) )
 		{
 			Navigate( type );
 			return;
@@ -33,7 +35,7 @@ public sealed partial class NavHost : NavigationHost
 
 	public override INavigationPage? Navigate( Type type, params object[] args )
 	{
-		PhoneCookie.SetCookie( "facetime:latest_tab", type );
+		PhoneCookie.SetCookie( PreviousTabCookieKey, type );
 		return base.Navigate( type, args );
 	}
 
