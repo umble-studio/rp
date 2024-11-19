@@ -22,9 +22,6 @@ public sealed partial class IncomingCallTab : PhoneNavigationPage, INavigationEv
 
 		Log.Info( "Accept incoming call from phone: " + _incomingCallRequest.Caller );
 		CallManager.AcceptIncomingCallRpcRequest( _incomingCallRequest.CallId );
-
-		var app = Phone.Local.GetApp<FaceTimeApp>();
-		app.NavHost.Navigate<CallTab>();
 	}
 
 	private void RejectCall()
