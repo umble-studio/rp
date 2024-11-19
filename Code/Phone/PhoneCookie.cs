@@ -1,4 +1,4 @@
-namespace Rp.Phone.Apps.Messages;
+namespace Rp.Phone;
 
 /// <summary>
 /// A simple key-value store for the phone's cookies.
