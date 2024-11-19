@@ -8,6 +8,7 @@ using ControlCenter = Rp.Phone.UI.Components.ControlCenter;
 
 namespace Rp.Phone;
 
+[Category( "Phone" )]
 public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetworkListener
 {
 	private Panel _phoneContent = null!;
@@ -49,7 +50,7 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 	protected override async void OnUpdate()
 	{
 		if ( Network.IsProxy ) return;
-		
+
 		if ( Input.Pressed( "phone" ) )
 			IsOpen = !_isOpen;
 
@@ -116,9 +117,9 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 
 	public T SwitchToApp<T>() where T : IPhoneApp
 	{
-		if ( _currentApp is T app ) 
+		if ( _currentApp is T app )
 			return app;
-		
+
 		_currentApp?.CloseApp();
 		_currentApp = GetApp<T>();
 
@@ -155,7 +156,7 @@ public sealed partial class Phone : PanelComponent, IPhoneEvent, Component.INetw
 	{
 		return _currentApp is T;
 	}
-	
+
 	public void RefreshAppInstance( IPhoneApp app, out Panel panel )
 	{
 		Apps.RemoveAll( x => x.AppName == app.AppName );

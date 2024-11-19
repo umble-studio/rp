@@ -3,6 +3,7 @@ using Bindery;
 
 namespace Rp.Phone.Apps.FaceTime.Services;
 
+[Category( "Phone" )]
 public sealed partial class CallManager : Singleton<CallManager>, Component.INetworkListener
 {
 	private readonly Dictionary<Guid, (IncomingCallRequest CallRequest, List<Connection> Connections)>

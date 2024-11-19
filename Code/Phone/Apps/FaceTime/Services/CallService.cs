@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Rp.Phone.Apps.FaceTime.Components;
 using Rp.UI.Extensions;
-using Sandbox.Audio;
 
 namespace Rp.Phone.Apps.FaceTime.Services;
 
+[Category( "Phone" )]
 public sealed partial class CallService : Component, IPhoneService
 {
 	private SoundHandle? _outgoingSound;
@@ -40,7 +40,7 @@ public sealed partial class CallService : Component, IPhoneService
 	/// </summary>
 	[HostSync]
 	public Guid? TempCallId { get; set; }
-	
+
 	/// <summary>
 	/// Whether the phone is currently calling someone.
 	/// </summary>
@@ -53,7 +53,7 @@ public sealed partial class CallService : Component, IPhoneService
 	/// This is a shortcut for <see cref="Phone.Local.GetService{CallService}"/>.
 	/// </remarks>
 	public static CallService Local => Phone.Local.GetService<CallService>();
-	
+
 	/// <summary>
 	/// Starts an outgoing call
 	/// </summary>
@@ -123,7 +123,7 @@ public sealed partial class CallService : Component, IPhoneService
 
 		_outgoingSound?.Stop();
 		_incomingSound?.Stop();
-		
+
 		Sound.Play( "sounds/phone/facetime_call_end.sound" );
 		app.NavHost.Navigate<FavoriteTab>();
 	}
