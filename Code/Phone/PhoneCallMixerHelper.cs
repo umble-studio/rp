@@ -5,9 +5,11 @@ namespace Rp.Phone;
 
 internal static class PhoneCallMixerHelper
 {
+	private const string Prefix = "voice-call";
+	
 	public static void CreateVoiceCallMixer( this Voice voice, Guid callId )
 	{
-		var mixerName = $"phone-{callId}";
+		var mixerName = $"{Prefix}-{callId}";
 		var mixer = Mixer.FindMixerByName( mixerName );
 
 		if ( mixer is not null )
@@ -33,7 +35,7 @@ internal static class PhoneCallMixerHelper
 	{
 		voice.IsListening = false;
 
-		var mixer = Mixer.FindMixerByName( $"phone-{callId}" );
+		var mixer = Mixer.FindMixerByName( $"{Prefix}-{callId}" );
 		mixer?.Destroy();
 	}
 }
