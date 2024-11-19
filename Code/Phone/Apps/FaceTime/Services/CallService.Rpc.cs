@@ -7,11 +7,6 @@ namespace Rp.Phone.Apps.FaceTime.Services;
 public partial class CallService
 {
 	[Broadcast( NetPermission.HostOnly )]
-	public void CancelPendingOutgoingCallRpcResponse( Guid callId )
-	{
-	}
-
-	[Broadcast( NetPermission.HostOnly )]
 	public async void ShowIncomingCallTabRpcRequest( IncomingCallRequest incomingCallInfo )
 	{
 		Log.Info( $"{nameof(ShowIncomingCallTabRpcRequest)}: {incomingCallInfo.Caller}, {incomingCallInfo.Callee}" );
@@ -34,7 +29,7 @@ public partial class CallService
 
 		var mixerName = $"phone-{incomingCallInfo.CallId}";
 		var mixer = Mixer.FindMixerByName( mixerName );
-		
+
 		if ( mixer is not null )
 		{
 			Log.Info( "Skipping mixer creation: " + mixerName );
@@ -59,7 +54,7 @@ public partial class CallService
 	public async void EndingCallRpcRequest( CallResult callResult )
 	{
 		Log.Info( "Ending call" );
-
+		
 		var voice = GetComponent<Voice>();
 		voice.IsListening = false;
 

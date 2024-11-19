@@ -96,7 +96,8 @@ public sealed partial class CallManager
 		callService.CallInfo = callInfo;
 		callService.AcceptingCallRpcRequest( incomingCallRequest );
 
-		await GameTask.DelaySeconds( 1 );
+		// Just wait 1ms to be sure the mixer is created and synced on the other phone owner
+		await GameTask.Delay( 1 );
 
 		callService = secondPhone.GetService<CallService>();
 		callService.IsIncomingCallPending = false;
@@ -137,12 +138,27 @@ public sealed partial class CallManager
 		var callService = firstPhone.GetService<CallService>();
 		callService.IsOutgoingCallCallPending = false;
 		callService.IsOccupied = false;
-		callService.CallInfo = default;
+		callService.CallInfo = null;
 
 		callService = secondPhone.GetService<CallService>();
 		callService.IsIncomingCallPending = false;
 		callService.IsOccupied = false;
-		callService.CallInfo = default;
+		callService.CallInfo = null;
+
+		var targets = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
+
+		var callResult = new CallResult
+		{
+			CallId = callId,
+			Caller = incomingCallRequest.Caller,
+			Callee = incomingCallRequest.Callee,
+			StartedAt = incomingCallRequest.CreatedAt,
+			EndedAt = DateTime.Now,
+			Reason = CallResult.ReasonType.EndedByCallee
+		};
+		
+		using ( Rpc.FilterInclude( x => targets.Contains( x ) ) )
+			callService.EndingCallRpcRequest( callResult );
 	}
 
 	[Broadcast( NetPermission.Anyone )]
