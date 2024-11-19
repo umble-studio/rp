@@ -17,7 +17,9 @@ public partial class CallService
 		while ( !app.IsInitialized )
 			await GameTask.Delay( 1 );
 
+		_incomingSound?.Stop();
 		_incomingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
+		
 		app.NavHost.Navigate<IncomingCallTab>( incomingCallInfo );
 	}
 
