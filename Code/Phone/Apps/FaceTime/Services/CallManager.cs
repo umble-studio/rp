@@ -37,18 +37,8 @@ public sealed partial class CallManager : Singleton<CallManager>, Component.INet
 				Reason = CallResult.ReasonType.NoResponse
 			};
 
-			var phones = Scene.GetAllComponents<Phone>().Where( x => x.Network.Active ).ToList();
-
-			foreach ( var connection in connections )
-			{
-				if ( !connection.IsActive ) continue;
-				
-				var phone = phones.FirstOrDefault( x => x.Network.Owner == connection );
-				if ( phone is null ) continue;
-
-				var callService = phone.GetComponent<CallService>();
-				callService.EndingCallRpcRequest( callResult );
-			}
+			using var _ = Rpc.FilterInclude( x => connections.Contains( x ) );
+			CallService.EndingCallRpcRequest( callResult );
 
 			PendingIncomingCallsRequests.Remove( callId );
 		}

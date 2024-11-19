@@ -47,6 +47,14 @@ public sealed partial class CallService : Component, IPhoneService
 	public bool IsCalling => CallInfo is not null;
 
 	/// <summary>
+	/// Gets the local instance of the <see cref="CallService"/>.
+	/// </summary>
+	/// <remarks>
+	/// This is a shortcut for <see cref="Phone.Local.GetService{CallService}"/>.
+	/// </remarks>
+	public static CallService Local => Phone.Local.GetService<CallService>();
+	
+	/// <summary>
 	/// Starts an outgoing call
 	/// </summary>
 	/// <param name="target">The target to call.</param>
@@ -96,7 +104,6 @@ public sealed partial class CallService : Component, IPhoneService
 		if ( CallInfo is null || CallInfo.CallId == Guid.Empty ) return;
 		CallManager.EndCallRpcRequest( CallInfo.CallId, Phone.Local.SimCard!.PhoneNumber );
 	}
-
 
 	/// <summary>
 	/// Stops the call.

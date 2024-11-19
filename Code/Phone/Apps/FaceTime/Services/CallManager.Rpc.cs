@@ -24,7 +24,7 @@ public sealed partial class CallManager
 			Log.Warning( "Cancel call: " + incomingCallInfo.Caller + ", " + incomingCallInfo.Callee );
 
 			using ( Rpc.FilterInclude( x => x == firstPhone!.Network.Owner ) )
-				firstPhone!.GetService<CallService>().CancelCallRpcResponse( incomingCallInfo.CallId );
+				CallService.CancelCallRpcResponse( incomingCallInfo.CallId );
 		}
 
 		if ( firstPhone is null || secondPhone is null )
@@ -52,7 +52,7 @@ public sealed partial class CallManager
 		var targetConnection = secondPhone.Network.Owner;
 
 		using ( Rpc.FilterInclude( x => x == targetConnection ) )
-			callService.ShowIncomingCallTabRpcRequest( incomingCallInfo );
+			CallService.ShowIncomingCallTabRpcRequest( incomingCallInfo );
 	}
 
 	[Broadcast( NetPermission.Anyone )]
@@ -95,7 +95,8 @@ public sealed partial class CallManager
 		callService.IsOccupied = true;
 		callService.CallInfo = callInfo;
 		callService.TempCallId = null;
-		callService.AcceptingCallRpcRequest( request.CallRequest );
+
+		CallService.AcceptingCallRpcRequest( request.CallRequest );
 
 		// Just wait 1ms to be sure the mixer is created and synced on the other phone owner
 		await GameTask.Delay( 1 );
@@ -105,10 +106,8 @@ public sealed partial class CallManager
 		callService.IsOccupied = true;
 		callService.CallInfo = callInfo;
 		callService.TempCallId = null;
-		callService.AcceptingCallRpcRequest( request.CallRequest );
 
-		var connections = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
-		Instance.Sessions.Add( callInfo.CallId, (callInfo, connections) );
+		Instance.Sessions.Add( callInfo.CallId, (callInfo, request.Connections) );
 	}
 
 	[Broadcast( NetPermission.Anyone )]
@@ -150,8 +149,6 @@ public sealed partial class CallManager
 		callService.CallInfo = null;
 		callService.TempCallId = null;
 
-		var targets = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
-
 		var callResult = new CallResult
 		{
 			CallId = callId,
@@ -162,8 +159,8 @@ public sealed partial class CallManager
 			Reason = CallResult.ReasonType.EndedByCallee
 		};
 
-		using ( Rpc.FilterInclude( x => targets.Contains( x ) ) )
-			callService.EndingCallRpcRequest( callResult );
+		using ( Rpc.FilterInclude( x => request.Connections.Contains( x ) ) )
+			CallService.EndingCallRpcRequest( callResult );
 	}
 
 	[Broadcast( NetPermission.Anyone )]
@@ -186,9 +183,6 @@ public sealed partial class CallManager
 				return;
 			}
 
-			// Send the call result to both participants
-			var connections = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
-
 			var reason = request.CallRequest.Caller == caller
 				? CallResult.ReasonType.EndedByCaller
 				: CallResult.ReasonType.EndedByCallee;
@@ -203,10 +197,8 @@ public sealed partial class CallManager
 				Reason = reason
 			};
 
-			var callService = firstPhone.GetService<CallService>();
-			
-			using ( Rpc.FilterInclude( x => connections.Any( c => c.SteamId == x.SteamId ) ) )
-				callService.EndingCallRpcRequest( callResult );
+			using ( Rpc.FilterInclude( x => request.Connections.Contains( x ) ) )
+				CallService.EndingCallRpcRequest( callResult );
 		}
 		else if ( Instance.Sessions.Remove( callId, out var session ) )
 		{
@@ -218,9 +210,6 @@ public sealed partial class CallManager
 				Log.Info( "One of the phones is null: " + (firstPhone is null) + ", " + (secondPhone is null) );
 				return;
 			}
-
-			// Send the call result to both participants
-			var connections = new List<Connection> { firstPhone.Network.Owner, secondPhone.Network.Owner };
 
 			// We set the current call state as not occupied for both participants
 			var callService = firstPhone.GetService<CallService>();
@@ -249,8 +238,8 @@ public sealed partial class CallManager
 				Reason = reason
 			};
 
-			using ( Rpc.FilterInclude( x => connections.Any( c => c.SteamId == x.SteamId ) ) )
-				callService.EndingCallRpcRequest( callResult );
+			using ( Rpc.FilterInclude( x => session.Connections.Any( c => c.SteamId == x.SteamId ) ) )
+				CallService.EndingCallRpcRequest( callResult );
 		}
 		else
 		{
