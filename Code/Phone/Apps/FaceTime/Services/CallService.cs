@@ -35,6 +35,15 @@ public sealed partial class CallService : Component, IPhoneService
 	[HostSync]
 	public bool IsOccupied { get; set; }
 
+	/// <summary>
+	/// A temporary call id, used to identify the call until the call info is set.
+	/// </summary>
+	[HostSync]
+	public Guid? TempCallId { get; set; }
+	
+	/// <summary>
+	/// Whether the phone is currently calling someone.
+	/// </summary>
 	public bool IsCalling => CallInfo is not null;
 
 	/// <summary>
@@ -44,13 +53,13 @@ public sealed partial class CallService : Component, IPhoneService
 	public bool StartOutgoingCall( PhoneNumber target )
 	{
 		Log.Info( "StartCall: " + IsOccupied );
-		
-		if ( Phone.Local.SimCard?.PhoneNumber == target || IsOccupied ) 
+
+		if ( Phone.Local.SimCard?.PhoneNumber == target || IsOccupied )
 			return false;
 
 		var me = Phone.Local.SimCard?.PhoneNumber;
-		
-		if ( me is null ) 
+
+		if ( me is null )
 			return false;
 
 		using var _ = Rpc.FilterInclude( x => x.IsHost );
@@ -59,6 +68,8 @@ public sealed partial class CallService : Component, IPhoneService
 		{
 			CallId = Guid.NewGuid(), Caller = me.Value, Callee = target, CreatedAt = DateTime.Now
 		};
+
+		TempCallId = incomingCallInfo.CallId;
 
 		_outgoingSound?.Stop();
 		_outgoingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
@@ -74,13 +85,15 @@ public sealed partial class CallService : Component, IPhoneService
 	/// </summary>
 	public void EndOutgoingCall()
 	{
-		if ( CallInfo == null || CallInfo.CallId == Guid.Empty )
+		using var _ = Rpc.FilterInclude( x => x.IsHost );
+
+		if ( TempCallId is not null )
 		{
-			Log.Error( "CurrentCallId is null or empty" );
+			CallManager.EndCallRpcRequest( TempCallId.Value, Phone.Local.SimCard!.PhoneNumber );
 			return;
 		}
 
-		using var _ = Rpc.FilterInclude( x => x.IsHost );
+		if ( CallInfo is null || CallInfo.CallId == Guid.Empty ) return;
 		CallManager.EndCallRpcRequest( CallInfo.CallId, Phone.Local.SimCard!.PhoneNumber );
 	}
 
@@ -92,8 +105,6 @@ public sealed partial class CallService : Component, IPhoneService
 	/// <returns></returns>
 	private async Task StopCall( CallResult callResult )
 	{
-		_incomingSound?.Stop();
-
 		var voice = GetComponent<Voice>();
 		voice.DestroyVoiceCallMixer( callResult.CallId );
 
@@ -103,6 +114,9 @@ public sealed partial class CallService : Component, IPhoneService
 		while ( !app.IsInitialized )
 			await GameTask.Delay( 1 );
 
+		_incomingSound?.Stop();
+		_outgoingSound?.Stop();
+		
 		Sound.Play( "sounds/phone/facetime_call_end.sound" );
 		app.NavHost.Navigate<FavoriteTab>();
 	}

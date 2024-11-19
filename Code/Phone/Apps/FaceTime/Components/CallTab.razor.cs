@@ -64,12 +64,7 @@ public sealed partial class CallTab : PhoneNavigationPage, INavigationEvent
 	private void EndCall()
 	{
 		var callService = Phone.Local.GetService<CallService>();
-
-		if ( callService.IsOccupied )
-		{
-			Log.Info( "End call" );
-			callService.EndOutgoingCall();
-		}
+		callService.EndOutgoingCall();
 	}
 
 	public void ShowPendingCallView( PhoneContact phoneContact )

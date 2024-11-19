@@ -39,7 +39,7 @@ public partial class CallService
 		tab.ShowCallView( callService.CallInfo );
 
 		_incomingSound?.Stop();
-		
+
 		var voice = GetComponent<Voice>();
 		voice.CreateVoiceCallMixer( incomingCallInfo.CallId );
 
