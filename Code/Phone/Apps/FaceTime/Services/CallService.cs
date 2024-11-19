@@ -82,7 +82,7 @@ public sealed partial class CallService : Component, IPhoneService
 		_outgoingSound?.Stop();
 		_outgoingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
 
-		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallStarted( incomingCallInfo.CallId ), true );
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallStarted( incomingCallInfo ), true );
 		CallManager.StartCallRpcRequest( incomingCallInfo );
 
 		return true;
