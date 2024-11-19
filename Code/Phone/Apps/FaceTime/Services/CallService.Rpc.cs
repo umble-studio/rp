@@ -33,7 +33,7 @@ public partial class CallService
 		var voice = GetComponent<Voice>();
 		voice.CreateVoiceCallMixer( incomingCallInfo.CallId );
 
-		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallAccepted( incomingCallInfo ) );
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallAccepted( incomingCallInfo ), true );
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
@@ -42,7 +42,7 @@ public partial class CallService
 		Log.Info( "Ending call" );
 
 		await StopCall( callResult );
-		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallEnded( callResult ) );
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallEnded( callResult ), true );
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
@@ -51,7 +51,7 @@ public partial class CallService
 		Log.Info( "Rejecting call" );
 
 		await StopCall( callResult );
-		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallRejected( callResult ) );
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallRejected( callResult ), true );
 	}
 
 	[Broadcast( NetPermission.HostOnly )]
@@ -67,6 +67,6 @@ public partial class CallService
 		var app = Phone.Local.SwitchToApp<FaceTimeApp>();
 		app.NavHost.Navigate<FavoriteTab>();
 
-		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallFailed( callId ) );
+		Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallFailed( callId ), true );
 	}
 }
