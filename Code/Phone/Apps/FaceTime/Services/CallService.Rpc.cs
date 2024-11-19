@@ -83,7 +83,7 @@ public partial class CallService
 	{
 		await Task.Delay( 2500 );
 
-		_callingSound?.Stop();
+		_outgoingSound?.Stop();
 		Sound.Play( "sounds/phone/phone_critical_error.sound" );
 	}
 }
