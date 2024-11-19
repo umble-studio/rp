@@ -54,7 +54,14 @@
 			}
 			else if ( _pendingPhoneContact is not null )
 			{
-				<span class="name">@_pendingPhoneContact.ContactName</span>
+				@if ( !string.IsNullOrEmpty( _pendingPhoneContact.ContactName ) )
+				{
+					<span class="name">@_pendingPhoneContact.ContactName</span>	
+				}
+				else
+				{
+					<span class="name">@_pendingPhoneContact.ContactNumber</span>
+				}
 			}
 		</div>
 		<div class="menu">
