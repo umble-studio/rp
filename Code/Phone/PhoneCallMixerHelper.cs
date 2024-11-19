@@ -14,7 +14,7 @@ internal static class PhoneCallMixerHelper
 
 		if ( mixer is not null )
 		{
-			Log.Info( "Skipping mixer creation: " + mixerName );
+			Log.Info( "Skipping voice call mixer creation: " + mixerName );
 			return;
 		}
 
