@@ -38,6 +38,7 @@ public partial class CallService
 
 		tab.ShowCallView( callService.CallInfo );
 
+		Local._outgoingSound?.Stop();
 		Local._incomingSound?.Stop();
 
 		var voice = Local.GetComponent<Voice>();

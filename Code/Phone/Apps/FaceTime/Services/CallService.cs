@@ -121,8 +121,8 @@ public sealed partial class CallService : Component, IPhoneService
 		while ( !app.IsInitialized )
 			await GameTask.Delay( 1 );
 
-		_incomingSound?.Stop();
 		_outgoingSound?.Stop();
+		_incomingSound?.Stop();
 		
 		Sound.Play( "sounds/phone/facetime_call_end.sound" );
 		app.NavHost.Navigate<FavoriteTab>();
