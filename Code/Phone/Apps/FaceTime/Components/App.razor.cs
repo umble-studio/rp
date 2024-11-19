@@ -14,7 +14,7 @@ public sealed partial class App : PhoneApp, IPhoneEvent, IAppNotifiable, IAppNot
 	public override string AppIcon => "textures/ui/phone/app_facetime.png";
 	public override string? AppNotificationIcon => "fluent:comment-48-filled";
 
-	public Messages.Components.NavHost NavHost { get; private set; } = null!;
+	public NavHost NavHost { get; private set; } = null!;
 
 	void IPhoneEvent.OnAppOpened( IPhoneApp app )
 	{
