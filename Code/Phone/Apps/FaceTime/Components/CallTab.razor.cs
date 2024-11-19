@@ -24,6 +24,9 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 	private PhoneContact? Callee =>
 		_callSession is null ? null : Phone.Local.Contacts.GetContactByNumber( _callSession.Callee );
 
+	private CallService CallService => Phone.Local.GetService<CallService>();
+	private Voice Voice => Phone.Local.GetComponent<Voice>();
+
 	private string GetCallDuration()
 	{
 		if ( _callSession is null ) return "00:00";
@@ -40,8 +43,13 @@ public sealed partial class CallTab : NavigationPage, INavigationEvent
 
 	private void OnMuteClicked( bool toggle )
 	{
+		if ( _callSession is null ) return;
+
 		_isMuted = toggle;
 		_muteIcon = toggle ? "fluent:mic-off-28-filled" : "fluent:mic-28-filled";
+
+		CallService.IsMuted = _isMuted;
+		Voice.IsListening = !_isMuted;
 
 		if ( _isMuted ) Sound.Play( "sounds/phone/call_mute.sound" );
 		else Sound.Play( "sounds/phone/call_unmute.sound" );

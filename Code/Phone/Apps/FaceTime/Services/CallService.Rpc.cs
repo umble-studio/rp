@@ -19,7 +19,7 @@ public partial class CallService
 
 		Local._incomingSound?.Stop();
 		Local._incomingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
-
+		
 		app.NavHost.Navigate<IncomingCallTab>( incomingCallInfo );
 	}
 
@@ -78,7 +78,7 @@ public partial class CallService
 
 		var app = Phone.Local.SwitchToApp<FaceTimeApp>();
 		app.NavHost.Navigate<FavoriteTab>();
-		
+
 		Local.Scene.RunEvent<IFaceTimeEvent>( x => x.OnCallFailed( callId ), true );
 	}
 }

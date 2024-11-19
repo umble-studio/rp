@@ -42,6 +42,16 @@ public sealed partial class CallService : Component, IPhoneService
 	public Guid? TempCallId { get; set; }
 
 	/// <summary>
+	/// Whether the phone's microphone is muted.
+	/// </summary>
+	[Sync] public bool IsMuted { get; set; }
+
+	/// <summary>
+	/// Whether the phone's speaker is enabled. Anyone around the phone can hear the call.
+	/// </summary>
+	[Sync] public bool IsSpeakerEnabled { get; set; }
+	
+	/// <summary>
 	/// Whether the phone is currently calling someone.
 	/// </summary>
 	public bool IsCalling => CallInfo is not null;
