@@ -6,13 +6,11 @@
     overflow: hidden;
     flex-direction: column;
     transition: all .2s ease-out;
-    opacity: 0;
     //display: none;
     margin-left: 450px;
     position: absolute;
 
     &.show {
-        opacity: 1;
         margin-left: 0;
         //display: flex;
     }

@@ -3,12 +3,10 @@
     height: 100%;
     flex-direction: column;
     position: absolute;
-    opacity: 0;
     display: none;
     transition: all .2s ease-out;
 
     &.show {
-        opacity: 1;
         display: flex;
     }
 
