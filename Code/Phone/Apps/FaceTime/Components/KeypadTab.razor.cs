@@ -1,4 +1,5 @@
 ﻿using System;
+using Rp.Phone.Apps.FaceTime.Services;
 using Rp.UI;
 
 namespace Rp.Phone.Apps.FaceTime.Components;
@@ -53,6 +54,17 @@ public sealed partial class KeypadTab : PhoneNavigationPage
 
 	private void Call()
 	{
+		// TODO - Do a phone screen shake or something like that
+		if ( string.IsNullOrEmpty( _phoneNumber ) ) return;
+		if ( !int.TryParse( _phoneNumber, out var number ) ) return;
+
+		var phoneNumber = (PhoneNumber)number;
+
+		var app = Phone.Local.GetApp<FaceTimeApp>();
+		app.NavHost.Navigate<CallTab>();
+
+		var callService = Phone.Local.GetService<CallService>();
+		callService.StartCall( phoneNumber );
 	}
 
 	protected override int ShouldRender()

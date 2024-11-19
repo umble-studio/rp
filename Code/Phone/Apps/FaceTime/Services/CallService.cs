@@ -6,6 +6,7 @@ namespace Rp.Phone.Apps.FaceTime.Services;
 public sealed partial class CallService : Component, IPhoneService
 {
 	private SoundHandle? _callingSound;
+	private SoundHandle? _incomingSound;
 
 	/// <summary>
 	/// The current call info, if the phone is in a call.
@@ -48,7 +49,7 @@ public sealed partial class CallService : Component, IPhoneService
 			CallId = Guid.NewGuid(), Caller = me.Value, Callee = target, CreatedAt = DateTime.Now
 		};
 
-		_callingSound = Sound.Play( "sounds/phone/call_to_us.sound" );
+		_callingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
 		CallManager.StartCallRpcRequest( incomingCallInfo );
 	}
 

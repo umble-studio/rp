@@ -17,6 +17,7 @@ public partial class CallService
 		while ( !app.IsInitialized )
 			await GameTask.Delay( 1 );
 
+		_incomingSound = Sound.Play( "sounds/phone/facetime_calling.sound" );
 		app.NavHost.Navigate<IncomingCallTab>( incomingCallInfo );
 	}
 
@@ -25,7 +26,7 @@ public partial class CallService
 	{
 		Log.Info( $"{nameof(AcceptingCallRpcRequest)}: {incomingCallInfo.Caller}, {incomingCallInfo.Callee}" );
 
-		_callingSound?.Stop();
+		_incomingSound?.Stop();
 
 		var mixerName = $"phone-{incomingCallInfo.CallId}";
 		var mixer = Mixer.FindMixerByName( mixerName );
@@ -54,6 +55,8 @@ public partial class CallService
 	public async void EndingCallRpcRequest( CallResult callResult )
 	{
 		Log.Info( "Ending call" );
+
+		_incomingSound?.Stop();
 		
 		var voice = GetComponent<Voice>();
 		voice.IsListening = false;
@@ -69,6 +72,7 @@ public partial class CallService
 		while ( !app.IsInitialized )
 			await GameTask.Delay( 1 );
 
+		Sound.Play( "sounds/phone/facetime_call_end.sound" );
 		app.NavHost.Navigate<FavoriteTab>();
 	}
 

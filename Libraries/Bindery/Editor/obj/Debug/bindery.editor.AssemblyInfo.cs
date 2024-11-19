@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bindery.editor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9fbbd9a9f66329c2c15a7e7504118af159efb48")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dc18126125e3dde9c310519eb35f086a139281c6")]
 [assembly: System.Reflection.AssemblyProductAttribute("bindery.editor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bindery.editor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
